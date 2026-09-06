@@ -29,6 +29,7 @@
     <ProjectReference Include="..\CKN.Sdk.Data.Dapper\CKN.Sdk.Data.Dapper.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Caching.Garnet\CKN.Sdk.Caching.Garnet.csproj" />
     <ProjectReference Include="..\CKN.Sdk.AI.OpenAI\CKN.Sdk.AI.OpenAI.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.AI.Anthropic\CKN.Sdk.AI.Anthropic.csproj" />
   </ItemGroup>
 
 </Project>

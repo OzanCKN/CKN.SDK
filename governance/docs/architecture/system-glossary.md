@@ -46,7 +46,11 @@ Yapay zeka servis entegrasyonlarını içerir. `Microsoft.Extensions.AI` arayüz
 OpenAI (GPT-4 vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür. 
 - **Kullanım:** `services.AddCknOpenAI(...)` ile `IChatClient` sisteme dahil edilir.
 
-### 10. `CKN.Sdk.Infrastructure`
+### 10. `CKN.Sdk.AI.Anthropic`
+Anthropic (Claude vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknAnthropic(...)` ile `AnthropicClient` sisteme dahil edilir.
+
+### 11. `CKN.Sdk.Infrastructure`
 Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
 - **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
 - **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter).
