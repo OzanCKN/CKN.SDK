@@ -43,6 +43,8 @@
     <ProjectReference Include="..\CKN.Sdk.AI.Ollama\CKN.Sdk.AI.Ollama.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Scheduling.Hangfire\CKN.Sdk.Scheduling.Hangfire.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Scheduling.Quartz\CKN.Sdk.Scheduling.Quartz.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Search\CKN.Sdk.Search.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Search.Elasticsearch\CKN.Sdk.Search.Elasticsearch.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Scheduling.Coravel\CKN.Sdk.Scheduling.Coravel.csproj" />
   </ItemGroup>
 

@@ -68,6 +68,9 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.12" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.9.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.9.0" />
+    <!-- Search -->
+    <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="8.15.5" />
+
     <!-- Scheduling -->
     <PackageVersion Include="Hangfire.Core" Version="1.8.14" />
     <PackageVersion Include="Hangfire.AspNetCore" Version="1.8.14" />
