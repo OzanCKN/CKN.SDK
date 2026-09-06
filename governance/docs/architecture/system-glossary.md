@@ -8,8 +8,9 @@ Sistem artık devasa bir monolotik yapı değil, mikro paketler (SDK'lar) halind
 
 ### 1. `CKN.Sdk.Core`
 Tüm sistemin kalbidir. Hiçbir 3. parti kütüphaneye bağımlılığı yoktur (Sıfır Bağımlılık - Zero Dependency).
-- **İçerik:** Domain varlıkları (Entity, Tenant), CQRS (ICommand, IQuery) arayüzleri, Özel İstisnalar (Exceptions), Repository arayüzleri.
-- **Kullanım:** Yeni bir arayüz veya temel kural eklenecekse burası kullanılır.
+- **İçerik:** Domain varlıkları (Entity, Tenant), CQRS- **Exceptions:** Tüm projede kullanılacak ortak hata sınıfları (`CustomException`, `NotFoundException`, `ValidationException`).
+- **Events:** Uygulama çapında ve modüller arası mesajlaşma (EventBus) için temel arayüzler (`IEventBus`, `IIntegrationEvent`, `IEventHandler<T>`).
+- **DependencyInjection:** Core bağımlılıkların IoC container'a kolayca eklenebilmesi için genişletmeler.
 
 ### 2. `CKN.Sdk.EntityFramework`
 `CKN.Sdk.Core` içindeki `IRepository` ve `IUnitOfWork` arayüzlerinin Microsoft Entity Framework Core implementasyonudur.

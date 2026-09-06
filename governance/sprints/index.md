@@ -36,5 +36,11 @@ Yeni bir özellik veya güncelleme yapılmadan önce, ilgili aktif Sprint içeri
 **Görevler:**
 - [ ] [task-005-sprint-4-observability.md](../tasks/task-005-sprint-4-observability.md) : Elastic Logging, OpenTelemetry ve DevOps.
 
+## Sprint 5: Provider-Agnostic Architecture Phase 1
+**Hedef:** Farklı AI Provider'ları (OpenAI, Anthropic, Gemini) için soyutlama (abstraction) katmanının oluşturulması ve ortak messaging arayüzlerinin tanımlanması.
+**Durum:** TODO
+**Görevler:**
+- [ ] [task-006-messaging-abstraction.md](../tasks/task-006-messaging-abstraction.md) : Provider-Agnostic Abstractions & Messaging Modülü.
+
 ---
 *Yeni eklenecek görevler için [task-template.md](../tasks/task-template.md) şablonunu kullanın.*
