@@ -27,7 +27,13 @@ Yapay zeka servis entegrasyonlarını içerir.
 - **Kullanım:** LLM veya Embeddings kullanılacaksa bu paket projeye dahil edilir.
 
 ### 5. `CKN.Sdk.Infrastructure`
-Uygulamaların HTTP iletişimlerini, Caching mekanizmalarını (Redis/Memory), Güvenlik (JWT/License) katmanlarını ve OpenTelemetry bazlı İzlenebilirliğini (Observability) barındıran temel altyapı modülüdür.
+Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
+- **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
+- **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter).
+- **Security (Güvenlik):** JWT Token yönetimi, Lisans Doğrulama ve Feature Flag bazlı Authentication altyapısı.
+- **Observability (İzlenebilirlik):** `AddCKNTelemetry()` ile OpenTelemetry (Tracing & Metrics) ve `AddCknElasticLogging()` ile Serilog Elasticsearch PII Masking loglama entegrasyonları.
+- **CQRS:** `LoggingBehavior`, `ValidationBehavior` ve `IdempotentBehavior` ile MediatR pipeline'ı destekler.
+- **Kullanım:** SDK'yı kullanan ana Host (API) projesinde zorunlu olarak dahil edilir.
 
 ### 6. `CKN.Sdk.SourceGenerators`
 (Geliştirme Aşamasında)
