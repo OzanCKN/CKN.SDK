@@ -33,8 +33,7 @@ public static class RabbitMQMessagingBuilderExtensions
             HostName = options.HostName,
             Port = options.Port,
             UserName = options.UserName,
-            Password = options.Password,
-            DispatchConsumersAsync = true
+            Password = options.Password
         });
 
         builder.Services.TryAddSingleton<IEventBus, RabbitMQEventBus>();

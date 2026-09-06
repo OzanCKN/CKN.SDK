@@ -37,7 +37,7 @@ public static class CKNSemanticKernelExtensions
                 );
 
                 // Add text embedding generation for semantic search/memory features
-                kernelBuilder.AddGoogleAIEmbeddingGeneration(
+                kernelBuilder.AddGoogleAIEmbeddingGenerator(
                     modelId: "gemini-embedding-2", // Standard Gemini embedding model
                     apiKey: apiKey,
                     httpClient: httpClient

@@ -13,7 +13,7 @@ public class ElasticsearchSearchService<T> : ISearchService<T> where T : class
 
     public async Task IndexAsync(string indexName, T document, CancellationToken cancellationToken = default)
     {
-        var response = await _client.IndexAsync(document, (IndexName)indexName, cancellationToken);
+        var response = await _client.IndexAsync(document, d => d.Index((IndexName)indexName), cancellationToken);
         if (!response.IsSuccess())
         {
             throw new Exception($"Failed to index document: {response.DebugInformation}");
@@ -35,7 +35,7 @@ public class ElasticsearchSearchService<T> : ISearchService<T> where T : class
     public async Task<IEnumerable<T>> SearchAsync(string indexName, string query, CancellationToken cancellationToken = default)
     {
         var response = await _client.SearchAsync<T>(s => s
-            .Index(indexName)
+            .Indices(indexName)
             .Query(q => q
                 .QueryString(qs => qs
                     .Query(query)
@@ -52,7 +52,7 @@ public class ElasticsearchSearchService<T> : ISearchService<T> where T : class
 
     public async Task DeleteAsync(string indexName, string id, CancellationToken cancellationToken = default)
     {
-        var response = await _client.DeleteAsync<T>((IndexName)indexName, (Id)id, cancellationToken);
+        var response = await _client.DeleteAsync<T>(id, d => d.Index((IndexName)indexName), cancellationToken);
         if (!response.IsSuccess())
         {
             throw new Exception($"Failed to delete document {id}: {response.DebugInformation}");

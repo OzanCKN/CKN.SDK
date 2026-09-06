@@ -27,7 +27,7 @@ public class RepoDbRepository<TEntity, TId> : IRepository<TEntity, TId> where TE
 
     public async Task<TEntity?> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
     {
-        var result = await _dbConnection.QueryAsync<TEntity>(id, transaction: _dbTransaction);
+        var result = await _dbConnection.QueryAsync<TEntity>((object)id!, transaction: _dbTransaction!);
         
         using var enumerator = result.GetEnumerator();
         if (enumerator.MoveNext())
@@ -39,7 +39,7 @@ public class RepoDbRepository<TEntity, TId> : IRepository<TEntity, TId> where TE
 
     public async IAsyncEnumerable<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var entities = await _dbConnection.QueryAsync(predicate, transaction: _dbTransaction);
+        var entities = await _dbConnection.QueryAsync(predicate, transaction: _dbTransaction!);
         foreach (var entity in entities)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -51,16 +51,16 @@ public class RepoDbRepository<TEntity, TId> : IRepository<TEntity, TId> where TE
 
     public Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        return _dbConnection.InsertAsync(entity, transaction: _dbTransaction);
+        return _dbConnection.InsertAsync(entity, transaction: _dbTransaction!);
     }
 
     public void Update(TEntity entity)
     {
-        _dbConnection.Update(entity, transaction: _dbTransaction);
+        _dbConnection.Update(entity, transaction: _dbTransaction!);
     }
 
     public void Delete(TEntity entity)
     {
-        _dbConnection.Delete(entity, transaction: _dbTransaction);
+        _dbConnection.Delete(entity, transaction: _dbTransaction!);
     }
 }

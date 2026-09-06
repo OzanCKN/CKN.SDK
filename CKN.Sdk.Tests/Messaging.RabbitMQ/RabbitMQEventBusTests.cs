@@ -26,10 +26,12 @@ public class RabbitMQEventBusTests
         // Arrange
         var mockConnectionFactory = new Mock<IConnectionFactory>();
         var mockConnection = new Mock<IConnection>();
-        var mockChannel = new Mock<IModel>();
+        var mockChannel = new Mock<IChannel>();
 
-        mockConnectionFactory.Setup(f => f.CreateConnection()).Returns(mockConnection.Object);
-        mockConnection.Setup(c => c.CreateModel()).Returns(mockChannel.Object);
+        mockConnectionFactory.Setup(f => f.CreateConnectionAsync(It.IsAny<CancellationToken>()))
+                             .ReturnsAsync(mockConnection.Object);
+        mockConnection.Setup(c => c.CreateChannelAsync(It.IsAny<CreateChannelOptions>(), It.IsAny<CancellationToken>()))
+                      .ReturnsAsync(mockChannel.Object);
 
         var options = Options.Create(new RabbitMQOptions { QueueName = "test.queue" });
         var serviceProvider = new ServiceCollection().BuildServiceProvider();
@@ -41,12 +43,13 @@ public class RabbitMQEventBusTests
         await eventBus.PublishAsync(@event);
 
         // Assert
-        mockChannel.Verify(c => c.BasicPublish(
+        mockChannel.Verify(c => c.BasicPublishAsync(
             It.Is<string>(e => e == "ckn_event_bus"),
             It.Is<string>(r => r == "TestEvent"),
             It.IsAny<bool>(),
-            It.IsAny<IBasicProperties>(),
-            It.IsAny<ReadOnlyMemory<byte>>()), Times.Once);
+            It.IsAny<BasicProperties>(),
+            It.IsAny<ReadOnlyMemory<byte>>(),
+            It.IsAny<CancellationToken>()), Times.Once);
     }
     
     [Fact]
@@ -55,10 +58,12 @@ public class RabbitMQEventBusTests
         // Arrange
         var mockConnectionFactory = new Mock<IConnectionFactory>();
         var mockConnection = new Mock<IConnection>();
-        var mockChannel = new Mock<IModel>();
+        var mockChannel = new Mock<IChannel>();
 
-        mockConnectionFactory.Setup(f => f.CreateConnection()).Returns(mockConnection.Object);
-        mockConnection.Setup(c => c.CreateModel()).Returns(mockChannel.Object);
+        mockConnectionFactory.Setup(f => f.CreateConnectionAsync(It.IsAny<CancellationToken>()))
+                             .ReturnsAsync(mockConnection.Object);
+        mockConnection.Setup(c => c.CreateChannelAsync(It.IsAny<CreateChannelOptions>(), It.IsAny<CancellationToken>()))
+                      .ReturnsAsync(mockChannel.Object);
 
         var options = Options.Create(new RabbitMQOptions { QueueName = "test.queue" });
         var serviceProvider = new ServiceCollection().BuildServiceProvider();
@@ -69,10 +74,12 @@ public class RabbitMQEventBusTests
         eventBus.Subscribe<TestEvent, TestEventHandler>();
 
         // Assert
-        mockChannel.Verify(c => c.QueueBind(
+        mockChannel.Verify(c => c.QueueBindAsync(
             It.Is<string>(q => q == "test.queue"),
             It.Is<string>(e => e == "ckn_event_bus"),
             It.Is<string>(r => r == "TestEvent"),
-            null), Times.Once);
+            It.IsAny<System.Collections.Generic.IDictionary<string, object?>>(),
+            It.IsAny<bool>(),
+            It.IsAny<CancellationToken>()), Times.Once);
     }
 }
