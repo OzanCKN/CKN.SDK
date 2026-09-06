@@ -25,9 +25,9 @@ using CKN.Sdk.Scheduling.Hangfire;
 using Hangfire;
 
 // Servisi sisteme dahil et
-builder.Services.AddCknHangfire(opt =>
+builder.Services.AddCknHangfire(config =>
 {
-    builder.Configuration.GetSection(HangfireOptions.SectionName).Bind(opt);
+    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangfireConnection"));
 });
 
 var app = builder.Build();
@@ -82,9 +82,10 @@ Daha enterprise seviyede, In-Memory veya Cluster (Dağıtık) senaryolar için e
 using CKN.Sdk.Scheduling.Quartz;
 using Quartz;
 
-builder.Services.AddCknQuartz(opt =>
+builder.Services.AddCknQuartz(q =>
 {
-    builder.Configuration.GetSection(QuartzOptions.SectionName).Bind(opt);
+    // Quartz native ayarlamaları burada yapılır
+    // q.UsePersistentStore(s => ...);
 });
 ```
 

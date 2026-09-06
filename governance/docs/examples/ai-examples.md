@@ -30,13 +30,13 @@ ChatGPT (OpenAI) veya Claude (Anthropic) gibi bulut tabanlı API'leri bağlamak 
 using CKN.Sdk.AI.OpenAI;
 using CKN.Sdk.AI.Anthropic;
 
-// OpenAI Kurulumu
+// OpenAI Kurulumu (IChatClient sağlar)
 builder.Services.AddCknOpenAI(opt =>
 {
     builder.Configuration.GetSection(OpenAIOptions.SectionName).Bind(opt);
 });
 
-// Anthropic Kurulumu (Alternatif olarak)
+// Anthropic Kurulumu (AnthropicClient sağlar)
 builder.Services.AddCknAnthropic(opt =>
 {
     builder.Configuration.GetSection(AnthropicOptions.SectionName).Bind(opt);
@@ -151,10 +151,16 @@ Semantic Kernel, yapay zeka ajanlarına (Agent) "eller ve ayaklar" vermek için 
 ### Dependency Injection (DI) Kurulumu
 ```csharp
 using CKN.Sdk.AI.SemanticKernel;
+using Microsoft.SemanticKernel;
 
-builder.Services.AddCknSemanticKernel(opt =>
+builder.Services.AddCknSemanticKernel(kernel =>
 {
-    builder.Configuration.GetSection(SemanticKernelOptions.SectionName).Bind(opt);
+    // Semantic Kernel native builder'ı kullanılır
+    kernel.AddAzureOpenAIChatCompletion(
+        deploymentName: "gpt-4",
+        endpoint: "https://your-resource.openai.azure.com",
+        apiKey: "azure-key"
+    );
 });
 ```
 
