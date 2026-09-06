@@ -36,13 +36,10 @@ jobs:
     - name: Pack all projects
       run: dotnet pack CKN.SDK.slnx --configuration Release --no-build --output ./artifacts/packages
 
-    - name: Publish to NuGet.org
-      uses: actions/setup-dotnet@v4
+    - name: NuGet login (OIDC)
+      uses: NuGet/login@v1
       with:
-        dotnet-version: '10.0.x'
-        source-url: https://api.nuget.org/v3/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # (Fallback if needed, OIDC handles auth natively via other means)
+        user: OzanCKN
 
     - name: Push to NuGet.org (Trusted Publishing)
       run: |
