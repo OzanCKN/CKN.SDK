@@ -22,12 +22,20 @@ Olay tabanlı (Event-Driven) mimari, Saga ve asenkron iletişim modülüdür.
 - **İçerik:** MassTransit RabbitMQ entegrasyonu, `MeetingProcessingStateMachine`.
 - **Kullanım:** Sadece Event yayacak (Publish) veya dinleyecek servisler bu paketi kurar.
 
-### 4. `CKN.Sdk.AI`
+### 4. `CKN.Sdk.Messaging.RabbitMQ`
+Yeni Provider-Agnostic mimarinin ilk mesajlaşma adaptörüdür. `CKN.Sdk.Core` içerisindeki `IEventBus` arayüzünü RabbitMQ Native Client kullanarak uygular. 
+- **Kullanım:** Uygulamanın RabbitMQ'ya bağlanması için kullanılır (`builder.AddCknMessaging(m => m.UseRabbitMQ())`).
+
+### 5. `CKN.Sdk.Messaging.Kafka`
+Provider-Agnostic mimarinin Apache Kafka adaptörüdür. Confluent.Kafka altyapısını kullanarak yüksek throughput mesajlaşma (Event Streaming) sağlar.
+- **Kullanım:** Uygulamanın Kafka'ya bağlanması için kullanılır (`builder.AddCknMessaging(m => m.UseKafka())`).
+
+### 6. `CKN.Sdk.AI`
 Yapay zeka servis entegrasyonlarını içerir.
 - **İçerik:** Microsoft.Extensions.AI arayüzleri, OpenAI bağlantıları, Semantic Kernel (Opsiyonel).
 - **Kullanım:** LLM veya Embeddings kullanılacaksa bu paket projeye dahil edilir.
 
-### 5. `CKN.Sdk.Infrastructure`
+### 7. `CKN.Sdk.Infrastructure`
 Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
 - **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
 - **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter).
