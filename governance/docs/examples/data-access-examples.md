@@ -20,14 +20,14 @@ Dapper, doğrudan SQL sorguları yazarak Entity Framework'e kıyasla maksimum ok
 ### Dependency Injection (DI) Kurulumu
 ```csharp
 using CKN.Sdk.Data.Dapper;
-using Npgsql; // veya Microsoft.Data.SqlClient
+using Npgsql; 
 
-// PostgreSql kullanacağımızı varsayalım
-builder.Services.UseDapper(opt =>
-{
-    opt.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    opt.DbConnectionFactory = (connectionString) => new NpgsqlConnection(connectionString);
-});
+// DI Container'a CKN Dapper UnitOfWork ve Repository altyapısını ekler
+builder.Services.AddCknDapper();
+
+// DbConnectionFactory (Uygulamanın asıl connection sağlayıcısı) uygulamanın kendisinde register edilir:
+builder.Services.AddScoped<System.Data.IDbConnection>(sp => 
+    new NpgsqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 ```
 
 ### Gerçek Hayat Kullanımı: Gelişmiş Raporlama ve DapperRepository
@@ -111,10 +111,10 @@ RepoDb, tıpkı Dapper gibi bir Micro-ORM'dir, ancak C#'a özgü `IQueryable` ta
 ```csharp
 using CKN.Sdk.Data.RepoDb;
 
-builder.Services.UseRepoDb(opt =>
-{
-    opt.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-});
+// RepoDb altyapısını DI container'a dahil eder ve PostgreSQL için RepoDb'yi başlatır.
+builder.Services.AddCknRepoDbPostgres();
+
+// (Connection string doğrudan DI üzerinden NpgsqlConnection olarak enjekte edilecektir)
 ```
 
 ### Gerçek Hayat Kullanımı: Milyonlarca Satırlık Bulk Insert (Log Yedekleme)

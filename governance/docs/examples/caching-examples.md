@@ -99,7 +99,7 @@ Memcached, daha basit mimarili projelerde saf String veya Byte dizilerini önbel
 ```csharp
 using CKN.Sdk.Caching.Memcached;
 
-builder.Services.AddCknMemcachedCache(opt =>
+builder.Services.AddCknMemcached(opt =>
 {
     builder.Configuration.GetSection(MemcachedCacheOptions.SectionName).Bind(opt);
 });
