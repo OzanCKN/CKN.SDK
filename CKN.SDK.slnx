@@ -16,6 +16,7 @@
   <Project Path="CKN.Sdk.Messaging.Kafka/CKN.Sdk.Messaging.Kafka.csproj" />
   <Project Path="CKN.Sdk.Messaging.ServiceBus/CKN.Sdk.Messaging.ServiceBus.csproj" />
   <Project Path="CKN.Sdk.Messaging/CKN.Sdk.Messaging.csproj" />
+  <Project Path="CKN.Sdk.Notification/CKN.Sdk.Notification.csproj" />
   <Project Path="CKN.Sdk.Scheduling.Coravel/CKN.Sdk.Scheduling.Coravel.csproj" />
   <Project Path="CKN.Sdk.Scheduling.Hangfire/CKN.Sdk.Scheduling.Hangfire.csproj" />
   <Project Path="CKN.Sdk.Scheduling.Quartz/CKN.Sdk.Scheduling.Quartz.csproj" />

@@ -17,7 +17,11 @@ Tüm sistemin kalbidir. Hiçbir 3. parti kütüphaneye bağımlılığı yoktur 
 - **İçerik:** `ApplicationDbContext`, `DomainEventInterceptor` vb.
 - **Kullanım:** Sadece veritabanı ile konuşacak mikroservisler bu paketi kurar.
 
-### 3. `CKN.Sdk.MassTransit`
+### 3. `CKN.Sdk.Notification`
+Bildirim (Notification) işlemleri için soyutlama (INotificationService) sağlar. E-posta, SMS, Push Notification ve Webhook entegrasyonlarını destekler.
+- **Kullanım:** Uygulamanın bildirim göndermesi için `services.AddCknNotification(...)` ile sisteme dahil edilir.
+
+### 4. `CKN.Sdk.MassTransit`
 Olay tabanlı (Event-Driven) mimari, Saga ve asenkron iletişim modülüdür.
 - **İçerik:** MassTransit RabbitMQ entegrasyonu, `MeetingProcessingStateMachine`.
 - **Kullanım:** Sadece Event yayacak (Publish) veya dinleyecek servisler bu paketi kurar.
