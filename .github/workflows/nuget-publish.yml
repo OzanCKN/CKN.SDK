@@ -38,6 +38,7 @@ jobs:
 
     - name: NuGet login (OIDC)
       uses: NuGet/login@v1
+      id: login
       with:
         user: OzanCKN
 
@@ -45,7 +46,7 @@ jobs:
       run: |
         for file in ./artifacts/packages/*.nupkg; do
           echo "Publishing $file to NuGet.org..."
-          dotnet nuget push "$file" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          dotnet nuget push "$file" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
         done
 
     - name: Publish to GitHub Packages
