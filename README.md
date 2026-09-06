@@ -146,7 +146,7 @@ Aşağıdaki tablo, SDK'nın sunduğu ve sunmayı planladığı (30 Maddelik Gen
 | **`CKN.Sdk.Data`** | Veritabanı ve ORM soyutlaması. | EF Core, Dapper, RepoDB | 🟡 Yapım Aşamasında |
 | **`CKN.Sdk.Caching`** | L1/L2 Hybrid Önbellekleme. | Redis, Microsoft Garnet, Memcached | 🟡 Yapım Aşamasında |
 | **`CKN.Sdk.AI`** | LLM entegrasyonları ve Ajan altyapısı. | OpenAI, Anthropic, Ollama | 🟡 Yapım Aşamasında |
-| **`CKN.Sdk.Infrastructure`** | Güvenlik (JWT) ve Resilience (Polly). | Polly v8, JWT, Feature Flags | 🟢 Hazır |
+| **`CKN.Sdk.Infrastructure`** | Güvenlik (JWT) ve Resilience (Polly). | Polly v8 (Rate Limiter, Fallback), JWT, Health Checks | 🟢 Hazır |
 | **`CKN.Sdk.Observability`** | Loglama, İzleme ve Metrik. | Elasticsearch, Datadog, Prometheus | 🟢 Hazır (Kısmi) |
 
 > 📚 *Her bir modülün detaylı ve kopyala-yapıştır yapabileceğiniz kullanım örnekleri için modülün kendi klasöründeki `README.md` dosyalarına bakabilirsiniz.*
