@@ -3,6 +3,7 @@
   <Project Path="CKN.Sdk.AI.OpenAI/CKN.Sdk.AI.OpenAI.csproj" />
   <Project Path="CKN.Sdk.AI/CKN.Sdk.AI.csproj" />
   <Project Path="CKN.Sdk.Caching.Garnet/CKN.Sdk.Caching.Garnet.csproj" />
+  <Project Path="CKN.Sdk.Caching.Redis/CKN.Sdk.Caching.Redis.csproj" />
   <Project Path="CKN.Sdk.Core/CKN.Sdk.Core.csproj" />
   <Project Path="CKN.Sdk.Data.Dapper/CKN.Sdk.Data.Dapper.csproj" />
   <Project Path="CKN.Sdk.Data.RepoDb/CKN.Sdk.Data.RepoDb.csproj" />
