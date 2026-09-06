@@ -8,7 +8,7 @@
     <Authors>CKN Teknoloji</Authors>
     <Company>CKN</Company>
     <Description>Enterprise Architecture module for $(MSBuildProjectName). Provides core SDK functionality for the CKN ecosystem.</Description>
-    <RepositoryUrl>https://github.com/CKN-Teknoloji/CKN.SDK</RepositoryUrl>
+    <RepositoryUrl>https://github.com/OzanCKN/CKN.SDK</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
