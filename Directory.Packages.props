@@ -70,6 +70,7 @@
     <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.9.0" />
     <!-- Search -->
     <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="8.15.5" />
+    <PackageVersion Include="Meilisearch" Version="0.15.3" />
 
     <!-- Scheduling -->
     <PackageVersion Include="Hangfire.Core" Version="1.8.14" />
