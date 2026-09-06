@@ -22,7 +22,11 @@ Olay tabanlı (Event-Driven) mimari, Saga ve asenkron iletişim modülüdür.
 - **İçerik:** MassTransit RabbitMQ entegrasyonu, `MeetingProcessingStateMachine`.
 - **Kullanım:** Sadece Event yayacak (Publish) veya dinleyecek servisler bu paketi kurar.
 
-### 4. `CKN.Sdk.AI`
+### 4. `CKN.Sdk.Messaging.RabbitMQ`
+Yeni Provider-Agnostic mimarinin ilk mesajlaşma adaptörüdür. `CKN.Sdk.Core` içerisindeki `IEventBus` arayüzünü RabbitMQ Native Client kullanarak uygular. 
+- **Kullanım:** Uygulamanın RabbitMQ'ya bağlanması için kullanılır (`builder.AddCknMessaging(m => m.UseRabbitMQ())`).
+
+### 5. `CKN.Sdk.AI`
 Yapay zeka servis entegrasyonlarını içerir.
 - **İçerik:** Microsoft.Extensions.AI arayüzleri, OpenAI bağlantıları, Semantic Kernel (Opsiyonel).
 - **Kullanım:** LLM veya Embeddings kullanılacaksa bu paket projeye dahil edilir.
