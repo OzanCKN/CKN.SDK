@@ -52,11 +52,19 @@ EnyimMemcachedCore kütüphanesini kullanarak Memcached önbellekleme sağlayan 
 Yapay zeka servis entegrasyonlarını içerir. `Microsoft.Extensions.AI` arayüzünü (Örn: `IChatClient`) kullanır.
 - **Kullanım:** AI sağlayıcılarının soyutlaması için temel modüldür.
 
-### 12. `CKN.Sdk.AI.OpenAI`
+### 12. `CKN.Sdk.AI.SemanticKernel`
+Microsoft Semantic Kernel orkestratörünü sisteme dahil eden Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknSemanticKernel(...)` ile `Kernel` nesnesi sisteme singleton/transient olarak dahil edilir.
+
+### 13. `CKN.Sdk.AI.OpenAI`
 OpenAI (GPT-4 vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür. 
 - **Kullanım:** `services.AddCknOpenAI(...)` ile `IChatClient` sisteme dahil edilir.
 
-### 12. `CKN.Sdk.AI.Anthropic`
+### 14. `CKN.Sdk.AI.Ollama`
+Yerel ve açık kaynak modeller (Llama, Mistral vb.) için OllamaSharp üzerinden bağlanan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknOllama(...)` ile `IChatClient` sisteme dahil edilir.
+
+### 15. `CKN.Sdk.AI.Anthropic`
 Anthropic (Claude vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknAnthropic(...)` ile `AnthropicClient` sisteme dahil edilir.
 
