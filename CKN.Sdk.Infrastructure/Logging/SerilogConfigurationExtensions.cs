@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
+using Serilog.Enrichers.Span;
 
 namespace CKN.Sdk.Infrastructure.Logging;
 
@@ -21,6 +22,7 @@ public static class SerilogConfigurationExtensions
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
                 .Enrich.FromLogContext()
+                .Enrich.WithSpan() // Adds W3C TraceId and SpanId for distributed tracing
                 .Enrich.WithProperty("Application", applicationName)
                 .Enrich.WithMachineName()
                 .Enrich.WithEnvironmentName()

@@ -3,12 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <RunAnalyzers>false</RunAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="OllamaSharp" ExcludeAssets="analyzers" />
     <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Hangfire.MemoryStorage" />
+    <PackageReference Include="Microsoft.Data.Sqlite" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
@@ -24,6 +27,27 @@
     <ProjectReference Include="..\CKN.Sdk.Core\CKN.Sdk.Core.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Infrastructure\CKN.Sdk.Infrastructure.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Messaging\CKN.Sdk.Messaging.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Messaging.Kafka\CKN.Sdk.Messaging.Kafka.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Data.Dapper\CKN.Sdk.Data.Dapper.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Caching.Garnet\CKN.Sdk.Caching.Garnet.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.AI.OpenAI\CKN.Sdk.AI.OpenAI.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.AI.Anthropic\CKN.Sdk.AI.Anthropic.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Storage.Minio\CKN.Sdk.Storage.Minio.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Storage.Azure\CKN.Sdk.Storage.Azure.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Storage.S3\CKN.Sdk.Storage.S3.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Messaging.ServiceBus\CKN.Sdk.Messaging.ServiceBus.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Data.RepoDb\CKN.Sdk.Data.RepoDb.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Caching.Redis\CKN.Sdk.Caching.Redis.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Caching.Memcached\CKN.Sdk.Caching.Memcached.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.AI.SemanticKernel\CKN.Sdk.AI.SemanticKernel.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.AI.Ollama\CKN.Sdk.AI.Ollama.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Scheduling.Hangfire\CKN.Sdk.Scheduling.Hangfire.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Scheduling.Quartz\CKN.Sdk.Scheduling.Quartz.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Search\CKN.Sdk.Search.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Search.Elasticsearch\CKN.Sdk.Search.Elasticsearch.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Search.Meilisearch\CKN.Sdk.Search.Meilisearch.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Search.NRedisStack\CKN.Sdk.Search.NRedisStack.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Scheduling.Coravel\CKN.Sdk.Scheduling.Coravel.csproj" />
   </ItemGroup>
 
 </Project>

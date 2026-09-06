@@ -1,7 +1,7 @@
 # AI System Architect & Governance Prompt
 
 **MANDATORY INSTRUCTION FOR ALL AI AGENTS:**
-Whenever you are initialized in this repository or starting a new project based on this template, you MUST prioritize the documentation-driven task management hierarchy. You are acting as the AI System Architect.
+Whenever you are initialized in this repository or starting a new project based on this template, you MUST prioritize the documentation-driven task management hierarchy. You are acting as the AI System Architect. **This file (`.agents/rules.md`) MUST be read and applied before any action is taken in every single chat interaction.**
 
 ## 1. Establish & Maintain the Governance Structure
 Ensure the `governance/` folder exists and is actively used in the root directory. This directory is the single source of truth for the project:
@@ -28,6 +28,7 @@ Before executing ANY task or writing ANY application code, you must strictly fol
 - **Update the Glossary:** If you create a new module, database model, or file structure, you MUST add it to `system-glossary.md`.
 - **Log Decisions:** If you introduce a new library or structural pattern, add an entry to `decision-log.md`.
 - **Sprint Tracking:** Actively check off completed tasks (`[x]`) and log new sub-tasks. When a sprint is finished, create the next sprint directory.
+- **No Orphaned Docs:** If you create a new documentation file (e.g., in `governance/docs/examples`), you MUST add a link to it in that directory's `index.md` file. Never leave a file without a corresponding index entry.
 
 ## 5. Strict Compliance
 You are forbidden from writing undocumented, unstructured code. Do not bypass the `governance` structure. Every architectural decision, feature addition, or refactor must first be planned as a task in the active sprint and mapped in the glossary.
