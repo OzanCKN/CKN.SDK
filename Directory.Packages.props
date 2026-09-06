@@ -24,20 +24,21 @@
     <PackageVersion Include="StackExchange.Redis" Version="2.8.0" />
     <PackageVersion Include="EnyimMemcachedCore" Version="2.2.0" />
     <!-- Data (EntityFramework) -->
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.1" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0-preview.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.2.25163.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0-preview.2.25163.8" />
     <!-- Data Access (Dapper) -->
     <PackageVersion Include="Dapper" Version="2.1.35" />
     <PackageVersion Include="RepoDb" Version="1.13.1" />
     <PackageVersion Include="RepoDb.PostgreSql" Version="1.13.1" />
     <PackageVersion Include="Dommel" Version="3.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0-preview.2.25163.8" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
-    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0-preview.2.25164.1" />
     <PackageVersion Include="FluentValidation" Version="11.11.0" />
     <PackageVersion Include="MediatR" Version="12.4.1" />
     <!-- EventBus & Messaging -->
     <PackageVersion Include="MassTransit" Version="8.2.5" />
+    <PackageVersion Include="MassTransit.RabbitMQ" Version="8.2.5" />
     <PackageVersion Include="RabbitMQ.Client" Version="6.8.1" />
     <PackageVersion Include="Confluent.Kafka" Version="2.8.0" />
     <PackageVersion Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
