@@ -26,4 +26,13 @@ public static class MemcachedBuilderExtensions
 
         return services;
     }
+
+    /// <summary>
+    /// Configures the DI container to use Memcached as a keyed service.
+    /// Note: EnyimMemcached currently does not support multiple instances natively via Keyed Services.
+    /// </summary>
+    public static IServiceCollection AddCknKeyedMemcached(this IServiceCollection services, object serviceKey, Action<MemcachedCacheOptions> configureOptions)
+    {
+        throw new NotSupportedException("EnyimMemcached provider does not natively support multiple instances (Keyed Services) in the current version. Use Redis or Garnet for Multi-Cache scenarios.");
+    }
 }
