@@ -16,8 +16,11 @@ RabbitMQ, standart AMQP tabanlı mesajlaşma için idealdir.
       "HostName": "localhost",
       "UserName": "guest",
       "Password": "guest",
-      "QueueName": "ckn.events.queue",
-      "RetryCount": 3
+      "RetryCount": 3,
+      "Endpoints": {
+        "OrderQueue": "ckn.orders.queue",
+        "PaymentQueue": "ckn.payments.queue"
+      }
     }
   }
 }
@@ -38,11 +41,19 @@ builder.Services.AddCknMessaging(msg =>
     // Konfigürasyonu appsettings'ten otomatik okuyarak bağlama
     msg.UseRabbitMQ(opt => 
     {
-        var config = builder.Configuration.GetSection(RabbitMQOptions.SectionName).Get<RabbitMQOptions>();
+        var config = builder.Configuration.GetSection("Messaging:RabbitMQ").Get<RabbitMQOptions>();
         opt.HostName = config?.HostName ?? "localhost";
         opt.UserName = config?.UserName ?? "guest";
         opt.Password = config?.Password ?? "guest";
-        opt.QueueName = config?.QueueName ?? "ckn.events.queue";
+        
+        // Çoklu kuyruk (Endpoint) tanımları
+        if (config?.Endpoints != null)
+        {
+            foreach(var endpoint in config.Endpoints)
+            {
+                opt.Endpoints.Add(endpoint.Key, endpoint.Value);
+            }
+        }
     });
 });
 ```
