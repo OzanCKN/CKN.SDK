@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="CKN.Sdk.AI.Anthropic/CKN.Sdk.AI.Anthropic.csproj" />
+  <Project Path="CKN.Sdk.AI.Ollama/CKN.Sdk.AI.Ollama.csproj" />
   <Project Path="CKN.Sdk.AI.OpenAI/CKN.Sdk.AI.OpenAI.csproj" />
   <Project Path="CKN.Sdk.AI.SemanticKernel/CKN.Sdk.AI.SemanticKernel.csproj" />
   <Project Path="CKN.Sdk.AI/CKN.Sdk.AI.csproj" />

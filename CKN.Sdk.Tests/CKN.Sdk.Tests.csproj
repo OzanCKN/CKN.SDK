@@ -38,6 +38,7 @@
     <ProjectReference Include="..\CKN.Sdk.Caching.Redis\CKN.Sdk.Caching.Redis.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Caching.Memcached\CKN.Sdk.Caching.Memcached.csproj" />
     <ProjectReference Include="..\CKN.Sdk.AI.SemanticKernel\CKN.Sdk.AI.SemanticKernel.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.AI.Ollama\CKN.Sdk.AI.Ollama.csproj" />
   </ItemGroup>
 
 </Project>
