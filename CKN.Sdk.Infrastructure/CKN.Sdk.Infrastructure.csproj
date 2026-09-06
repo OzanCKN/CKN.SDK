@@ -13,11 +13,15 @@
 
   <ItemGroup>
     <!-- Caching -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
 
     <!-- Security & JWT -->
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="Scalar.AspNetCore" />
+    <PackageReference Include="Serilog.Enrichers.Span" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
 
     <!-- OpenTelemetry -->
