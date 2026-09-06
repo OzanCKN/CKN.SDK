@@ -116,4 +116,4 @@ app.Run();
 ```
 
 ## 🏗️ Mimari ve Yönetişim (Governance)
-Bu projenin nasıl tasarlandığını, "Zero-Warning Policy" gibi kuralları ve geliştirici standartlarını merak ediyorsanız [Governance](./governance) klasörünü inceleyiniz. Yapay Zeka (AI) ajanları için sistem yönergeleri `.agents/` ve `governance/docs/architecture/system-glossary.md` dosyalarında tanımlıdır.
+Bu projenin nasıl tasarlandığını, "Zero-Warning Policy" gibi kuralları ve geliştirici standartlarını merak ediyorsanız [Governance](./governance/index.md) klasörünü inceleyiniz. Yapay Zeka (AI) ajanları için sistem yönergeleri `.agents/` ve `governance/docs/architecture/system-glossary.md` dosyalarında tanımlıdır.
