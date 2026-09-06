@@ -10,6 +10,7 @@ Bu dizin, SDK içerisindeki tüm modüllerin son geliştiriciler tarafından nas
 - [📄 messaging-examples.md](./messaging-examples.md) - Kafka, RabbitMQ, ServiceBus kullanım örnekleri.
 - [📄 scheduling-examples.md](./scheduling-examples.md) - Hangfire, Quartz ve Coravel kullanım örnekleri.
 - [📄 search-examples.md](./search-examples.md) - Elasticsearch, Meilisearch ve NRedisStack kullanım örnekleri.
+- [📄 notification-examples.md](./notification-examples.md) - Smtp, SendGrid, Twilio ve Firebase push bildirim kullanımları.
 - [📄 storage-examples.md](./storage-examples.md) - Minio, AWS S3 ve Azure Blob kullanım örnekleri.
 
 ## 📝 Diğer Bilgiler (Şablon Dışı Notlar)
