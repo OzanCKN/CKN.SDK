@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="CKN.Sdk.AI/CKN.Sdk.AI.csproj" />
+  <Project Path="CKN.Sdk.Caching.Garnet/CKN.Sdk.Caching.Garnet.csproj" />
   <Project Path="CKN.Sdk.Core/CKN.Sdk.Core.csproj" />
   <Project Path="CKN.Sdk.Data.Dapper/CKN.Sdk.Data.Dapper.csproj" />
   <Project Path="CKN.Sdk.EntityFramework/CKN.Sdk.EntityFramework.csproj" />
