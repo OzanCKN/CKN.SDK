@@ -33,9 +33,16 @@ jobs:
     - name: Pack all projects
       run: dotnet pack CKN.SDK.slnx --configuration Release --no-build --output ./artifacts/packages
 
-    - name: Publish to NuGet
+    - name: Publish to NuGet.org
       run: |
         for file in ./artifacts/packages/*.nupkg; do
-          echo "Publishing $file..."
+          echo "Publishing $file to NuGet.org..."
           dotnet nuget push "$file" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        done
+
+    - name: Publish to GitHub Packages
+      run: |
+        for file in ./artifacts/packages/*.nupkg; do
+          echo "Publishing $file to GitHub Packages..."
+          dotnet nuget push "$file" --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --skip-duplicate
         done
