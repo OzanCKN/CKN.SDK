@@ -5,9 +5,9 @@
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SignAssembly>false</SignAssembly>
-    <Version>1.0.0-preview.1</Version>
     <Authors>CKN Teknoloji</Authors>
     <Company>CKN</Company>
+    <Description>Enterprise Architecture module for $(MSBuildProjectName). Provides core SDK functionality for the CKN ecosystem.</Description>
     <RepositoryUrl>https://github.com/CKN-Teknoloji/CKN.SDK</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -20,8 +20,9 @@
     <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
-  <!-- Include README in all packages -->
+  <!-- Include README and Tools in all packages -->
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+    <PackageReference Include="MinVer" PrivateAssets="all" />
   </ItemGroup>
 </Project>

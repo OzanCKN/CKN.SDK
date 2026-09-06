@@ -3,6 +3,8 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Tooling / Testing -->
+    <PackageVersion Include="MinVer" Version="5.0.0" />
     <!-- Core & Validation -->
     <PackageVersion Include="Coravel" Version="6.0.2" />
     <PackageVersion Include="FirebaseAdmin" Version="3.6.0" />
