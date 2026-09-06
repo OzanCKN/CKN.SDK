@@ -50,7 +50,14 @@ OpenAI (GPT-4 vb.) modellerine bağlanmak için kullanılan Native Provider adap
 Anthropic (Claude vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknAnthropic(...)` ile `AnthropicClient` sisteme dahil edilir.
 
-### 11. `CKN.Sdk.Infrastructure`
+### 11. `CKN.Sdk.Storage`
+Nesne depolama (Object Storage) işlemleri için soyutlama (IStorageService) sağlar.
+
+### 12. `CKN.Sdk.Storage.Minio`
+S3 uyumlu Minio sunucularına bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknMinioStorage(...)` ile `IStorageService` sisteme dahil edilir.
+
+### 13. `CKN.Sdk.Infrastructure`
 Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
 - **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
 - **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter).
