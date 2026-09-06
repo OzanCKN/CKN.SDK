@@ -70,5 +70,8 @@
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="Moq" Version="4.20.70" />
     <PackageVersion Include="FluentAssertions" Version="7.1.0" />
+    <PackageVersion Include="Microsoft.Extensions.AI.Anthropic" Version="1.0.0-preview.1" />
+    <PackageVersion Include="Microsoft.SemanticKernel" Version="1.21.1" />
+    <PackageVersion Include="OllamaSharp" Version="4.0.7" />
   </ItemGroup>
 </Project>

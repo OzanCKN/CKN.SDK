@@ -37,6 +37,7 @@
     <ProjectReference Include="..\CKN.Sdk.Data.RepoDb\CKN.Sdk.Data.RepoDb.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Caching.Redis\CKN.Sdk.Caching.Redis.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Caching.Memcached\CKN.Sdk.Caching.Memcached.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.AI.SemanticKernel\CKN.Sdk.AI.SemanticKernel.csproj" />
   </ItemGroup>
 
 </Project>
