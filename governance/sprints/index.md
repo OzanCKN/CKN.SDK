@@ -34,9 +34,9 @@ Yeni bir özellik veya güncelleme yapılmadan önce, ilgili aktif Sprint içeri
 
 #### Sprint 4: Güvenlik, Gözlemlenebilirlik ve DevOps
 **Hedef:** Otomatik Elastic Logging, OpenTelemetry, Güçlü İsimlendirme, CI/CD ve NetArchTest mimari testleri.
-**Durum:** TODO
+**Durum:** DONE
 **Görevler:**
-- [ ] [task-005-sprint-4-observability.md](../tasks/task-005-sprint-4-observability.md) : Elastic Logging, OpenTelemetry ve DevOps.
+- [x] [task-005-sprint-4-observability.md](../tasks/task-005-sprint-4-observability.md) : Elastic Logging, OpenTelemetry ve DevOps.
 
 #### Sprint 5: Provider-Agnostic Architecture Phase 1
 **Hedef:** Farklı AI Provider'ları (OpenAI, Anthropic, Gemini) için soyutlama (abstraction) katmanının oluşturulması ve ortak messaging arayüzlerinin tanımlanması.

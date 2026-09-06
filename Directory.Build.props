@@ -1,10 +1,11 @@
 <Project>
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)ckn.snk</AssemblyOriginatorKeyFile>
     <Authors>CKN Teknoloji</Authors>
     <Company>CKN</Company>
     <Description>Enterprise Architecture module for $(MSBuildProjectName). Provides core SDK functionality for the CKN ecosystem.</Description>
@@ -14,8 +15,15 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-    <NoWarn>$(NoWarn);CS1591;SKEXP0010;IL2026;IL3050;IL2075;NU1902;NU1903;NU1904;NU1506;CS0105;CS8629;IL2091</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;SKEXP0010;IL2026;IL3050;IL2075;NU1902;NU1903;NU1904;NU1506;CS0105;CS8629;IL2091;NU1605;NU1603;NU1510;NU1511</NoWarn>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    
+    <!-- SourceLink and Debugging -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
     <!-- AOT Compatibility baseline -->
     <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
   </PropertyGroup>
