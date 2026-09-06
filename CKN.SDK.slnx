@@ -11,6 +11,7 @@
   <Project Path="CKN.Sdk.Messaging.Kafka/CKN.Sdk.Messaging.Kafka.csproj" />
   <Project Path="CKN.Sdk.Messaging/CKN.Sdk.Messaging.csproj" />
   <Project Path="CKN.Sdk.SourceGenerators/CKN.Sdk.SourceGenerators.csproj" />
+  <Project Path="CKN.Sdk.Storage.Azure/CKN.Sdk.Storage.Azure.csproj" />
   <Project Path="CKN.Sdk.Storage.Minio/CKN.Sdk.Storage.Minio.csproj" />
   <Project Path="CKN.Sdk.Storage/CKN.Sdk.Storage.csproj" />
   <Project Path="CKN.Sdk.Tests/CKN.Sdk.Tests.csproj" />

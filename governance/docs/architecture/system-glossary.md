@@ -57,7 +57,11 @@ Nesne depolama (Object Storage) işlemleri için soyutlama (IStorageService) sa�
 S3 uyumlu Minio sunucularına bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknMinioStorage(...)` ile `IStorageService` sisteme dahil edilir.
 
-### 13. `CKN.Sdk.Infrastructure`
+### 13. `CKN.Sdk.Storage.Azure`
+Azure Blob Storage'a bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknAzureStorage(...)` ile `IStorageService` sisteme dahil edilir.
+
+### 14. `CKN.Sdk.Infrastructure`
 Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
 - **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
 - **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter).
