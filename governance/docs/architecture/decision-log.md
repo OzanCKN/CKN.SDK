@@ -47,3 +47,8 @@ Bu belge, proje yaşam döngüsü boyunca alınan kritik mimari ve altyapı kara
 - **Durum:** Mikroservis mimarisinde hata takibi ve performans darboğazlarını bulmak imkansızlaşıyordu. Hassas veriler (PII) loglara sızıyordu.
 - **Karar:** Loglama için Serilog (Elasticsearch Sink) entegre edildi ve PII Masking eklendi. Metrik ve Tracing için OpenTelemetry standardı kabul edildi.
 - **Sonuçlar:** `AddCknElasticLogging()` ve `AddCKNTelemetry()` eklentileri ile tek satır kodla devasa bir izlenebilirlik ağı kuruldu.
+
+### 2026-09-06 - Plugin Tabanlı Multi-Provider Mimarisine Geçiş
+- **Durum:** CKN.SDK'nın Data Access, Messaging ve Caching gibi modülleri EF Core, MassTransit ve Redis gibi teknolojilere sıkı sıkıya bağlıydı (Hard-coupled). Bu durum esnekliği kısıtlıyordu.
+- **Karar:** 30 maddelik "Dev Mimari Genişleme" planı onaylandı. Tüm bağımlılıklar Core katmanında soyutlanarak (IEventBus, IRepository, vb.) her modül için en popüler 3 teknolojinin native adaptörleri yazılacak. (Örn: RabbitMQ, Kafka, Azure Service Bus).
+- **Sonuçlar:** CKN.SDK, sadece birkaç teknolojiye bağlı bir wrapper olmaktan çıkıp, `builder.UseKafka()` gibi eklenebilir tak-çalıştır modüllere sahip devasa bir Enterprise Framework'e dönüşecek.

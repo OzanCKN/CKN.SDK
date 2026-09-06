@@ -4,6 +4,7 @@
   <Project Path="CKN.Sdk.EntityFramework/CKN.Sdk.EntityFramework.csproj" />
   <Project Path="CKN.Sdk.Infrastructure/CKN.Sdk.Infrastructure.csproj" />
   <Project Path="CKN.Sdk.MassTransit/CKN.Sdk.MassTransit.csproj" />
+  <Project Path="CKN.Sdk.Messaging/CKN.Sdk.Messaging.csproj" />
   <Project Path="CKN.Sdk.SourceGenerators/CKN.Sdk.SourceGenerators.csproj" />
   <Project Path="CKN.Sdk.Tests/CKN.Sdk.Tests.csproj" />
 </Solution>
