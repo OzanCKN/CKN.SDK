@@ -39,11 +39,14 @@ Yüksek performanslı Microsoft Garnet önbellekleme (Caching) adaptörüdür. R
 - **Kullanım:** Uygulamanın Garnet veya Redis tabanlı dağıtık önbelleğe bağlanması için kullanılır (`services.AddCknGarnetCache()`).
 
 ### 8. `CKN.Sdk.AI`
-Yapay zeka servis entegrasyonlarını içerir.
-- **İçerik:** Microsoft.Extensions.AI arayüzleri, OpenAI bağlantıları, Semantic Kernel (Opsiyonel).
-- **Kullanım:** LLM veya Embeddings kullanılacaksa bu paket projeye dahil edilir.
+Yapay zeka servis entegrasyonlarını içerir. `Microsoft.Extensions.AI` arayüzünü (Örn: `IChatClient`) kullanır.
+- **Kullanım:** AI sağlayıcılarının soyutlaması için temel modüldür.
 
-### 7. `CKN.Sdk.Infrastructure`
+### 9. `CKN.Sdk.AI.OpenAI`
+OpenAI (GPT-4 vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür. 
+- **Kullanım:** `services.AddCknOpenAI(...)` ile `IChatClient` sisteme dahil edilir.
+
+### 10. `CKN.Sdk.Infrastructure`
 Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
 - **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
 - **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter).
