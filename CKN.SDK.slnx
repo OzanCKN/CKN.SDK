@@ -21,6 +21,7 @@
   <Project Path="CKN.Sdk.Scheduling.Quartz/CKN.Sdk.Scheduling.Quartz.csproj" />
   <Project Path="CKN.Sdk.Search.Elasticsearch/CKN.Sdk.Search.Elasticsearch.csproj" />
   <Project Path="CKN.Sdk.Search.Meilisearch/CKN.Sdk.Search.Meilisearch.csproj" />
+  <Project Path="CKN.Sdk.Search.NRedisStack/CKN.Sdk.Search.NRedisStack.csproj" />
   <Project Path="CKN.Sdk.Search/CKN.Sdk.Search.csproj" />
   <Project Path="CKN.Sdk.SourceGenerators/CKN.Sdk.SourceGenerators.csproj" />
   <Project Path="CKN.Sdk.Storage.Azure/CKN.Sdk.Storage.Azure.csproj" />
