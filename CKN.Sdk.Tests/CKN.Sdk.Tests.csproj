@@ -35,6 +35,7 @@
     <ProjectReference Include="..\CKN.Sdk.Storage.S3\CKN.Sdk.Storage.S3.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Messaging.ServiceBus\CKN.Sdk.Messaging.ServiceBus.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Data.RepoDb\CKN.Sdk.Data.RepoDb.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Caching.Redis\CKN.Sdk.Caching.Redis.csproj" />
   </ItemGroup>
 
 </Project>

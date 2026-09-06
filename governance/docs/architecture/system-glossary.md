@@ -34,11 +34,17 @@ Provider-Agnostic mimarinin Apache Kafka adaptörüdür. Confluent.Kafka altyap�
 Veri erişim (Data Access) katmanı için geliştirilen Dapper adaptörüdür. `CKN.Sdk.Core` içerisindeki `IRepository` ve `IUnitOfWork` arayüzlerini ultra hızlı Dapper (ve Dommel) ORM'i ile uygular.
 - **Kullanım:** Uygulamanın veritabanına bağlanması için kullanılır (`services.AddCknDapper()`).
 
-### 7. `CKN.Sdk.Caching.Garnet`
-Yüksek performanslı Microsoft Garnet önbellekleme (Caching) adaptörüdür. Redis protokolü (RESP) üzerinden haberleşir ve .NET `IDistributedCache` arayüzünü destekler.
-- **Kullanım:** Uygulamanın Garnet veya Redis tabanlı dağıtık önbelleğe bağlanması için kullanılır (`services.AddCknGarnetCache()`).
+### 7. `CKN.Sdk.Caching`
+Uygulamalarda ortak önbellek kullanımını standartlaştırmak için oluşturulan soyutlama (ICacheService).
 
-### 8. `CKN.Sdk.AI`
+### 8. `CKN.Sdk.Caching.Garnet`
+Garnet tabanlı (veya Redis uyumlu) L2 cache implementasyonudur.
+
+### 9. `CKN.Sdk.Caching.Redis`
+StackExchange.Redis kütüphanesini kullanarak Redis önbellekleme sağlayan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknRedisCache(...)` ile `ICacheService` sisteme dahil edilir.
+
+### 10. `CKN.Sdk.AI`
 Yapay zeka servis entegrasyonlarını içerir. `Microsoft.Extensions.AI` arayüzünü (Örn: `IChatClient`) kullanır.
 - **Kullanım:** AI sağlayıcılarının soyutlaması için temel modüldür.
 
