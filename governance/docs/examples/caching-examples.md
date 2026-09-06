@@ -24,13 +24,56 @@ Redis, günümüzün endüstri standardı bellek-içi veri tabanıdır. Özellik
 ```csharp
 using CKN.Sdk.Caching.Redis;
 
+// 1. Standart (Global) Redis Kurulumu
 builder.Services.AddCknRedisCache(opt =>
 {
     builder.Configuration.GetSection(RedisCacheOptions.SectionName).Bind(opt);
 });
+
+// 2. Keyed Services (Çoklu Sunucu) Kurulumu (.NET 8+)
+// Farklı amaçlar için (Örn: Sepet işlemleri) tamamen farklı bir Redis sunucusuna/veritabanına bağlanmak:
+builder.Services.AddCknKeyedRedisCache("basketCache", opt =>
+{
+    opt.ConnectionString = "redis-basket-cluster.local:6379,password=secure";
+    opt.InstanceName = "BasketApp_";
+});
 ```
 
-### Gerçek Hayat Kullanımı: En Çok Ziyaret Edilen Ürünlerin Önbelleklenmesi
+### Gerçek Hayat Kullanımı: Hızlı Sepet (Basket) İşlemleri ve Çoklu Önbellek
+
+Büyük (Enterprise) sistemlerde genellikle "Session/Basket" verileri ile "Product/Catalog" verileri aynı Redis üzerinde tutulmaz. CKN.SDK'nın Keyed Services mimarisi ile her iki sunucuya da birbirinden bağımsız olarak bağlanabilirsiniz.
+
+```csharp
+using CKN.Sdk.Core.Caching;
+using Microsoft.Extensions.DependencyInjection;
+
+public class BasketService
+{
+    private readonly ICacheService _globalCache;
+    private readonly ICacheService _basketCache;
+
+    public BasketService(
+        ICacheService globalCache, // Standart AddCknRedisCache üzerinden gelir
+        [FromKeyedServices("basketCache")] ICacheService basketCache) // Sadece Sepet sunucusuna gider
+    {
+        _globalCache = globalCache;
+        _basketCache = basketCache;
+    }
+
+    public async Task AddToBasketAsync(string userId, BasketItem item)
+    {
+        var cacheKey = $"basket:{userId}";
+        
+        // Sepet Redis sunucusuna bağlanıp veriyi çeker/yazar
+        var currentBasket = await _basketCache.GetAsync<List<BasketItem>>(cacheKey) ?? new List<BasketItem>();
+        currentBasket.Add(item);
+        
+        await _basketCache.SetAsync(cacheKey, currentBasket, TimeSpan.FromDays(1));
+    }
+}
+```
+
+### En Çok Ziyaret Edilen Ürünlerin Önbelleklenmesi
 ```csharp
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;

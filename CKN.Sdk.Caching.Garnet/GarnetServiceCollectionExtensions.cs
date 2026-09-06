@@ -22,6 +22,31 @@ public static class GarnetServiceCollectionExtensions
             redisOptions.InstanceName = options.InstanceName;
         });
 
+        // Garnet için özel bir CKN wrapper servisimiz varsa onu da ekleyebiliriz.
+        // Ancak şu an için sadece Microsoft'un IDistributedCache'ini ekliyor.
+        return services;
+    }
+
+    /// <summary>
+    /// Configures the DI container to use Garnet as a keyed service.
+    /// Allows connecting to multiple distinct Garnet servers in the same application.
+    /// </summary>
+    public static IServiceCollection AddCknKeyedGarnetCache(this IServiceCollection services, object serviceKey, Action<GarnetCacheOptions>? configureOptions = null)
+    {
+        var options = new GarnetCacheOptions();
+        configureOptions?.Invoke(options);
+
+        // Register the standard Microsoft IDistributedCache as a keyed singleton for Garnet
+        services.AddKeyedSingleton<Microsoft.Extensions.Caching.Distributed.IDistributedCache>(serviceKey, (sp, key) =>
+        {
+            var msOptions = new Microsoft.Extensions.Caching.StackExchangeRedis.RedisCacheOptions
+            {
+                Configuration = options.Configuration,
+                InstanceName = options.InstanceName
+            };
+            return new Microsoft.Extensions.Caching.StackExchangeRedis.RedisCache(Microsoft.Extensions.Options.Options.Create(msOptions));
+        });
+
         return services;
     }
 }
