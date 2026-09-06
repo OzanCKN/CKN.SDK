@@ -1,5 +1,11 @@
 # CKN.SDK (Enterprise Agentic Orchestra)
 
+[![NuGet CKN.Sdk.Core](https://img.shields.io/nuget/v/CKN.Sdk.Core.svg?style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.Core/)
+[![NuGet CKN.Sdk.AI](https://img.shields.io/nuget/v/CKN.Sdk.AI.svg?style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.AI/)
+[![NuGet CKN.Sdk.Messaging](https://img.shields.io/nuget/v/CKN.Sdk.Messaging.svg?style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.Messaging/)
+[![NuGet CKN.Sdk.Caching](https://img.shields.io/nuget/v/CKN.Sdk.Caching.Redis.svg?style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.Caching.Redis/)
+[![GitHub Actions CI](https://github.com/OzanCKN/CKN.SDK/actions/workflows/nuget-publish.yml/badge.svg)](https://github.com/OzanCKN/CKN.SDK/actions/workflows/nuget-publish.yml)
+
 CKN.SDK, 2026 Native AOT standartlarına uygun, modüler, olay güdümlü (event-driven) ve yapay zeka destekli mikroservisler inşa etmek için kullanılan resmi altyapı kütüphanesidir. 
 
 **Multi-Provider (Çoklu Sağlayıcı) Mimarisi** sayesinde, projenizde kullanacağınız veritabanı, mesaj kuyruğu veya yapay zeka sağlayıcısını tek satır kodla değiştirebilirsiniz.
@@ -74,13 +80,13 @@ Projelerinizin ihtiyaçlarına göre sadece ilgili paketi indirerek kullanabilir
 
 Yukarıdaki paketleri projenizde kullanırken `appsettings.json` yapılandırmalarını nasıl yapacağınızı ve modülleri nasıl DI'a (Dependency Injection) bağlayıp gerçek kod içerisinde kullanacağınızı görmek için aşağıdaki detaylı örneklere göz atabilirsiniz:
 
-- 📬 [Messaging (Kafka, RabbitMQ, Service Bus) Örnekleri](./governance/docs/examples/messaging-examples.md)
-- ⚡ [Caching (Redis, Memcached, Garnet) Örnekleri](./governance/docs/examples/caching-examples.md)
-- 💾 [Data Access (Dapper, RepoDb) Örnekleri](./governance/docs/examples/data-access-examples.md)
-- 🤖 [AI (OpenAI, Anthropic, Ollama, Semantic Kernel) Örnekleri](./governance/docs/examples/ai-examples.md)
-- ☁️ [Storage (Minio, Azure Blob, S3) Örnekleri](./governance/docs/examples/storage-examples.md)
-- ⏰ [Scheduling (Hangfire, Quartz, Coravel) Örnekleri](./governance/docs/examples/scheduling-examples.md)
-- 🔍 [Search (Elasticsearch, Meilisearch, NRedisStack) Örnekleri](./governance/docs/examples/search-examples.md)
+- 📬 [Messaging (Kafka, RabbitMQ, Service Bus) Örnekleri](https://github.com/OzanCKN/CKN.SDK/wiki/Examples-Messaging)
+- ⚡ [Caching (Redis, Memcached, Garnet) Örnekleri](https://github.com/OzanCKN/CKN.SDK/wiki/Examples-Caching)
+- 💾 [Data Access (Dapper, RepoDb) Örnekleri](https://github.com/OzanCKN/CKN.SDK/wiki/Examples-Data-Access)
+- 🤖 [AI (OpenAI, Anthropic, Ollama, Semantic Kernel) Örnekleri](https://github.com/OzanCKN/CKN.SDK/wiki/Examples-AI)
+- ☁️ [Storage (Minio, Azure Blob, S3) Örnekleri](https://github.com/OzanCKN/CKN.SDK/wiki/Examples-Storage)
+- ⏰ [Scheduling (Hangfire, Quartz, Coravel) Örnekleri](https://github.com/OzanCKN/CKN.SDK/wiki/Examples-Scheduling)
+- 🔍 [Search (Elasticsearch, Meilisearch, NRedisStack) Örnekleri](https://github.com/OzanCKN/CKN.SDK/wiki/Examples-Search)
 
 
 ## 🚀 Hızlı Başlangıç
@@ -116,4 +122,4 @@ app.Run();
 ```
 
 ## 🏗️ Mimari ve Yönetişim (Governance)
-Bu projenin nasıl tasarlandığını, "Zero-Warning Policy" gibi kuralları ve geliştirici standartlarını merak ediyorsanız [Governance](./governance/index.md) klasörünü inceleyiniz. Yapay Zeka (AI) ajanları için sistem yönergeleri `.agents/` ve `governance/docs/architecture/system-glossary.md` dosyalarında tanımlıdır.
+Bu projenin nasıl tasarlandığını, "Zero-Warning Policy" gibi kuralları ve geliştirici standartlarını merak ediyorsanız [Wiki Mimari İndeksi](https://github.com/OzanCKN/CKN.SDK/wiki/Architecture-Index) sekmesini inceleyiniz. Yapay Zeka (AI) ajanları için sistem yönergeleri `.agents/` klasöründe yer alır.
