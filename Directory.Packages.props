@@ -17,7 +17,7 @@
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.8" />
     <!-- Caching -->
     <PackageVersion Include="StackExchange.Redis" Version="2.8.0" />
-    <PackageVersion Include="EnyimMemcachedCore" Version="2.1.18" />
+    <PackageVersion Include="EnyimMemcachedCore" Version="2.2.0" />
     <!-- Data (EntityFramework) -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.1" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0-preview.1" />
