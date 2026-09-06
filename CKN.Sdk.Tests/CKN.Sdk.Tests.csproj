@@ -30,6 +30,7 @@
     <ProjectReference Include="..\CKN.Sdk.Caching.Garnet\CKN.Sdk.Caching.Garnet.csproj" />
     <ProjectReference Include="..\CKN.Sdk.AI.OpenAI\CKN.Sdk.AI.OpenAI.csproj" />
     <ProjectReference Include="..\CKN.Sdk.AI.Anthropic\CKN.Sdk.AI.Anthropic.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Storage.Minio\CKN.Sdk.Storage.Minio.csproj" />
   </ItemGroup>
 
 </Project>
