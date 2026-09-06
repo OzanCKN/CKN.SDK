@@ -1,19 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\CKN.Sdk.Core\CKN.Sdk.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OllamaSharp" ExcludeAssets="analyzers" />
+    <PackageReference Include="Coravel" />
   </ItemGroup>
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <NoWarn>$(NoWarn);CS9057</NoWarn>
-    <RunAnalyzers>false</RunAnalyzers>
   </PropertyGroup>
 
 </Project>

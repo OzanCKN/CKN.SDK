@@ -70,23 +70,28 @@ Anthropic (Claude vb.) modellerine bağlanmak için kullanılan Native Provider 
 
 ### 13. `CKN.Sdk.Storage`
 ### 12. `CKN.Sdk.Storage`
+### 16. `CKN.Sdk.Storage`
 Nesne depolama (Object Storage) işlemleri için soyutlama (IStorageService) sağlar.
 
-### 13. `CKN.Sdk.Storage.Minio`
+### 17. `CKN.Sdk.Storage.Minio`
 S3 uyumlu Minio sunucularına bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknMinioStorage(...)` ile `IStorageService` sisteme dahil edilir.
 
-### 14. `CKN.Sdk.Storage.Azure`
+### 18. `CKN.Sdk.Storage.Azure`
 Azure Blob Storage'a bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknAzureStorage(...)` ile `IStorageService` sisteme dahil edilir.
 
-### 15. `CKN.Sdk.Storage.S3`
+### 19. `CKN.Sdk.Storage.S3`
 AWS S3'e bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknS3Storage(...)` ile `IStorageService` sisteme dahil edilir.
 
 ### 16. `CKN.Sdk.Infrastructure`
 Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
 - **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
+- **Scheduling:** 
+  - `CKN.Sdk.Scheduling.Hangfire` (Hangfire)
+  - `CKN.Sdk.Scheduling.Quartz` (Quartz)
+  - `CKN.Sdk.Scheduling.Coravel` (Coravel) ile arka plan iş yönetimi.
 - **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter).
 - **Security (Güvenlik):** JWT Token yönetimi, Lisans Doğrulama ve Feature Flag bazlı Authentication altyapısı.
 - **Observability (İzlenebilirlik):** `AddCKNTelemetry()` ile OpenTelemetry (Tracing & Metrics) ve `AddCknElasticLogging()` ile Serilog Elasticsearch PII Masking loglama entegrasyonları.

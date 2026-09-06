@@ -3,12 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <RunAnalyzers>false</RunAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="OllamaSharp" ExcludeAssets="analyzers" />
     <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Hangfire.MemoryStorage" />
     <PackageReference Include="Microsoft.Data.Sqlite" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />
@@ -39,6 +41,9 @@
     <ProjectReference Include="..\CKN.Sdk.Caching.Memcached\CKN.Sdk.Caching.Memcached.csproj" />
     <ProjectReference Include="..\CKN.Sdk.AI.SemanticKernel\CKN.Sdk.AI.SemanticKernel.csproj" />
     <ProjectReference Include="..\CKN.Sdk.AI.Ollama\CKN.Sdk.AI.Ollama.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Scheduling.Hangfire\CKN.Sdk.Scheduling.Hangfire.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Scheduling.Quartz\CKN.Sdk.Scheduling.Quartz.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Scheduling.Coravel\CKN.Sdk.Scheduling.Coravel.csproj" />
   </ItemGroup>
 
 </Project>
