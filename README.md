@@ -1,9 +1,9 @@
 # CKN.SDK (Enterprise Agentic Orchestra)
 
-[![NuGet CKN.Sdk.Core](https://img.shields.io/nuget/v/CKN.Sdk.Core.svg?style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.Core/)
-[![NuGet CKN.Sdk.AI](https://img.shields.io/nuget/v/CKN.Sdk.AI.svg?style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.AI/)
-[![NuGet CKN.Sdk.Messaging](https://img.shields.io/nuget/v/CKN.Sdk.Messaging.svg?style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.Messaging/)
-[![NuGet CKN.Sdk.Caching](https://img.shields.io/nuget/v/CKN.Sdk.Caching.Redis.svg?style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.Caching.Redis/)
+[![NuGet CKN.Sdk.Core](https://img.shields.io/nuget/v/CKN.Sdk.Core.svg?label=CKN.Sdk.Core&style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.Core/)
+[![NuGet CKN.Sdk.AI](https://img.shields.io/nuget/v/CKN.Sdk.AI.svg?label=CKN.Sdk.AI&style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.AI/)
+[![NuGet CKN.Sdk.Messaging](https://img.shields.io/nuget/v/CKN.Sdk.Messaging.svg?label=CKN.Sdk.Messaging&style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.Messaging/)
+[![NuGet CKN.Sdk.Caching](https://img.shields.io/nuget/v/CKN.Sdk.Caching.Redis.svg?label=CKN.Sdk.Caching.Redis&style=flat-square&color=blue)](https://www.nuget.org/packages/CKN.Sdk.Caching.Redis/)
 [![GitHub Actions CI](https://github.com/OzanCKN/CKN.SDK/actions/workflows/nuget-publish.yml/badge.svg)](https://github.com/OzanCKN/CKN.SDK/actions/workflows/nuget-publish.yml)
 
 CKN.SDK, 2026 Native AOT standartlarına uygun, modüler, olay güdümlü (event-driven) ve yapay zeka destekli mikroservisler inşa etmek için kullanılan resmi altyapı kütüphanesidir. 
