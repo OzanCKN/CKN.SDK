@@ -11,9 +11,17 @@
     <RepositoryUrl>https://github.com/CKN-Teknoloji/CKN.SDK</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
     <NoWarn>$(NoWarn);CS1591;SKEXP0010;IL2026;IL3050;IL2075;NU1902;NU1903;NU1904;NU1506;CS0105;CS8629;IL2091</NoWarn>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <!-- AOT Compatibility baseline -->
     <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
+
+  <!-- Include README in all packages -->
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>
