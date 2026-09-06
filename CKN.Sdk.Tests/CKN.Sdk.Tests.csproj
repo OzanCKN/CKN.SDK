@@ -27,6 +27,7 @@
     <ProjectReference Include="..\CKN.Sdk.Messaging\CKN.Sdk.Messaging.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Messaging.Kafka\CKN.Sdk.Messaging.Kafka.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Data.Dapper\CKN.Sdk.Data.Dapper.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Caching.Garnet\CKN.Sdk.Caching.Garnet.csproj" />
   </ItemGroup>
 
 </Project>
