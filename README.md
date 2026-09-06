@@ -2,7 +2,21 @@
 
 CKN.SDK, 2026 Native AOT standartlarına uygun, modüler, olay güdümlü (event-driven) ve yapay zeka destekli mikroservisler inşa etmek için kullanılan resmi altyapı kütüphanesidir.
 
-Devasa bir monolit indirmek yerine, projenizin ihtiyacına göre sadece ilgili SDK modülünü NuGet üzerinden indirebilirsiniz. Bütün paketler merkezi olarak yönetilmektedir.
+## Gerçek Hayat Kullanım Örnekleri (Dokümantasyon)
+
+Projeyi kullanırken `appsettings.json` yapılandırmalarını nasıl yapacağınızı ve modülleri nasıl DI'a (Dependency Injection) bağlayacağınızı görmek için aşağıdaki örneklere göz atabilirsiniz:
+
+- 📬 [Messaging (Kafka, RabbitMQ, Service Bus) Örnekleri](./governance/docs/examples/messaging-examples.md)
+- ⚡ [Caching (Redis, Memcached, Garnet) Örnekleri](./governance/docs/examples/caching-examples.md)
+- 💾 [Data Access (Dapper, RepoDb) Örnekleri](./governance/docs/examples/data-access-examples.md)
+- 🤖 [AI (OpenAI, Anthropic, Ollama, Semantic Kernel) Örnekleri](./governance/docs/examples/ai-examples.md)
+- ☁️ [Storage (Minio, Azure Blob, S3) Örnekleri](./governance/docs/examples/storage-examples.md)
+- ⏰ [Scheduling (Hangfire, Quartz, Coravel) Örnekleri](./governance/docs/examples/scheduling-examples.md)
+- 🔍 [Search (Elasticsearch, Meilisearch, NRedisStack) Örnekleri](./governance/docs/examples/search-examples.md)
+
+## Özellikler
+
+* **Tak-Çalıştır Modüller:** Projenize uygun mesajlaşma sistemini, veritabanını, loglama altyapısını kodları değiştirmeden sadece Provider (Sağlayıcı) paketini dahil ederek entegre edebilirsiniz. Bütün paketler merkezi olarak yönetilmektedir.
 
 ## 📦 SDK Modülleri (NuGet Paketleri)
 
