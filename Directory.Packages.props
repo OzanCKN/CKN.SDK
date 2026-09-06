@@ -2,11 +2,11 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
-
   <ItemGroup>
     <!-- Core & Validation -->
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.2" />
     <PackageVersion Include="MediatR" Version="12.4.0" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.11" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
@@ -16,29 +16,29 @@
     <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.8" />
     <!-- Data (EntityFramework) -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0-preview.1" />
+    <!-- Data Access (Dapper) -->
+    <PackageVersion Include="Dapper" Version="2.1.35" />
+    <PackageVersion Include="Dommel" Version="3.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.8" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
-
     <!-- EventBus & Messaging -->
     <PackageVersion Include="MassTransit" Version="8.2.5" />
     <PackageVersion Include="RabbitMQ.Client" Version="6.8.1" />
     <PackageVersion Include="Confluent.Kafka" Version="2.5.3" />
     <PackageVersion Include="MassTransit.EntityFrameworkCore" Version="8.2.5" />
-
     <!-- AI (Microsoft.Extensions.AI) -->
     <PackageVersion Include="Microsoft.Extensions.AI" Version="10.9.0" />
     <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.9.0" />
     <PackageVersion Include="Microsoft.SemanticKernel" Version="1.14.1" />
     <PackageVersion Include="Microsoft.SemanticKernel.Connectors.Google" Version="1.15.0-alpha" />
-
     <!-- Security & Http -->
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="8.7.0" />
     <PackageVersion Include="Microsoft.FeatureManagement.AspNetCore" Version="3.3.1" />
-
     <!-- Observability -->
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.2" />
     <PackageVersion Include="Serilog.Sinks.Elasticsearch" Version="10.0.0" />

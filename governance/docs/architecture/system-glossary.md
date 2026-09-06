@@ -30,7 +30,11 @@ Yeni Provider-Agnostic mimarinin ilk mesajlaşma adaptörüdür. `CKN.Sdk.Core` 
 Provider-Agnostic mimarinin Apache Kafka adaptörüdür. Confluent.Kafka altyapısını kullanarak yüksek throughput mesajlaşma (Event Streaming) sağlar.
 - **Kullanım:** Uygulamanın Kafka'ya bağlanması için kullanılır (`builder.AddCknMessaging(m => m.UseKafka())`).
 
-### 6. `CKN.Sdk.AI`
+### 6. `CKN.Sdk.Data.Dapper`
+Veri erişim (Data Access) katmanı için geliştirilen Dapper adaptörüdür. `CKN.Sdk.Core` içerisindeki `IRepository` ve `IUnitOfWork` arayüzlerini ultra hızlı Dapper (ve Dommel) ORM'i ile uygular.
+- **Kullanım:** Uygulamanın veritabanına bağlanması için kullanılır (`services.AddCknDapper()`).
+
+### 7. `CKN.Sdk.AI`
 Yapay zeka servis entegrasyonlarını içerir.
 - **İçerik:** Microsoft.Extensions.AI arayüzleri, OpenAI bağlantıları, Semantic Kernel (Opsiyonel).
 - **Kullanım:** LLM veya Embeddings kullanılacaksa bu paket projeye dahil edilir.
