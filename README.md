@@ -22,58 +22,58 @@ CKN.SDK, 2026 Native AOT standartlarına uygun, modüler, olay güdümlü (event
 Projelerinizin ihtiyaçlarına göre sadece ilgili paketi indirerek kullanabilirsiniz:
 
 ### 📬 Mesajlaşma (Messaging)
-| Paket Adı | Açıklama |
-| :--- | :--- |
-| `CKN.Sdk.Messaging` | Temel `IEventBus` ve `IEvent` arayüzleri. |
-| `CKN.Sdk.Messaging.RabbitMQ` | RabbitMQ entegrasyonu (MassTransit altyapısı ile). |
-| `CKN.Sdk.Messaging.Kafka` | Apache Kafka entegrasyonu (Yüksek veri akışı için). |
-| `CKN.Sdk.Messaging.ServiceBus` | Azure Service Bus entegrasyonu. |
+| Paket Adı | Sürüm | Açıklama |
+| :--- | :--- | :--- |
+| `CKN.Sdk.Messaging` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Messaging.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Messaging/) | Temel `IEventBus` ve `IEvent` arayüzleri. |
+| `CKN.Sdk.Messaging.RabbitMQ` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Messaging.RabbitMQ.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Messaging.RabbitMQ/) | RabbitMQ entegrasyonu (MassTransit altyapısı ile). |
+| `CKN.Sdk.Messaging.Kafka` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Messaging.Kafka.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Messaging.Kafka/) | Apache Kafka entegrasyonu (Yüksek veri akışı için). |
+| `CKN.Sdk.Messaging.ServiceBus` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Messaging.ServiceBus.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Messaging.ServiceBus/) | Azure Service Bus entegrasyonu. |
 
 ### ⚡ Önbellek (Caching)
-| Paket Adı | Açıklama |
-| :--- | :--- |
-| `CKN.Sdk.Caching.Redis` | StackExchange.Redis tabanlı dağıtık önbellek. |
-| `CKN.Sdk.Caching.Memcached` | Memcached entegrasyonu. |
-| `CKN.Sdk.Caching.Garnet` | Microsoft Research'ün geliştirdiği yeni nesil ultra-hızlı önbellek sistemi. |
+| Paket Adı | Sürüm | Açıklama |
+| :--- | :--- | :--- |
+| `CKN.Sdk.Caching.Redis` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Caching.Redis.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Caching.Redis/) | StackExchange.Redis tabanlı dağıtık önbellek. |
+| `CKN.Sdk.Caching.Memcached` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Caching.Memcached.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Caching.Memcached/) | Memcached entegrasyonu. |
+| `CKN.Sdk.Caching.Garnet` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Caching.Garnet.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Caching.Garnet/) | Microsoft Research'ün geliştirdiği yeni nesil ultra-hızlı önbellek sistemi. |
 
 ### 💾 Veri Erişimi (Data Access)
-| Paket Adı | Açıklama |
-| :--- | :--- |
-| `CKN.Sdk.Data.Dapper` | Dapper tabanlı mikro-ORM, `IRepository` ve `IUnitOfWork` implementasyonları. |
-| `CKN.Sdk.Data.RepoDb` | RepoDb tabanlı bulk operasyonlar için özelleşmiş ORM. |
-| `CKN.Sdk.EntityFramework` | Entity Framework Core entegrasyonu. |
+| Paket Adı | Sürüm | Açıklama |
+| :--- | :--- | :--- |
+| `CKN.Sdk.Data.Dapper` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Data.Dapper.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Data.Dapper/) | Dapper tabanlı mikro-ORM, `IRepository` ve `IUnitOfWork` implementasyonları. |
+| `CKN.Sdk.Data.RepoDb` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Data.RepoDb.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Data.RepoDb/) | RepoDb tabanlı bulk operasyonlar için özelleşmiş ORM. |
+| `CKN.Sdk.EntityFramework` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.EntityFramework.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.EntityFramework/) | Entity Framework Core entegrasyonu. |
 
 ### 🤖 Yapay Zeka (AI & LLMs)
-| Paket Adı | Açıklama |
-| :--- | :--- |
-| `CKN.Sdk.AI` | Ortak AI modülleri, `Microsoft.Extensions.AI` abstraksiyonları. |
-| `CKN.Sdk.AI.OpenAI` | ChatGPT entegrasyonu. |
-| `CKN.Sdk.AI.Anthropic` | Claude (Anthropic) entegrasyonu. |
-| `CKN.Sdk.AI.Ollama` | Yerel (Local) ve KVKK uyumlu LLM çalıştırmak için Ollama. |
-| `CKN.Sdk.AI.SemanticKernel` | Microsoft Semantic Kernel kullanarak AI ajanları ve fonksiyon çağırma (Tool Calling) orkestrasyonu. |
+| Paket Adı | Sürüm | Açıklama |
+| :--- | :--- | :--- |
+| `CKN.Sdk.AI` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.AI.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.AI/) | Ortak AI modülleri, `Microsoft.Extensions.AI` abstraksiyonları. |
+| `CKN.Sdk.AI.OpenAI` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.AI.OpenAI.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.AI.OpenAI/) | ChatGPT entegrasyonu. |
+| `CKN.Sdk.AI.Anthropic` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.AI.Anthropic.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.AI.Anthropic/) | Claude (Anthropic) entegrasyonu. |
+| `CKN.Sdk.AI.Ollama` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.AI.Ollama.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.AI.Ollama/) | Yerel (Local) ve KVKK uyumlu LLM çalıştırmak için Ollama. |
+| `CKN.Sdk.AI.SemanticKernel` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.AI.SemanticKernel.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.AI.SemanticKernel/) | Microsoft Semantic Kernel kullanarak AI ajanları ve fonksiyon çağırma (Tool Calling) orkestrasyonu. |
 
 ### ☁️ Depolama (Storage)
-| Paket Adı | Açıklama |
-| :--- | :--- |
-| `CKN.Sdk.Storage` | `IStorageService` arayüzü (Nesne depolama abstraksiyonu). |
-| `CKN.Sdk.Storage.Minio` | S3 uyumlu yerel/bulut Object Storage. |
-| `CKN.Sdk.Storage.S3` | Amazon AWS S3 entegrasyonu. |
-| `CKN.Sdk.Storage.Azure` | Azure Blob Storage entegrasyonu. |
+| Paket Adı | Sürüm | Açıklama |
+| :--- | :--- | :--- |
+| `CKN.Sdk.Storage` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Storage.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Storage/) | `IStorageService` arayüzü (Nesne depolama abstraksiyonu). |
+| `CKN.Sdk.Storage.Minio` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Storage.Minio.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Storage.Minio/) | S3 uyumlu yerel/bulut Object Storage. |
+| `CKN.Sdk.Storage.S3` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Storage.S3.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Storage.S3/) | Amazon AWS S3 entegrasyonu. |
+| `CKN.Sdk.Storage.Azure` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Storage.Azure.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Storage.Azure/) | Azure Blob Storage entegrasyonu. |
 
 ### ⏰ Zamanlayıcı (Scheduling)
-| Paket Adı | Açıklama |
-| :--- | :--- |
-| `CKN.Sdk.Scheduling.Hangfire` | Hangfire ile veritabanı destekli, arayüzlü (Dashboard) görev zamanlama. |
-| `CKN.Sdk.Scheduling.Quartz` | Quartz.NET entegrasyonu. |
-| `CKN.Sdk.Scheduling.Coravel` | Sıfır konfigürasyon, bellek içi zamanlayıcı. |
+| Paket Adı | Sürüm | Açıklama |
+| :--- | :--- | :--- |
+| `CKN.Sdk.Scheduling.Hangfire` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Scheduling.Hangfire.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Scheduling.Hangfire/) | Hangfire ile veritabanı destekli, arayüzlü (Dashboard) görev zamanlama. |
+| `CKN.Sdk.Scheduling.Quartz` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Scheduling.Quartz.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Scheduling.Quartz/) | Quartz.NET entegrasyonu. |
+| `CKN.Sdk.Scheduling.Coravel` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Scheduling.Coravel.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Scheduling.Coravel/) | Sıfır konfigürasyon, bellek içi zamanlayıcı. |
 
 ### 🔍 Arama (Search)
-| Paket Adı | Açıklama |
-| :--- | :--- |
-| `CKN.Sdk.Search` | `ISearchService<T>` arayüzü. |
-| `CKN.Sdk.Search.Elasticsearch` | Elasticsearch (Fuzzy search) entegrasyonu. |
-| `CKN.Sdk.Search.Meilisearch` | Ultra hızlı, Typo-tolerant Meilisearch entegrasyonu. |
-| `CKN.Sdk.Search.NRedisStack` | Redis tabanlı RediSearch entegrasyonu. |
+| Paket Adı | Sürüm | Açıklama |
+| :--- | :--- | :--- |
+| `CKN.Sdk.Search` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Search.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Search/) | `ISearchService<T>` arayüzü. |
+| `CKN.Sdk.Search.Elasticsearch` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Search.Elasticsearch.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Search.Elasticsearch/) | Elasticsearch (Fuzzy search) entegrasyonu. |
+| `CKN.Sdk.Search.Meilisearch` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Search.Meilisearch.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Search.Meilisearch/) | Ultra hızlı, Typo-tolerant Meilisearch entegrasyonu. |
+| `CKN.Sdk.Search.NRedisStack` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Search.NRedisStack.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Search.NRedisStack/) | Redis tabanlı RediSearch entegrasyonu. |
 
 
 ## 📚 Gerçek Hayat Kullanım Örnekleri (Dokümantasyon)
