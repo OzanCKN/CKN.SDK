@@ -85,7 +85,14 @@ Azure Blob Storage'a bağlanmak için kullanılan Native Provider adaptörüdür
 AWS S3'e bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknS3Storage(...)` ile `IStorageService` sisteme dahil edilir.
 
-### 16. `CKN.Sdk.Infrastructure`
+### 16. `CKN.Sdk.Search`
+Arama (Search) işlemleri için `ISearchService<T>` soyutlaması sağlar. Indexleme ve Full-Text Search işlemlerini standartlaştırır.
+
+### 17. `CKN.Sdk.Search.Elasticsearch`
+Elasticsearch'e bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknElasticsearch(...)` ile `ISearchService<T>` ve `ElasticsearchClient` sisteme dahil edilir.
+
+### 18. `CKN.Sdk.Infrastructure`
 Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
 - **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
 - **Scheduling:** 
