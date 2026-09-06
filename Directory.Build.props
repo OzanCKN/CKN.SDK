@@ -17,7 +17,7 @@
     <NoWarn>$(NoWarn);CS1591;SKEXP0010;IL2026;IL3050;IL2075;NU1902;NU1903;NU1904;NU1506;CS0105;CS8629;IL2091</NoWarn>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <!-- AOT Compatibility baseline -->
-    <IsAotCompatible>true</IsAotCompatible>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
   </PropertyGroup>
 
   <!-- Include README and Tools in all packages -->
