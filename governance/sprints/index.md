@@ -28,9 +28,9 @@ Yeni bir özellik veya güncelleme yapılmadan önce, ilgili aktif Sprint içeri
 
 #### Sprint 3: Dayanıklılık, Performans ve Ölçeklenebilirlik
 **Hedef:** Polly, Caching, Pagination, Circuit Breaker ve Health Checks entegrasyonu.
-**Durum:** TODO
+**Durum:** DONE
 **Görevler:**
-- [ ] [task-004-sprint-3-resilience.md](../tasks/task-004-sprint-3-resilience.md) : Resilience, Circuit Breaker ve Memory Optimization.
+- [x] [task-004-sprint-3-resilience.md](../tasks/task-004-sprint-3-resilience.md) : Resilience, Circuit Breaker ve Memory Optimization.
 
 #### Sprint 4: Güvenlik, Gözlemlenebilirlik ve DevOps
 **Hedef:** Otomatik Elastic Logging, OpenTelemetry, Güçlü İsimlendirme, CI/CD ve NetArchTest mimari testleri.

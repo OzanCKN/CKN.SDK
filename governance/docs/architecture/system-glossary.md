@@ -112,7 +112,8 @@ Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimar
   - `CKN.Sdk.Scheduling.Hangfire` (Hangfire)
   - `CKN.Sdk.Scheduling.Quartz` (Quartz)
   - `CKN.Sdk.Scheduling.Coravel` (Coravel) ile arka plan iş yönetimi.
-- **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter).
+- **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter) ve `AddGracefulDegradation` ile Fallback (Zarif Düşüş) mekanizması eklendi.
+- **Core Performans (Performans):** Allocation-free data manipülasyonu için `MemoryExtensions` (`Span<T>`, `Memory<T>`) kullanıma alındı.
 - **Security (Güvenlik):** JWT Token yönetimi, Lisans Doğrulama ve Feature Flag bazlı Authentication altyapısı.
 - **Observability (İzlenebilirlik):** `AddCKNTelemetry()` ile OpenTelemetry (Tracing & Metrics) ve `AddCknElasticLogging()` ile Serilog Elasticsearch PII Masking loglama entegrasyonları.
 - **CQRS:** `LoggingBehavior`, `ValidationBehavior` ve `IdempotentBehavior` ile MediatR pipeline'ı destekler.

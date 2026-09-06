@@ -52,3 +52,8 @@ Bu belge, proje yaşam döngüsü boyunca alınan kritik mimari ve altyapı kara
 - **Durum:** CKN.SDK'nın Data Access, Messaging ve Caching gibi modülleri EF Core, MassTransit ve Redis gibi teknolojilere sıkı sıkıya bağlıydı (Hard-coupled). Bu durum esnekliği kısıtlıyordu.
 - **Karar:** 30 maddelik "Dev Mimari Genişleme" planı onaylandı. Tüm bağımlılıklar Core katmanında soyutlanarak (IEventBus, IRepository, vb.) her modül için en popüler 3 teknolojinin native adaptörleri yazılacak. (Örn: RabbitMQ, Kafka, Azure Service Bus).
 - **Sonuçlar:** CKN.SDK, sadece birkaç teknolojiye bağlı bir wrapper olmaktan çıkıp, `builder.UseKafka()` gibi eklenebilir tak-çalıştır modüllere sahip devasa bir Enterprise Framework'e dönüşecek.
+
+### 2026-09-07 - Rate Limiting, Graceful Degradation ve Performans Optimizasyonları (Sprint 3)
+- **Durum:** Dış servislere (AI, DB, Harici API'ler) yapılan isteklerin kota aşımından (429) dönmesi veya yanıt vermemesi ihtimali sistemin kararlılığını bozuyordu. Ayrıca string manipülasyonlarında ve byte işlenmesinde fazla Memory Allocation yapılıyordu.
+- **Karar:** Polly HTTP Resilience hattına Rate Limiting (Kısıtlama) ve Graceful Degradation (Fallback) stratejileri dahil edildi. String ve Byte tabanlı parsing işlemleri için `MemoryExtensions` sınıfında `Span<T>` kullanımı zorunlu hale getirildi. RabbitMQ ve Elasticsearch modülleri için `IHealthCheck` (Sağlık kontrolü) yetenekleri standartlaştırıldı.
+- **Sonuçlar:** Sistem yüksek yük altındayken bile çökmeden, sınırlı sayıda istek atarak ve kota aşımlarında sahte/cache verisi dönerek hayatta kalabiliyor. Bellek (Memory) kullanımı azaltılarak çöp toplayıcı (Garbage Collector) üstündeki yük hafifletildi.
