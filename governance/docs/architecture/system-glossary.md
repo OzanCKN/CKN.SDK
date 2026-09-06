@@ -44,11 +44,15 @@ Garnet tabanlı (veya Redis uyumlu) L2 cache implementasyonudur.
 StackExchange.Redis kütüphanesini kullanarak Redis önbellekleme sağlayan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknRedisCache(...)` ile `ICacheService` sisteme dahil edilir.
 
-### 10. `CKN.Sdk.AI`
+### 10. `CKN.Sdk.Caching.Memcached`
+EnyimMemcachedCore kütüphanesini kullanarak Memcached önbellekleme sağlayan adaptörüdür.
+- **Kullanım:** `services.AddCknMemcached(...)` ile `ICacheService` sisteme dahil edilir.
+
+### 11. `CKN.Sdk.AI`
 Yapay zeka servis entegrasyonlarını içerir. `Microsoft.Extensions.AI` arayüzünü (Örn: `IChatClient`) kullanır.
 - **Kullanım:** AI sağlayıcılarının soyutlaması için temel modüldür.
 
-### 9. `CKN.Sdk.AI.OpenAI`
+### 12. `CKN.Sdk.AI.OpenAI`
 OpenAI (GPT-4 vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür. 
 - **Kullanım:** `services.AddCknOpenAI(...)` ile `IChatClient` sisteme dahil edilir.
 
