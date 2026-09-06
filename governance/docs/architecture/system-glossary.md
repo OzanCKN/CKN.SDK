@@ -96,7 +96,11 @@ Elasticsearch'e bağlanmak için kullanılan Native Provider adaptörüdür.
 Meilisearch'e bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknMeilisearch(...)` ile `ISearchService<T>` ve `MeilisearchClient` sisteme dahil edilir.
 
-### 19. `CKN.Sdk.Infrastructure`
+### 19. `CKN.Sdk.Search.NRedisStack`
+Redis tabanlı NRedisStack (RediSearch) sunucusuna bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknNRedisStack(...)` ile `ISearchService<T>` ve `IConnectionMultiplexer` sisteme dahil edilir.
+
+### 20. `CKN.Sdk.Infrastructure`
 Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
 - **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
 - **Scheduling:** 
