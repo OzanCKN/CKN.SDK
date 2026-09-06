@@ -46,22 +46,22 @@ Yapay zeka servis entegrasyonlarını içerir. `Microsoft.Extensions.AI` arayüz
 OpenAI (GPT-4 vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür. 
 - **Kullanım:** `services.AddCknOpenAI(...)` ile `IChatClient` sisteme dahil edilir.
 
-### 10. `CKN.Sdk.AI.Anthropic`
+### 12. `CKN.Sdk.AI.Anthropic`
 Anthropic (Claude vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknAnthropic(...)` ile `AnthropicClient` sisteme dahil edilir.
 
-### 11. `CKN.Sdk.Storage`
+### 13. `CKN.Sdk.Storage`
 Nesne depolama (Object Storage) işlemleri için soyutlama (IStorageService) sağlar.
 
-### 12. `CKN.Sdk.Storage.Minio`
+### 14. `CKN.Sdk.Storage.Minio`
 S3 uyumlu Minio sunucularına bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknMinioStorage(...)` ile `IStorageService` sisteme dahil edilir.
 
-### 13. `CKN.Sdk.Storage.Azure`
+### 15. `CKN.Sdk.Storage.Azure`
 Azure Blob Storage'a bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknAzureStorage(...)` ile `IStorageService` sisteme dahil edilir.
 
-### 14. `CKN.Sdk.Storage.S3`
+### 16. `CKN.Sdk.Storage.S3`
 AWS S3'e bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknS3Storage(...)` ile `IStorageService` sisteme dahil edilir.
 

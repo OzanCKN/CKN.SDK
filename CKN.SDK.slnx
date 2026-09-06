@@ -9,6 +9,7 @@
   <Project Path="CKN.Sdk.Infrastructure/CKN.Sdk.Infrastructure.csproj" />
   <Project Path="CKN.Sdk.MassTransit/CKN.Sdk.MassTransit.csproj" />
   <Project Path="CKN.Sdk.Messaging.Kafka/CKN.Sdk.Messaging.Kafka.csproj" />
+  <Project Path="CKN.Sdk.Messaging.ServiceBus/CKN.Sdk.Messaging.ServiceBus.csproj" />
   <Project Path="CKN.Sdk.Messaging/CKN.Sdk.Messaging.csproj" />
   <Project Path="CKN.Sdk.SourceGenerators/CKN.Sdk.SourceGenerators.csproj" />
   <Project Path="CKN.Sdk.Storage.Azure/CKN.Sdk.Storage.Azure.csproj" />
