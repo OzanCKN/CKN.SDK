@@ -1,0 +1,57 @@
+name: Publish NuGet Packages
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Trigger only on version tags like v1.0.0, v2.1.3-preview
+  workflow_dispatch: # Allow manual trigger for debugging
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore CKN.SDK.slnx
+
+    - name: Build solution
+      run: dotnet build CKN.SDK.slnx --configuration Release --no-restore
+
+    - name: Test solution
+      run: dotnet test CKN.SDK.slnx --configuration Release --no-build --verbosity normal
+
+    - name: Pack all projects
+      run: dotnet pack CKN.SDK.slnx --configuration Release --no-build --output ./artifacts/packages
+
+    - name: NuGet login (OIDC)
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: OzanCKN
+
+    - name: Push to NuGet.org (Trusted Publishing)
+      run: |
+        for file in ./artifacts/packages/*.nupkg; do
+          echo "Publishing $file to NuGet.org..."
+          dotnet nuget push "$file" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        done
+
+    - name: Publish to GitHub Packages
+      run: |
+        for file in ./artifacts/packages/*.nupkg; do
+          echo "Publishing $file to GitHub Packages..."
+          dotnet nuget push "$file" --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --skip-duplicate
+        done
