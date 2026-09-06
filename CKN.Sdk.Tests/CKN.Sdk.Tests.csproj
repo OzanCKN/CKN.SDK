@@ -31,6 +31,7 @@
     <ProjectReference Include="..\CKN.Sdk.AI.OpenAI\CKN.Sdk.AI.OpenAI.csproj" />
     <ProjectReference Include="..\CKN.Sdk.AI.Anthropic\CKN.Sdk.AI.Anthropic.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Storage.Minio\CKN.Sdk.Storage.Minio.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Storage.Azure\CKN.Sdk.Storage.Azure.csproj" />
   </ItemGroup>
 
 </Project>
