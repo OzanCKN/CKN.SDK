@@ -1,112 +1,75 @@
 # Messaging (Mesajlaşma) Sağlayıcıları Kullanım Örnekleri
 
-CKN.SDK, farklı mesajlaşma broker'larını tak-çalıştır mimarisinde kullanmanızı sağlar. Aşağıdaki örnekler, her bir sağlayıcının nasıl yapılandırılacağını ve gerçek bir projede nasıl kullanılacağını göstermektedir.
+CKN.SDK, farklı mesajlaşma broker'larını tak-çalıştır mimarisinde kullanmanızı sağlar. Bu dökümanda projede uygulanan GERÇEK altyapı örnekleri (MassTransit, Kafka, ServiceBus) yer almaktadır.
 
 ---
 
-## 1. RabbitMQ Kullanımı
+## 1. RabbitMQ (MassTransit) Kullanımı
 
-RabbitMQ, standart AMQP tabanlı mesajlaşma için idealdir. 
-
-### `appsettings.json` Yapılandırması
-```json
-{
-  "Messaging": {
-    "RabbitMQ": {
-      "HostName": "localhost",
-      "UserName": "guest",
-      "Password": "guest",
-      "RetryCount": 3,
-      "Endpoints": {
-        "OrderQueue": "ckn.orders.queue",
-        "PaymentQueue": "ckn.payments.queue"
-      }
-    }
-  }
-}
-```
+RabbitMQ entegrasyonu, Outbox pattern desteği olan `CKN.Sdk.MassTransit` paketi üzerinden sağlanır. MassTransit kullandığımız için kuyruk isimlerini (queue/endpoints) tek tek yazmak yerine, MassTransit `IConsumer` sınıflarından isimleri (Örn: `OrderCreatedConsumer` -> `order-created`) otomatik türetir ve eşleştirir.
 
 ### Dependency Injection (DI) Kurulumu
-`Program.cs` içerisinde `UseRabbitMQ` extension metodunu çağırın:
+`Program.cs` içerisinde:
 
 ```csharp
-using CKN.Sdk.Messaging.RabbitMQ;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+using CKN.Sdk.MassTransit.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
+var rmqConnection = builder.Configuration.GetConnectionString("RabbitMQ") ?? "amqp://guest:guest@localhost:5672";
 
-builder.Services.AddCknMessaging(msg =>
-{
-    // Konfigürasyonu appsettings'ten otomatik okuyarak bağlama
-    msg.UseRabbitMQ(opt => 
+// TDbContext: Outbox pattern için projenizdeki Entity Framework Core DbContext'i
+builder.Services.AddCKNMessaging<AppDbContext>(
+    rabbitMqConnectionString: rmqConnection,
+    configureConsumers: cfg => 
     {
-        var config = builder.Configuration.GetSection("Messaging:RabbitMQ").Get<RabbitMQOptions>();
-        opt.HostName = config?.HostName ?? "localhost";
-        opt.UserName = config?.UserName ?? "guest";
-        opt.Password = config?.Password ?? "guest";
-        
-        // Çoklu kuyruk (Endpoint) tanımları
-        if (config?.Endpoints != null)
-        {
-            foreach(var endpoint in config.Endpoints)
-            {
-                opt.Endpoints.Add(endpoint.Key, endpoint.Value);
-            }
-        }
-    });
-});
+        // Dinleyici (Subscriber) servislerini burada kaydediyoruz
+        cfg.AddConsumer<OrderCreatedConsumer>();
+    }
+);
 ```
 
 ### Gerçek Hayat Kullanımı: Sipariş Oluşturulduğunda Mesaj Fırlatma
 
-Aşağıdaki örnekte, yeni bir sipariş geldiğinde `IEventBus` üzerinden RabbitMQ'ya nasıl mesaj atılacağı ve ayrı bir worker tarafından nasıl dinleneceği gösterilmiştir:
+Aşağıdaki örnekte, yeni bir sipariş geldiğinde `IPublishEndpoint` (MassTransit arayüzü) üzerinden RabbitMQ'ya mesaj atılması ve başka bir serviste dinlenmesi gösterilmiştir. (Topic adını manuel vermiyoruz, tip adı üzerinden otomatik çözülüyor).
 
 ```csharp
-using CKN.Sdk.Messaging;
+using MassTransit;
 
 public record OrderCreatedEvent(Guid OrderId, decimal Amount, string CustomerEmail);
 
 public class OrderService
 {
-    private readonly IEventBus _eventBus;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public OrderService(IEventBus eventBus)
+    public OrderService(IPublishEndpoint publishEndpoint)
     {
-        _eventBus = eventBus;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task CreateOrderAsync(OrderCreatedEvent newOrder)
     {
         // ... Veritabanına siparişi kaydet ...
         
-        // Asenkron olarak kuyruğa mesaj bırak (Publish)
-        await _eventBus.PublishAsync("order.created", newOrder);
+        // Asenkron olarak kuyruğa mesaj bırak (Publish). Kuyruk adı ve routing MassTransit tarafından halledilir.
+        await _publishEndpoint.Publish(newOrder);
     }
 }
 
-// Background Worker veya Controller içerisinde mesajı dinleme (Subscribe)
-public class NotificationWorker : BackgroundService
+// Mesajı Dinleyen Sınıf (Consumer)
+public class OrderCreatedConsumer : IConsumer<OrderCreatedEvent>
 {
-    private readonly IEventBus _eventBus;
-    private readonly ILogger<NotificationWorker> _logger;
+    private readonly ILogger<OrderCreatedConsumer> _logger;
 
-    public NotificationWorker(IEventBus eventBus, ILogger<NotificationWorker> logger)
+    public OrderCreatedConsumer(ILogger<OrderCreatedConsumer> logger)
     {
-        _eventBus = eventBus;
         _logger = logger;
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
     {
-        _eventBus.Subscribe<OrderCreatedEvent>("order.created", async (orderEvent) =>
-        {
-            _logger.LogInformation($"Sipariş alındı: {orderEvent.OrderId}. Müşteriye email gönderiliyor...");
-            // Email gönderme işlemi...
-            await Task.CompletedTask;
-        });
-
-        return Task.CompletedTask;
+        var orderEvent = context.Message;
+        _logger.LogInformation($"Sipariş alındı: {orderEvent.OrderId}. Müşteriye email gönderiliyor...");
+        // Email gönderme işlemi...
     }
 }
 ```
@@ -115,7 +78,7 @@ public class NotificationWorker : BackgroundService
 
 ## 2. Kafka Kullanımı
 
-Kafka, yüksek veri akışı gerektiren olay odaklı mimariler (Event-Driven) için uygundur.
+Kafka entegrasyonu, saf `IEventBus` arayüzünü (CKN.Sdk.Core) implemente eden `CKN.Sdk.Messaging.Kafka` paketiyle sağlanır.
 
 ### `appsettings.json` Yapılandırması
 ```json
@@ -123,8 +86,7 @@ Kafka, yüksek veri akışı gerektiren olay odaklı mimariler (Event-Driven) i�
   "Messaging": {
     "Kafka": {
       "BootstrapServers": "localhost:9092",
-      "GroupId": "ckn-payment-group",
-      "AutoOffsetReset": 1 // 1: Earliest, 2: Latest vb.
+      "GroupId": "ckn-payment-group"
     }
   }
 }
@@ -138,37 +100,52 @@ builder.Services.AddCknMessaging(msg =>
 {
     msg.UseKafka(opt =>
     {
-        builder.Configuration.GetSection(KafkaOptions.SectionName).Bind(opt);
+        builder.Configuration.GetSection("Messaging:Kafka").Bind(opt);
     });
 });
 ```
 
-### Gerçek Hayat Kullanımı: Log ve Telemetri Verisi Akışı
-```csharp
-// Publish
-await _eventBus.PublishAsync("telemetry.logs", new { DeviceId = 1, Temperature = 42.5 });
+### Gerçek Hayat Kullanımı: Telemetri Verisi Akışı
+Saf `IEventBus` arayüzü, topic/queue adını manuel string olarak sormaz; bunun yerine C# objesinin kendi ismini (`typeof(TEvent).Name`) Topic olarak Kafka'ya kaydeder.
 
-// Subscribe (Consumer Group kullanılarak paralel tüketim yapılabilir)
-_eventBus.Subscribe<dynamic>("telemetry.logs", async data => 
+```csharp
+using CKN.Sdk.Core.Events;
+
+public class TelemetryLogEvent : IIntegrationEvent 
+{ 
+    public int DeviceId { get; set; }
+    public decimal Temperature { get; set; }
+}
+
+// Publish işlemi
+await _eventBus.PublishAsync(new TelemetryLogEvent { DeviceId = 1, Temperature = 42.5m });
+
+// Subscribe işlemi (IEventHandler arayüzünü implemente eden bir sınıf ile)
+public class TelemetryLogHandler : IEventHandler<TelemetryLogEvent>
 {
-    Console.WriteLine($"Cihazdan gelen sıcaklık: {data.Temperature}");
-    await Task.CompletedTask;
-});
+    public Task HandleAsync(TelemetryLogEvent @event)
+    {
+        Console.WriteLine($"Cihazdan gelen sıcaklık: {@event.Temperature}");
+        return Task.CompletedTask;
+    }
+}
+
+// Uygulama başlarken dinlemeyi başlatma:
+_eventBus.Subscribe<TelemetryLogEvent, TelemetryLogHandler>();
 ```
 
 ---
 
 ## 3. Azure Service Bus Kullanımı
 
-Bulut tabanlı, yüksek erişilebilirliğe sahip, Topic ve Subscription tabanlı gelişmiş bir mesaj kuyruk servisidir.
+Service Bus entegrasyonu `CKN.Sdk.Messaging.ServiceBus` üzerinden çalışır.
 
 ### `appsettings.json` Yapılandırması
 ```json
 {
   "Messaging": {
     "ServiceBus": {
-      "ConnectionString": "Endpoint=sb://ckn-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=your_key",
-      "TopicOrQueueName": "invoice-events"
+      "ConnectionString": "Endpoint=sb://ckn-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=your_key"
     }
   }
 }
@@ -178,26 +155,16 @@ Bulut tabanlı, yüksek erişilebilirliğe sahip, Topic ve Subscription tabanlı
 ```csharp
 using CKN.Sdk.Messaging.ServiceBus;
 
-builder.Services.AddCknMessaging(msg =>
+builder.Services.AddCknServiceBus(opt => 
 {
-    msg.UseServiceBus(opt =>
-    {
-        builder.Configuration.GetSection(ServiceBusOptions.SectionName).Bind(opt);
-    });
+    builder.Configuration.GetSection("Messaging:ServiceBus").Bind(opt);
 });
 ```
 
 ### Gerçek Hayat Kullanımı: Fatura Onay Süreci
 ```csharp
-public record InvoiceApprovedEvent(string InvoiceNo, decimal TotalAmount);
+public record InvoiceApprovedEvent(string InvoiceNo, decimal TotalAmount) : IIntegrationEvent;
 
-// Fatura onaylandığında publish et (Uygulamanızın Fatura Servisi'nde)
-await _eventBus.PublishAsync("invoice.approved", new InvoiceApprovedEvent("INV-100", 500m));
-
-// Dinleyici tarafı (Finans veya Muhasebe Servisi'nde)
-_eventBus.Subscribe<InvoiceApprovedEvent>("invoice.approved", async invoice =>
-{
-    // Muhasebe programına (Örn: Logo, SAP) entegrasyonu sağla
-    await ErpIntegrationService.SyncInvoiceAsync(invoice.InvoiceNo);
-});
+// Fatura onaylandığında publish et (Otomatik olarak "InvoiceApprovedEvent" isimli kuyruğa/topic'e yazar)
+await _eventBus.PublishAsync(new InvoiceApprovedEvent("INV-100", 500m));
 ```
