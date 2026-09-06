@@ -17,19 +17,100 @@ Tüm sistemin kalbidir. Hiçbir 3. parti kütüphaneye bağımlılığı yoktur 
 - **İçerik:** `ApplicationDbContext`, `DomainEventInterceptor` vb.
 - **Kullanım:** Sadece veritabanı ile konuşacak mikroservisler bu paketi kurar.
 
-### 3. `CKN.Sdk.MassTransit`
+### 3. `CKN.Sdk.Notification`
+Bildirim (Notification) işlemleri için soyutlama (INotificationService) sağlar. E-posta, SMS, Push Notification ve Webhook entegrasyonlarını destekler.
+- **Kullanım:** Uygulamanın bildirim göndermesi için `services.AddCknNotification(...)` ile sisteme dahil edilir.
+
+### 4. `CKN.Sdk.MassTransit`
 Olay tabanlı (Event-Driven) mimari, Saga ve asenkron iletişim modülüdür.
 - **İçerik:** MassTransit RabbitMQ entegrasyonu, `MeetingProcessingStateMachine`.
 - **Kullanım:** Sadece Event yayacak (Publish) veya dinleyecek servisler bu paketi kurar.
 
-### 4. `CKN.Sdk.AI`
-Yapay zeka servis entegrasyonlarını içerir.
-- **İçerik:** Microsoft.Extensions.AI arayüzleri, OpenAI bağlantıları, Semantic Kernel (Opsiyonel).
-- **Kullanım:** LLM veya Embeddings kullanılacaksa bu paket projeye dahil edilir.
+### 4. `CKN.Sdk.Messaging.RabbitMQ`
+Yeni Provider-Agnostic mimarinin ilk mesajlaşma adaptörüdür. `CKN.Sdk.Core` içerisindeki `IEventBus` arayüzünü RabbitMQ Native Client kullanarak uygular. 
+- **Kullanım:** Uygulamanın RabbitMQ'ya bağlanması için kullanılır (`builder.AddCknMessaging(m => m.UseRabbitMQ())`).
 
-### 5. `CKN.Sdk.Infrastructure`
+### 5. `CKN.Sdk.Messaging.Kafka`
+Provider-Agnostic mimarinin Apache Kafka adaptörüdür. Confluent.Kafka altyapısını kullanarak yüksek throughput mesajlaşma (Event Streaming) sağlar.
+- **Kullanım:** Uygulamanın Kafka'ya bağlanması için kullanılır (`builder.AddCknMessaging(m => m.UseKafka())`).
+
+### 6. `CKN.Sdk.Data.Dapper`
+Veri erişim (Data Access) katmanı için geliştirilen Dapper adaptörüdür. `CKN.Sdk.Core` içerisindeki `IRepository` ve `IUnitOfWork` arayüzlerini ultra hızlı Dapper (ve Dommel) ORM'i ile uygular.
+- **Kullanım:** Uygulamanın veritabanına bağlanması için kullanılır (`services.AddCknDapper()`).
+
+### 7. `CKN.Sdk.Caching`
+Uygulamalarda ortak önbellek kullanımını standartlaştırmak için oluşturulan soyutlama (ICacheService).
+
+### 8. `CKN.Sdk.Caching.Garnet`
+Garnet tabanlı (veya Redis uyumlu) L2 cache implementasyonudur.
+
+### 9. `CKN.Sdk.Caching.Redis`
+StackExchange.Redis kütüphanesini kullanarak Redis önbellekleme sağlayan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknRedisCache(...)` ile `ICacheService` sisteme dahil edilir.
+
+### 10. `CKN.Sdk.Caching.Memcached`
+EnyimMemcachedCore kütüphanesini kullanarak Memcached önbellekleme sağlayan adaptörüdür.
+- **Kullanım:** `services.AddCknMemcached(...)` ile `ICacheService` sisteme dahil edilir.
+
+### 11. `CKN.Sdk.AI`
+Yapay zeka servis entegrasyonlarını içerir. `Microsoft.Extensions.AI` arayüzünü (Örn: `IChatClient`) kullanır.
+- **Kullanım:** AI sağlayıcılarının soyutlaması için temel modüldür.
+
+### 12. `CKN.Sdk.AI.SemanticKernel`
+Microsoft Semantic Kernel orkestratörünü sisteme dahil eden Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknSemanticKernel(...)` ile `Kernel` nesnesi sisteme singleton/transient olarak dahil edilir.
+
+### 13. `CKN.Sdk.AI.OpenAI`
+OpenAI (GPT-4 vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür. 
+- **Kullanım:** `services.AddCknOpenAI(...)` ile `IChatClient` sisteme dahil edilir.
+
+### 14. `CKN.Sdk.AI.Ollama`
+Yerel ve açık kaynak modeller (Llama, Mistral vb.) için OllamaSharp üzerinden bağlanan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknOllama(...)` ile `IChatClient` sisteme dahil edilir.
+
+### 15. `CKN.Sdk.AI.Anthropic`
+Anthropic (Claude vb.) modellerine bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknAnthropic(...)` ile `AnthropicClient` sisteme dahil edilir.
+
+### 13. `CKN.Sdk.Storage`
+### 12. `CKN.Sdk.Storage`
+### 16. `CKN.Sdk.Storage`
+Nesne depolama (Object Storage) işlemleri için soyutlama (IStorageService) sağlar.
+
+### 17. `CKN.Sdk.Storage.Minio`
+S3 uyumlu Minio sunucularına bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknMinioStorage(...)` ile `IStorageService` sisteme dahil edilir.
+
+### 18. `CKN.Sdk.Storage.Azure`
+Azure Blob Storage'a bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknAzureStorage(...)` ile `IStorageService` sisteme dahil edilir.
+
+### 19. `CKN.Sdk.Storage.S3`
+AWS S3'e bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknS3Storage(...)` ile `IStorageService` sisteme dahil edilir.
+
+### 16. `CKN.Sdk.Search`
+Arama (Search) işlemleri için `ISearchService<T>` soyutlaması sağlar. Indexleme ve Full-Text Search işlemlerini standartlaştırır.
+
+### 17. `CKN.Sdk.Search.Elasticsearch`
+Elasticsearch'e bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknElasticsearch(...)` ile `ISearchService<T>` ve `ElasticsearchClient` sisteme dahil edilir.
+
+### 18. `CKN.Sdk.Search.Meilisearch`
+Meilisearch'e bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknMeilisearch(...)` ile `ISearchService<T>` ve `MeilisearchClient` sisteme dahil edilir.
+
+### 19. `CKN.Sdk.Search.NRedisStack`
+Redis tabanlı NRedisStack (RediSearch) sunucusuna bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknNRedisStack(...)` ile `ISearchService<T>` ve `IConnectionMultiplexer` sisteme dahil edilir.
+
+### 20. `CKN.Sdk.Infrastructure`
 Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
 - **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
+- **Scheduling:** 
+  - `CKN.Sdk.Scheduling.Hangfire` (Hangfire)
+  - `CKN.Sdk.Scheduling.Quartz` (Quartz)
+  - `CKN.Sdk.Scheduling.Coravel` (Coravel) ile arka plan iş yönetimi.
 - **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter).
 - **Security (Güvenlik):** JWT Token yönetimi, Lisans Doğrulama ve Feature Flag bazlı Authentication altyapısı.
 - **Observability (İzlenebilirlik):** `AddCKNTelemetry()` ile OpenTelemetry (Tracing & Metrics) ve `AddCknElasticLogging()` ile Serilog Elasticsearch PII Masking loglama entegrasyonları.

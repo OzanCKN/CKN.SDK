@@ -1,10 +1,33 @@
 <Solution>
+  <Project Path="CKN.Sdk.AI.Anthropic/CKN.Sdk.AI.Anthropic.csproj" />
+  <Project Path="CKN.Sdk.AI.Ollama/CKN.Sdk.AI.Ollama.csproj" />
+  <Project Path="CKN.Sdk.AI.OpenAI/CKN.Sdk.AI.OpenAI.csproj" />
+  <Project Path="CKN.Sdk.AI.SemanticKernel/CKN.Sdk.AI.SemanticKernel.csproj" />
   <Project Path="CKN.Sdk.AI/CKN.Sdk.AI.csproj" />
+  <Project Path="CKN.Sdk.Caching.Garnet/CKN.Sdk.Caching.Garnet.csproj" />
+  <Project Path="CKN.Sdk.Caching.Memcached/CKN.Sdk.Caching.Memcached.csproj" />
+  <Project Path="CKN.Sdk.Caching.Redis/CKN.Sdk.Caching.Redis.csproj" />
   <Project Path="CKN.Sdk.Core/CKN.Sdk.Core.csproj" />
+  <Project Path="CKN.Sdk.Data.Dapper/CKN.Sdk.Data.Dapper.csproj" />
+  <Project Path="CKN.Sdk.Data.RepoDb/CKN.Sdk.Data.RepoDb.csproj" />
   <Project Path="CKN.Sdk.EntityFramework/CKN.Sdk.EntityFramework.csproj" />
   <Project Path="CKN.Sdk.Infrastructure/CKN.Sdk.Infrastructure.csproj" />
   <Project Path="CKN.Sdk.MassTransit/CKN.Sdk.MassTransit.csproj" />
+  <Project Path="CKN.Sdk.Messaging.Kafka/CKN.Sdk.Messaging.Kafka.csproj" />
+  <Project Path="CKN.Sdk.Messaging.ServiceBus/CKN.Sdk.Messaging.ServiceBus.csproj" />
   <Project Path="CKN.Sdk.Messaging/CKN.Sdk.Messaging.csproj" />
+  <Project Path="CKN.Sdk.Notification/CKN.Sdk.Notification.csproj" />
+  <Project Path="CKN.Sdk.Scheduling.Coravel/CKN.Sdk.Scheduling.Coravel.csproj" />
+  <Project Path="CKN.Sdk.Scheduling.Hangfire/CKN.Sdk.Scheduling.Hangfire.csproj" />
+  <Project Path="CKN.Sdk.Scheduling.Quartz/CKN.Sdk.Scheduling.Quartz.csproj" />
+  <Project Path="CKN.Sdk.Search.Elasticsearch/CKN.Sdk.Search.Elasticsearch.csproj" />
+  <Project Path="CKN.Sdk.Search.Meilisearch/CKN.Sdk.Search.Meilisearch.csproj" />
+  <Project Path="CKN.Sdk.Search.NRedisStack/CKN.Sdk.Search.NRedisStack.csproj" />
+  <Project Path="CKN.Sdk.Search/CKN.Sdk.Search.csproj" />
   <Project Path="CKN.Sdk.SourceGenerators/CKN.Sdk.SourceGenerators.csproj" />
+  <Project Path="CKN.Sdk.Storage.Azure/CKN.Sdk.Storage.Azure.csproj" />
+  <Project Path="CKN.Sdk.Storage.Minio/CKN.Sdk.Storage.Minio.csproj" />
+  <Project Path="CKN.Sdk.Storage.S3/CKN.Sdk.Storage.S3.csproj" />
+  <Project Path="CKN.Sdk.Storage/CKN.Sdk.Storage.csproj" />
   <Project Path="CKN.Sdk.Tests/CKN.Sdk.Tests.csproj" />
 </Solution>
