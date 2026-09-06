@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="CKN.Sdk.AI/CKN.Sdk.AI.csproj" />
+  <Project Path="CKN.Sdk.Core/CKN.Sdk.Core.csproj" />
+  <Project Path="CKN.Sdk.EntityFramework/CKN.Sdk.EntityFramework.csproj" />
+  <Project Path="CKN.Sdk.Infrastructure/CKN.Sdk.Infrastructure.csproj" />
+  <Project Path="CKN.Sdk.MassTransit/CKN.Sdk.MassTransit.csproj" />
+  <Project Path="CKN.Sdk.SourceGenerators/CKN.Sdk.SourceGenerators.csproj" />
+</Solution>
