@@ -1,39 +1,72 @@
-# CKN.SDK (Enterprise Agentic Orchestra)
+<div align="center">
+  <h1>🚀 CKN.SDK (Enterprise Agentic Orchestra)</h1>
+  <p><b>2026 Standartlarında, Sıfır Bağımlılık (Zero-Dependency) Hedefli, Plugin Tabanlı Enterprise .NET Framework'ü</b></p>
+  
+  [![Build Status](https://github.com/OzanCKN/CKN.SDK/actions/workflows/ci.yml/badge.svg)](https://github.com/OzanCKN/CKN.SDK/actions)
+  [![NuGet Version](https://img.shields.io/badge/nuget-v1.0.0--preview-blue.svg)](https://www.nuget.org/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Native AOT](https://img.shields.io/badge/Native_AOT-Ready-success.svg)]()
+</div>
 
-CKN.SDK, 2026 Native AOT standartlarına uygun, modüler, olay güdümlü (event-driven) ve yapay zeka destekli mikroservisler inşa etmek için kullanılan resmi altyapı kütüphanesidir.
+---
 
-Devasa bir monolit indirmek yerine, projenizin ihtiyacına göre sadece ilgili SDK modülünü NuGet üzerinden indirebilirsiniz. Bütün paketler merkezi olarak yönetilmektedir.
+## 🌟 Vizyonumuz: Provider-Agnostic Mimari
+Geleneksel SDK'lar belirli teknolojilere (ör. MassTransit, EF Core, Redis) sıkı sıkıya bağlıdır. **CKN.SDK** ise yeni nesil **Multi-Provider (Plugin Tabanlı)** bir mimari sunar. Altyapı kodunuz tamamen soyutlanır; RabbitMQ'dan Kafka'ya veya EF Core'dan Dapper'a geçmek sadece tek bir satır kod değiştirerek mümkün olur!
 
-## 📦 SDK Modülleri (NuGet Paketleri)
-
-Projelerinizin ihtiyaçlarına göre kurabileceğiniz paketlerin detaylı kullanım rehberlerine aşağıdaki bağlantılardan ulaşabilirsiniz:
-
-| Paket Adı | Açıklama | Bağlantı (Detaylı Rehber) |
-| :--- | :--- | :--- |
-| **CKN.Sdk.Core** | Sistemin kalbi. Sıfır bağımlılık. Tüm domain, CQRS ve temel arayüzler. | [Core README](./CKN.Sdk.Core/README.md) |
-| **CKN.Sdk.EntityFramework** | SQL/PostgreSQL veritabanı erişimi, DbContext ve UnitOfWork implementasyonları. | [EF Core README](./CKN.Sdk.EntityFramework/README.md) |
-| **CKN.Sdk.MassTransit** | RabbitMQ üzerinden mesajlaşma ve Saga (State Machine) orkestrasyonu. | [MassTransit README](./CKN.Sdk.MassTransit/README.md) |
-| **CKN.Sdk.AI** | LLM entegrasyonları (Microsoft.Extensions.AI) ve Semantic Kernel altyapısı. | [AI README](./CKN.Sdk.AI/README.md) |
-| **CKN.Sdk.SourceGenerators** | Reflection yerine derleme anında DI ve CQRS kodları üreten Roslyn eklentisi. | [SourceGenerators README](./CKN.Sdk.SourceGenerators/README.md) |
-| **CKN.Sdk.Infrastructure** | Ortak HTTP, Güvenlik (JWT) ve Caching altyapısı. | [Infrastructure README](./CKN.Sdk.Infrastructure/README.md) |
-
-## 🚀 Hızlı Başlangıç
-
-Bu SDK'leri projelerinize dahil etmek için şirketinizin (veya projenizin) özel NuGet kaynağını kullanmalısınız. Örnek bir Web API projesine temel paketleri kurmak için:
-
-```bash
-dotnet add package CKN.Sdk.Core
-dotnet add package CKN.Sdk.EntityFramework
-dotnet add package CKN.Sdk.AI
-```
-
-Daha sonra `Program.cs` içerisinde tek satırla sistemleri ayağa kaldırabilirsiniz:
-
+### 🔥 Geliştirici Deneyimi (DX) Harikası
 ```csharp
-builder.Services.AddCknCore()
-                .AddCknEntityFramework(options => options.UseSqlServer("..."))
-                .AddCknAiServices();
+// Program.cs
+var builder = WebApplication.CreateBuilder(args);
+
+// Modülleri tek satırla tak-çalıştır yöntemiyle ekleyin!
+builder.Services.AddCknMessaging(msg => 
+{
+    msg.UseRabbitMQ("amqp://localhost"); 
+    // veya msg.UseKafka("localhost:9092");
+});
+
+builder.Services.AddCknData(data => 
+{
+    data.UseEntityFramework(o => o.UseSqlServer("..."));
+    // veya data.UseDapper();
+});
+
+builder.Services.AddCknCaching(cache => cache.UseGarnet());
 ```
 
-## 🏗️ Mimari ve Yönetişim (Governance)
-Bu projenin nasıl tasarlandığını, hangi kararların neden alındığını ve kod standartlarını merak ediyorsanız [Governance](./governance) klasörünü inceleyiniz. Yapay Zeka (AI) ajanları için kurallar `.agents/rules.md` dosyasında tanımlıdır.
+---
+
+## 📦 Envanter ve Modüller (Roadmap)
+
+Aşağıdaki tablo, SDK'nın sunduğu ve sunmayı planladığı (30 Maddelik Genişleme Planı) altyapı modüllerini göstermektedir. Projenize sadece ihtiyacınız olan paketi kurarsınız (Örn: `dotnet add package CKN.Sdk.Messaging`).
+
+| Modül Paketi | Açıklama | Desteklenen Sağlayıcılar (Providers) | Durum |
+| :--- | :--- | :--- | :--- |
+| **`CKN.Sdk.Core`** | Sistemin kalbi. Tüm arayüzler ve CQRS. | *Sıfır Bağımlılık (Zero Dependency)* | 🟢 Hazır |
+| **`CKN.Sdk.Messaging`** | Olay güdümlü EventBus mimarisi. | RabbitMQ, Kafka, Azure Service Bus | 🟡 Yapım Aşamasında |
+| **`CKN.Sdk.Data`** | Veritabanı ve ORM soyutlaması. | EF Core, Dapper, RepoDB | 🟡 Yapım Aşamasında |
+| **`CKN.Sdk.Caching`** | L1/L2 Hybrid Önbellekleme. | Redis, Microsoft Garnet, Memcached | 🟡 Yapım Aşamasında |
+| **`CKN.Sdk.AI`** | LLM entegrasyonları ve Ajan altyapısı. | OpenAI, Anthropic, Ollama | 🟡 Yapım Aşamasında |
+| **`CKN.Sdk.Infrastructure`** | Güvenlik (JWT) ve Resilience (Polly). | Polly v8, JWT, Feature Flags | 🟢 Hazır |
+| **`CKN.Sdk.Observability`** | Loglama, İzleme ve Metrik. | Elasticsearch, Datadog, Prometheus | 🟢 Hazır (Kısmi) |
+
+> 📚 *Her bir modülün detaylı ve kopyala-yapıştır yapabileceğiniz kullanım örnekleri için modülün kendi klasöründeki `README.md` dosyalarına bakabilirsiniz.*
+
+---
+
+## 🧪 Test ve Güvenilirlik (TDD)
+CKN.SDK kod tabanında **%100 Test Zorunluluğu (TDD)** uygulanmaktadır. Her yeni provider, xUnit ile test edilir, Moq ve FluentAssertions ile doğrulanır. GitHub Actions (CI/CD) tüm süreçleri otomatik denetler. 
+*(SonarQube 0 Bug / 0 Warning politikası uygulanmaktadır).*
+
+---
+
+## 🏗️ Mimari Yönetişim (AI Governance)
+Bu projenin nasıl tasarlandığını merak ediyorsanız veya projeye yapay zeka ajanları ile katkı sağlamak istiyorsanız [Governance](./governance) klasörünü inceleyiniz.
+- 🗺️ [Sistem Sözlüğü ve Kod Haritası](./governance/docs/architecture/system-glossary.md)
+- 📜 [Mimari Karar Defteri (ADR)](./governance/docs/architecture/decision-log.md)
+- 📋 [Aktif Sprint ve Görevler](./governance/sprints/index.md)
+
+---
+<div align="center">
+  <i>2026 © CKN Enterprise Architecture Team</i>
+</div>
