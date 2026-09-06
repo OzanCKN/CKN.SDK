@@ -39,6 +39,7 @@
     <!-- Storage -->
     <PackageVersion Include="Minio" Version="6.0.3" />
     <PackageVersion Include="Azure.Storage.Blobs" Version="12.21.2" />
+    <PackageVersion Include="AWSSDK.S3" Version="3.7.402.6" />
     <!-- Security & Http -->
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />

@@ -61,7 +61,11 @@ S3 uyumlu Minio sunucularına bağlanmak için kullanılan Native Provider adapt
 Azure Blob Storage'a bağlanmak için kullanılan Native Provider adaptörüdür.
 - **Kullanım:** `services.AddCknAzureStorage(...)` ile `IStorageService` sisteme dahil edilir.
 
-### 14. `CKN.Sdk.Infrastructure`
+### 14. `CKN.Sdk.Storage.S3`
+AWS S3'e bağlanmak için kullanılan Native Provider adaptörüdür.
+- **Kullanım:** `services.AddCknS3Storage(...)` ile `IStorageService` sisteme dahil edilir.
+
+### 15. `CKN.Sdk.Infrastructure`
 Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimarisindeki ana modüldür.
 - **Caching (Önbellekleme):** `HybridCacheService` ile L1 (Memory) ve L2 (Redis) cache mekanizması (Graceful Degradation destekli).
 - **Resilience (Dayanıklılık):** `HttpClientBuilderExtensions` üzerinden Polly v8 entegrasyonu (Retry, Circuit Breaker, Timeout, Rate Limiter).
