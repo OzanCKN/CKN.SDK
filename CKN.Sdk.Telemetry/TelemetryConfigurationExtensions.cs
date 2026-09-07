@@ -3,7 +3,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
-namespace CKN.Sdk.Infrastructure.Telemetry;
+namespace CKN.Sdk.Telemetry;
 
 /// <summary>
 /// Extension methods for configuring OpenTelemetry in CKN services.

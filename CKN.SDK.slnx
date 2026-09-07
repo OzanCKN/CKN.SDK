@@ -30,5 +30,6 @@
   <Project Path="CKN.Sdk.Storage.Minio/CKN.Sdk.Storage.Minio.csproj" />
   <Project Path="CKN.Sdk.Storage.S3/CKN.Sdk.Storage.S3.csproj" />
   <Project Path="CKN.Sdk.Storage/CKN.Sdk.Storage.csproj" />
+  <Project Path="CKN.Sdk.Telemetry/CKN.Sdk.Telemetry.csproj" />
   <Project Path="CKN.Sdk.Tests/CKN.Sdk.Tests.csproj" />
 </Solution>
