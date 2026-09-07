@@ -1,65 +1,103 @@
 # CKN.Sdk.Search.Elasticsearch
 
-CKN.Sdk içerisinde, endüstri standardı Full-Text arama, Log analizi ve NoSQL veritabanı platformu olan **Elasticsearch** entegrasyonudur. Karmaşık sorgular (Fuzzy, wildcard, aggregations) gerektiren senaryolarda `CKN.Sdk.Search` arayüzünü uygular.
+**Mühendislik Amacı (Engineering Intent):**
+`CKN.Sdk.Search.Elasticsearch`, `CKN.Sdk.Search` soyutlamalarını endüstri standardı olan güçlü Elasticsearch (veya OpenSearch) motoru için implemente eder. **Neden var?** Milyarlarca doküman, karmaşık aggregation'lar (gruplamalar) ve vektörel (AI tabanlı) arama gibi ağır yüklerin altından kalkabilmek için. **Ne zaman kullanılmalı?** Enterprise (kurumsal) projelerde; log analizi (ELK stack), karmaşık e-ticaret filtreleme ekranları (örneğin Hepsiburada/Trendyol benzeri sol menü filtreleri) ve devasa veri setlerinde tam metin araması (Full-Text Search) yapılacağı zaman tartışmasız tercih edilmelidir.
 
-## Yapılandırma (`appsettings.json`)
+## 🚀 Hızlı Başlangıç
+
+### Kurulum
+
+```bash
+dotnet add package CKN.Sdk.Search.Elasticsearch
+```
+
+### Konfigürasyon (`appsettings.json`)
 
 ```json
 {
   "Search": {
     "Elasticsearch": {
       "Nodes": [ "http://localhost:9200" ],
-      "DefaultIndex": "ckn_documents",
       "Username": "elastic",
-      "Password": "changeme"
+      "Password": "***",
+      "DefaultIndex": "app-logs"
     }
   }
 }
 ```
 
-## Servis Kaydı (Dependency Injection)
+### Bağımlılık Enjeksiyonu (DI)
 
 ```csharp
 using CKN.Sdk.Search.Elasticsearch;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Elasticsearch altyapısını sisteme dahil etme
+// Elasticsearch'i ISearchClient olarak sisteme kaydeder.
+// Aynı zamanda gelişmiş işlemler için ElasticClient nesnesini de DI'a sunar.
 builder.Services.AddCknElasticsearch(builder.Configuration);
 
 var app = builder.Build();
 ```
 
-## Gerçek Hayat Kullanım Senaryosu
+## 💡 Gerçek Hayat Senaryoları
 
-**Gelişmiş Doküman İndeksleme ve Arama**
-Kullanıcıların yanlış harfle (typo) arasa bile (Fuzzy Search) ilgili blog yazılarını veya dokümanları bulmasını sağlamak.
+### Senaryo 1: E-Ticaret Gelişmiş Arama (Fuzzy Search & Faceting)
+
+Kullanıcı "ayfon" yazdığında "iPhone" bulmak ve sol filtreleri (kategori bazlı sayıları) getirmek.
 
 ```csharp
-using CKN.Sdk.Search;
+using Elastic.Clients.Elasticsearch;
 
-public class BlogSearchService
+public class AdvancedCatalogService(ElasticsearchClient elastic)
 {
-    private readonly ISearchClient<BlogPost> _searchClient;
-
-    public BlogSearchService(ISearchClient<BlogPost> searchClient)
+    public async Task<CatalogResponse> SearchWithAggregationsAsync(string keyword)
     {
-        _searchClient = searchClient;
-    }
+        // ISearchClient soyutlaması yerine doğrudan ElasticClient kullanılarak
+        // Elasticsearch'e özel (Fuzzy, Aggregation) yetenekler kullanılıyor.
+        var response = await elastic.SearchAsync<Product>(s => s
+            .Index("products")
+            .Query(q => q
+                .Match(m => m
+                    .Field(f => f.Name)
+                    .Query(keyword)
+                    .Fuzziness(new Fuzziness(2)) // 2 harf hatasını tolere et
+                )
+            )
+            .Aggregations(a => a
+                .Terms("categories", t => t.Field(f => f.CategoryName.Suffix("keyword")))
+            )
+        );
 
-    public async Task IndexPostAsync(BlogPost post)
-    {
-        // Blog yazısını Elastic'e gönder
-        await _searchClient.IndexAsync(post);
-    }
-
-    public async Task<List<BlogPost>> SearchPostsAsync(string keyword)
-    {
-        // Kullanıcı "elma" yerine "elms" bile yazsa bulabilecek (Fuzzy yeteneği Elasticsearch tarafından desteklenir)
-        var result = await _searchClient.SearchAsync(keyword);
-        return result.Documents.ToList();
+        return new CatalogResponse 
+        { 
+            Products = response.Documents.ToList(),
+            CategoryFacets = response.Aggregations.GetStringTerms("categories").Buckets
+        };
     }
 }
-
-public class BlogPost { public string Id { get; set; } public string Title { get; set; } public string Content { get; set; } }
 ```
+
+### Senaryo 2: Bulk (Toplu) Doküman İndeksleme (Varyasyon)
+
+Geceleri veritabanındaki yeni 10.000 ürünü tek seferde (Bulk) Elasticsearch'e basmak.
+
+```csharp
+public async Task BulkIndexProductsAsync(ElasticsearchClient elastic, List<Product> products)
+{
+    var bulkResponse = await elastic.BulkAsync(b => b
+        .Index("products")
+        .IndexMany(products)
+    );
+
+    if (bulkResponse.Errors)
+    {
+        Console.WriteLine("İndeksleme sırasında bazı hatalar oluştu!");
+    }
+}
+```
+
+## 🤖 Yapay Zeka İçin SSS (FAQs for Machines)
+
+- **Soru:** `CKN.Sdk.Search.Elasticsearch` paketinde neden `ISearchClient` yerine bazen `ElasticsearchClient` (kendi native istemcisi) kullanılıyor?
+- **Cevap:** `ISearchClient` çok temel arama işlemleri (abstraction) içindir. Elasticsearch'ün "Fuzziness", "Aggregations", "Vector Search" gibi çok gelişmiş ve kendine has özellikleri gerektiğinde, CKN kütüphanesi sızıntıya (abstraction leak) izin vererek native `ElasticsearchClient` nesnesini de DI üzerinden sunar.
