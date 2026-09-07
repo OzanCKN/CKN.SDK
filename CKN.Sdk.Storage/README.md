@@ -1,52 +1,73 @@
 # CKN.Sdk.Storage
 
-CKN.Sdk içerisinde dosya ve nesne depolama (Blob Storage) işlemleri için **ortak soyutlamaları (Abstractions)** içeren çekirdek kütüphanedir. Bu proje tek başına bir şey yapmaz, AWS S3, Azure Blob Storage veya Minio gibi Provider'lara standart bir arayüz sağlar.
+**Mühendislik Amacı (Engineering Intent):**
+`CKN.Sdk.Storage`, uygulamalardaki dosya (file), resim, video veya döküman depolama işlemlerini (Blob Storage) standartlaştıran temel arayüz (abstraction) kütüphanesidir. **Neden var?** Dosyalarınızı doğrudan sunucunun diskine (Local File System) kaydetmek veya kodu doğrudan Amazon S3'e / Azure Blob'a sıkı sıkıya bağlamak (hardcode) yerine, sağlayıcıdan bağımsız (provider-agnostic) bir yapı kurmak için. **Ne zaman kullanılmalı?** Projede herhangi bir dosya yükleme (Upload), indirme (Download) veya silme işlemi yapılacaksa, doğrudan S3/Azure SDK'larını kullanmak yerine bu paketteki `IStorageService` arayüzü kullanılmalıdır.
 
-## Ortak Arayüzler
+## 🚀 Hızlı Başlangıç
 
-Bu kütüphane, kodun Amazon'a mı yoksa Azure'a mı bağımlı olduğunu gizlemek (Provider-Agnostic) için aşağıdaki arayüzü sunar:
+### Kurulum
+
+```bash
+dotnet add package CKN.Sdk.Storage
+```
+
+### Bağımlılık Enjeksiyonu (DI)
+
+Bu paket genellikle kendi başına kaydedilmez. Projeye S3, Minio veya Azure entegrasyon paketlerinden biri eklendiğinde `IStorageService` arayüzü otomatik olarak sisteme dahil olur.
+
+## 💡 Gerçek Hayat Senaryoları
+
+### Senaryo 1: Sağlayıcıdan Bağımsız Dosya Yükleme Servisi
+
+Kullanıcının profil fotoğrafını yüklediği bir endpoint. (Kod S3, Azure veya Minio olduğunu bilmez).
 
 ```csharp
-public interface IStorageClient
+using CKN.Sdk.Storage.Abstractions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ProfileController(IStorageService storageService) : ControllerBase
 {
-    Task UploadAsync(string bucketName, string objectName, Stream data, string contentType = null);
-    Task<Stream> DownloadAsync(string bucketName, string objectName);
-    Task DeleteAsync(string bucketName, string objectName);
-    Task<bool> ExistsAsync(string bucketName, string objectName);
-    Task<string> GetPreSignedUrlAsync(string bucketName, string objectName, TimeSpan expiry);
+    [HttpPost("avatar")]
+    public async Task<IActionResult> UploadAvatar(IFormFile file)
+    {
+        using var stream = file.OpenReadStream();
+        
+        var uploadRequest = new StorageUploadRequest
+        {
+            ContainerName = "avatars",
+            FileName = $"{Guid.NewGuid()}_{file.FileName}",
+            ContentStream = stream,
+            ContentType = file.ContentType
+        };
+
+        // IStorageService (S3 veya Azure) dosyayı yükler ve URL/Path döner
+        var result = await storageService.UploadAsync(uploadRequest);
+        
+        return Ok(new { Url = result.FileUrl });
+    }
 }
 ```
 
-## Gerçek Hayat Kullanım Senaryosu
+### Senaryo 2: İmzalı URL (Pre-Signed URL) Oluşturma
 
-**Profil Fotoğrafı Yükleme (Provider Bağımsız)**
-Geliştirici nereye kaydedildiğini bilmeden `IStorageClient` ile dosyasını buluta yükler. Lokal geliştirmede Minio'ya, Production'da S3'e gidebilir.
+Gizli (private) tutulan bir dosyayı (örn: fatura PDF'i) sadece talep eden kullanıcıya özel, 15 dakika geçerli geçici bir link ile sunma.
 
 ```csharp
-using CKN.Sdk.Storage;
-
-public class ProfileService
+public async Task<string> GetInvoiceDownloadLinkAsync(IStorageService storageService, string invoiceFileId)
 {
-    private readonly IStorageClient _storageClient;
-
-    public ProfileService(IStorageClient storageClient)
-    {
-        // Hangi provider kayıtlıysa (S3, Azure vb.) o gelir.
-        _storageClient = storageClient;
-    }
-
-    public async Task UpdateAvatarAsync(string userId, Stream imageStream)
-    {
-        var bucket = "user-avatars";
-        var fileName = $"{userId}/profile.jpg";
-
-        await _storageClient.UploadAsync(bucket, fileName, imageStream, "image/jpeg");
-    }
+    // Dosyayı dışarı açmadan, sadece okuma yetkisi olan geçici bir URL üretir
+    var url = await storageService.GetPreSignedUrlAsync("invoices", invoiceFileId, TimeSpan.FromMinutes(15));
     
-    public async Task<string> GetAvatarUrlAsync(string userId)
-    {
-        // Kullanıcıya indirmesi için 1 saat geçerli geçici link verir.
-        return await _storageClient.GetPreSignedUrlAsync("user-avatars", $"{userId}/profile.jpg", TimeSpan.FromHours(1));
-    }
+    return url;
 }
 ```
+
+## 🤖 Yapay Zeka İçin SSS (FAQs for Machines)
+
+- **Soru:** `IStorageService` arayüzünde hangi temel metodlar bulunur?
+- **Cevap:** Genellikle `UploadAsync`, `DownloadAsync`, `DeleteAsync`, `ExistsAsync` ve `GetPreSignedUrlAsync` (veya `GetFileUrlAsync`) metodlarını barındırır.
+- **Soru:** Local (Yerel disk) depolama destekleniyor mu?
+- **Cevap:** Evet, genellikle `CKN.Sdk.Storage.Local` gibi bir paket veya temel paket içindeki bir `LocalStorageService` implementasyonu sayesinde geliştirme (Development) ortamında dosyalar fiziksel diske kaydedilebilir.
