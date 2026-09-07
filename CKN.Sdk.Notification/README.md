@@ -1,57 +1,109 @@
 # CKN.Sdk.Notification
 
-CKN.Sdk içerisinde sistem genelindeki **E-posta, SMS ve Push Bildirim** altyapılarını tek bir merkezden (Provider-Agnostic) yönetmek için oluşturulmuş modüldür.
+**Mühendislik Amacı (Engineering Intent):**
+`CKN.Sdk.Notification`, uygulamaların son kullanıcılara e-posta (Email), SMS veya Push Notification (Bildirim) göndermesini sağlayan merkezi bir iletişim kütüphanesidir. **Neden var?** Her projede SMTP ayarları, SMS sağlayıcı entegrasyonları veya şablon (Template) motoru kurmak yerine, bunları standart bir Interface arkasında birleştirmek için. **Ne zaman kullanılmalı?** Sistemde şifre sıfırlama mailleri, kampanya SMS'leri veya mobil uygulamalara Firebase üzerinden Push Notification atılması gereken her senaryoda kullanılmalıdır.
 
-## Yapılandırma (`appsettings.json`)
+## 🚀 Hızlı Başlangıç
+
+### Kurulum
+
+```bash
+dotnet add package CKN.Sdk.Notification
+```
+
+### Konfigürasyon (`appsettings.json`)
 
 ```json
 {
   "Notification": {
     "Email": {
-      "Provider": "Smtp", // veya SendGrid, Mailgun vb.
+      "Provider": "Smtp", // veya "SendGrid"
       "Smtp": {
         "Host": "smtp.gmail.com",
         "Port": 587,
-        "Username": "info@ckn.com",
-        "Password": "your-password"
+        "Username": "noreply@sirket.com",
+        "Password": "***"
       }
+    },
+    "Sms": {
+      "Provider": "Twilio",
+      "ApiKey": "..."
     }
   }
 }
 ```
 
-## Servis Kaydı (Dependency Injection)
+### Bağımlılık Enjeksiyonu (DI)
 
 ```csharp
-// Örnek kullanım (Henüz Notification servis soyutlamaları tasarlandığı için temsili koddur)
-// builder.Services.AddCknNotification(builder.Configuration);
+using CKN.Sdk.Notification;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Email ve SMS servislerini sisteme kaydeder.
+builder.Services.AddCknNotification(builder.Configuration);
+
+var app = builder.Build();
 ```
 
-## Gerçek Hayat Kullanım Senaryosu
+## 💡 Gerçek Hayat Senaryoları
 
-**Kullanıcı Kaydı Sonrası Hoşgeldin E-postası**
-Kullanıcı kayıt olduğunda arka planda dinamik HTML şablonuyla e-posta göndermek.
+### Senaryo 1: Hoşgeldin E-postası Gönderme
+
+Kullanıcı kayıt olduğunda basit bir metin e-postası atılması.
 
 ```csharp
-public class UserRegistrationService
+using CKN.Sdk.Notification.Abstractions;
+
+public class UserService(IEmailSender emailSender)
 {
-    private readonly INotificationSender _notificationSender;
-
-    public UserRegistrationService(INotificationSender notificationSender)
-    {
-        _notificationSender = notificationSender;
-    }
-
     public async Task RegisterUserAsync(string email)
     {
-        // ... kullanıcıyı kaydet ...
+        // Kullanıcı kayıt işlemleri...
+        
+        var message = new EmailMessage
+        {
+            To = email,
+            Subject = "Sistemimize Hoşgeldiniz",
+            Body = "Hesabınız başarıyla oluşturuldu. Bizi tercih ettiğiniz için teşekkür ederiz.",
+            IsHtml = false
+        };
 
-        // Dinamik e-posta gönder
-        await _notificationSender.SendEmailAsync(
-            to: email,
-            subject: "CKN Sistemine Hoşgeldiniz!",
-            body: "<h1>Hoşgeldiniz!</h1> Sisteme kaydınız başarıyla tamamlanmıştır."
-        );
+        await emailSender.SendAsync(message);
     }
 }
 ```
+
+### Senaryo 2: Dinamik HTML Şablonlu (Template) Fatura E-postası
+
+HTML dosyasını veya şablonunu okuyup içerisindeki değişkenleri (isim, tutar vb.) doldurarak mail atma (Varyasyon).
+
+```csharp
+public async Task SendInvoiceEmailAsync(IEmailSender emailSender, string email, string customerName, decimal amount)
+{
+    // HTML Şablon (Gerçekte bir dosyadan okunabilir)
+    string htmlTemplate = "<h1>Merhaba {{Name}}</h1><p>Faturanız kesildi: <b>{{Amount}} TL</b></p>";
+    
+    // Basit bir Replace veya daha gelişmiş bir Template Engine (Scriban/Handlebars) kullanılabilir
+    string body = htmlTemplate
+        .Replace("{{Name}}", customerName)
+        .Replace("{{Amount}}", amount.ToString("N2"));
+
+    var message = new EmailMessage
+    {
+        To = email,
+        Subject = "Yeni Faturanız",
+        Body = body,
+        IsHtml = true
+    };
+
+    await emailSender.SendAsync(message);
+}
+```
+
+## 🤖 Yapay Zeka İçin SSS (FAQs for Machines)
+
+- **Soru:** E-posta sağlayıcısını değiştirmek için kod değiştirmek gerekir mi?
+- **Cevap:** Hayır. Eğer kodlar `IEmailSender` arayüzüne (interface) bağlıysa, SendGrid veya standart SMTP arasında geçiş yapmak için sadece `appsettings.json` içerisindeki `Provider` alanını değiştirmek yeterlidir.
+- **Soru:** Toplu (Bulk) SMS veya E-posta atılabilir mi?
+- **Cevap:** Evet, `IEmailSender` arayüzündeki `SendBatchAsync` (eğer varsa) veya for döngüsü ile asenkron task'lar (`Task.WhenAll`) oluşturularak toplu gönderim yapılabilir. Ancak çok yüksek hacimli gönderimler için MassTransit/RabbitMQ üzerinden arka plan görevi (Background Job) oluşturulması daha sağlıklı bir mimaridir.
