@@ -15,8 +15,8 @@ namespace CKN.Sdk.EntityFramework;
 /// </summary>
 public class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : Entity<TId>
 {
-    protected readonly CknDbContext DbContext;
-    protected readonly DbSet<TEntity> DbSet;
+    protected CknDbContext DbContext { get; }
+    protected DbSet<TEntity> DbSet { get; }
 
     public Repository(CknDbContext dbContext)
     {

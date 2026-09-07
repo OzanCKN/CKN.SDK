@@ -42,7 +42,7 @@ Yeni bir özellik veya güncelleme yapılmadan önce, ilgili aktif Sprint içeri
 **Hedef:** Farklı AI Provider'ları (OpenAI, Anthropic, Gemini) için soyutlama (abstraction) katmanının oluşturulması ve ortak messaging arayüzlerinin tanımlanması.
 **Durum:** TODO
 **Görevler:**
-- [ ] [task-006-messaging-abstraction.md](../tasks/task-006-messaging-abstraction.md) : Provider-Agnostic Abstractions & Messaging Modülü.
+- [x] [task-006-messaging-abstraction.md](../tasks/task-006-messaging-abstraction.md) : Provider-Agnostic Abstractions & Messaging Modülü.
 
 ## 📝 Diğer Bilgiler (Şablon Dışı Notlar)
 Yapay Zeka (AI) ajanları, yeni bir geliştirme talebi geldiğinde öncelikle hangi sprinte ait olacağına karar vermeli ve `governance/tasks` altında oluşturulan görevi bu Sprint dizinindeki ilgili Sprint başlığının altına eklemelidir. Yeni görevler için daima `task-template.md` şablonu baz alınmalıdır.

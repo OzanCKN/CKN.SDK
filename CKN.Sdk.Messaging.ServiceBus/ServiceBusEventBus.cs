@@ -1,44 +1,36 @@
 using System;
-using System.Text;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure.Messaging.ServiceBus;
 using CKN.Sdk.Core.Events;
 
 namespace CKN.Sdk.Messaging.ServiceBus;
 
+/// <summary>
+/// An implementation of IEventBus using Azure Service Bus.
+/// </summary>
 public class ServiceBusEventBus : IEventBus
 {
-    private readonly ServiceBusClient _client;
-
-    public ServiceBusEventBus(ServiceBusClient client)
+    /// <inheritdoc/>
+    public Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default) 
+        where TEvent : IIntegrationEvent
     {
-        _client = client;
+        // To be implemented in Phase 2
+        throw new NotImplementedException("Azure Service Bus implementation will be added in Phase 2.");
     }
 
-    public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default) where TEvent : IIntegrationEvent
-    {
-        var sender = _client.CreateSender(@event.GetType().Name);
-        var body = JsonSerializer.Serialize(@event);
-        var message = new ServiceBusMessage(Encoding.UTF8.GetBytes(body));
-
-        await sender.SendMessageAsync(message, cancellationToken).ConfigureAwait(false);
-        await sender.DisposeAsync().ConfigureAwait(false);
-    }
-
+    /// <inheritdoc/>
     public void Subscribe<TEvent, THandler>()
         where TEvent : IIntegrationEvent
         where THandler : IEventHandler<TEvent>
     {
-        // For a full implementation, you'd manage ServiceBusProcessor instances and resolve handlers from DI.
-        throw new NotImplementedException("Subscription requires a background service and DI scope management.");
+        // To be implemented in Phase 2 for subscriptions
     }
 
+    /// <inheritdoc/>
     public void Unsubscribe<TEvent, THandler>()
         where TEvent : IIntegrationEvent
         where THandler : IEventHandler<TEvent>
     {
-        throw new NotImplementedException("Unsubscription requires processor management.");
+        // To be implemented in Phase 2 for subscriptions
     }
 }
