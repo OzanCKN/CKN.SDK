@@ -1,57 +1,98 @@
 # CKN.Sdk.Search.NRedisStack
 
-Redis Stack (RediSearch modülü) üzerinde Full-Text ve Vector (Semantic) Search yapabilmeyi sağlayan **NRedisStack** entegrasyon kütüphanesidir. Sunucunuzda zaten Redis (Redis Stack) varsa, ekstra bir arama motoru kurmaya gerek kalmadan Elasticsearch benzeri yetenekler sunar. `CKN.Sdk.Search` arayüzünü uygular.
+**Mühendislik Amacı (Engineering Intent):**
+`CKN.Sdk.Search.NRedisStack`, Redis sunucusunun üzerine eklenen **RediSearch** ve **RedisJSON** modüllerini (NRedisStack kütüphanesi aracılığıyla) projeye entegre eder. **Neden var?** Caching (önbellekleme) için zaten bir Redis sunucunuz varsa, tam metin arama (Full-Text Search) veya JSON filtreleme işlemleri için sisteme ikinci bir altyapı (Elasticsearch/Meilisearch) kurma maliyetinden kurtulmak için. **Ne zaman kullanılmalı?** Halihazırda Redis Stack (RedisJSON + RediSearch içeren versiyon) kullanıyorsanız, bellek-içi (In-Memory) aramanın inanılmaz hızından faydalanmak istediğinizde, örneğin coğrafi aramalar (Geo-Search) veya tag tabanlı hızlı filtrelemeler için kullanılmalıdır.
 
-## Yapılandırma (`appsettings.json`)
+## 🚀 Hızlı Başlangıç
+
+### Kurulum
+
+```bash
+dotnet add package CKN.Sdk.Search.NRedisStack
+```
+
+### Konfigürasyon (`appsettings.json`)
 
 ```json
 {
   "Search": {
     "RedisStack": {
       "ConnectionString": "localhost:6379",
-      "IndexPrefix": "idx:ckn:"
+      "IndexPrefix": "idx:"
     }
   }
 }
 ```
 
-## Servis Kaydı (Dependency Injection)
+### Bağımlılık Enjeksiyonu (DI)
 
 ```csharp
 using CKN.Sdk.Search.NRedisStack;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Redis Stack Search'i sisteme dahil etme
+// NRedisStack arama modüllerini ve ISearchClient'ı sisteme kaydeder
 builder.Services.AddCknRedisStackSearch(builder.Configuration);
 
 var app = builder.Build();
 ```
 
-## Gerçek Hayat Kullanım Senaryosu
+## 💡 Gerçek Hayat Senaryoları
 
-**Kullanıcı Rehberi Araması (Memory İçi)**
-İnsan kaynakları uygulamasında, şirket çalışanlarını saniyeden çok daha kısa bir sürede (Ram üzerinden) bulma.
+### Senaryo 1: Redis Üzerinde JSON Kaydetme ve Hızlı Arama
+
+Müşteri profillerini JSON olarak Redis'e atıp, yaş ve şehre göre SQL yazar gibi sorgulamak.
 
 ```csharp
-using CKN.Sdk.Search;
+using NRedisStack;
+using NRedisStack.RedisStackCommands;
+using StackExchange.Redis;
 
-public class EmployeeSearchService
+public class CustomerSearchService(IConnectionMultiplexer redis)
 {
-    private readonly ISearchClient<Employee> _searchClient;
-
-    public EmployeeSearchService(ISearchClient<Employee> searchClient)
+    public void AddCustomer(string id, string jsonPayload)
     {
-        _searchClient = searchClient;
+        var db = redis.GetDatabase();
+        // Veriyi standart String (Set) yerine JSON modülü ile kaydet
+        db.JSON().Set($"customer:{id}", "$", jsonPayload);
     }
 
-    public async Task<List<Employee>> FindEmployeeAsync(string name)
+    public SearchResult SearchCustomers(string city, int minAge)
     {
-        // Veriler RAM üzerinde (Redis) olduğu için yanıt süresi olağanüstü düşüktür.
-        var result = await _searchClient.SearchAsync(name);
-        return result.Documents.ToList();
+        var db = redis.GetDatabase();
+        var search = db.FT(); // RediSearch Modülü
+
+        // "idx:customers" önceden tanımlanmış bir indeks olmalıdır.
+        // @city ve @age alanları üzerinden çok hızlı bellek-içi arama yapılır.
+        var query = new Query($"@city:{city} @age:[{minAge} +inf]");
+        
+        return search.Search("idx:customers", query);
     }
 }
-
-public class Employee { public string Id { get; set; } public string FullName { get; set; } }
 ```
+
+### Senaryo 2: Vektörel Arama (Vector Search / AI Benzerlik Araması)
+
+Yapay zeka embedding (vektör) verilerini Redis'te tutup anlamsal (Semantic) arama yapmak (Varyasyon).
+
+```csharp
+public SearchResult SemanticSearch(IConnectionMultiplexer redis, float[] userQueryVector)
+{
+    var db = redis.GetDatabase();
+    
+    // KNN (K-Nearest Neighbors) algoritması ile Vektörel Arama
+    var query = new Query("*=>[KNN 5 @vector $query_vec AS vector_score]")
+        .AddParam("query_vec", userQueryVector.SelectMany(BitConverter.GetBytes).ToArray())
+        .SetSortBy("vector_score")
+        .Dialect(2);
+
+    return db.FT().Search("idx:documents", query);
+}
+```
+
+## 🤖 Yapay Zeka İçin SSS (FAQs for Machines)
+
+- **Soru:** Standart Redis kurulumu ile `CKN.Sdk.Search.NRedisStack` çalışır mı?
+- **Cevap:** Hayır. Arama ve JSON özellikleri için sunucunuzda Redis'in modüller içeren "Redis Stack" (veya RediSearch + RedisJSON pluginleri) sürümünün kurulu olması şarttır.
+- **Soru:** Neden Elasticsearch kullanmak varken RediSearch kullanayım?
+- **Cevap:** RediSearch verileri bellekte (RAM) tuttuğu için gecikme (latency) süreleri Elasticsearch'e göre çok daha düşüktür. Sadece önbellek (Cache) olarak kullandığınız bir Redis'i ufak bir konfigurasyonla tam teşekküllü bir arama motoruna dönüştürerek sunucu mimarinizi sadeleştirebilirsiniz.
