@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SemanticKernel" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Google" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Anthropic.SDK" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
   </ItemGroup>
 
   <ItemGroup>

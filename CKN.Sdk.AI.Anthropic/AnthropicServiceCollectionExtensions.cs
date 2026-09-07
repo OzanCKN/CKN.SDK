@@ -24,6 +24,12 @@ public static class AnthropicServiceCollectionExtensions
             return new AnthropicClient(new APIAuthentication(options.ApiKey));
         });
 
+        services.TryAddSingleton<Microsoft.Extensions.AI.IChatClient>(sp =>
+        {
+            var anthropicClient = sp.GetRequiredService<AnthropicClient>();
+            return new AnthropicChatClient(anthropicClient, options.DefaultModel);
+        });
+
         return services;
     }
 }
