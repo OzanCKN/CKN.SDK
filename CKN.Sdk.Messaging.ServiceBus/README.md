@@ -1,62 +1,88 @@
 # CKN.Sdk.Messaging.ServiceBus
 
-Microsoft Azure ortamında kurumsal, tam yönetilen mesajlaşma hizmeti olan **Azure Service Bus** için entegrasyon kütüphanesidir. Topics, Subscriptions ve ileri düzey mesaj güvenilirliği (Exactly Once Delivery) için uygundur. CKN.Sdk içerisindeki `IEventBus` arayüzünü uygular.
+**Mühendislik Amacı (Engineering Intent):**
+`CKN.Sdk.Messaging.ServiceBus`, Azure Service Bus entegrasyonunu CKN mesajlaşma soyutlamaları (abstractions) üzerinden sağlayan kütüphanedir. **Neden var?** Tamamen yönetilen (fully-managed), kurumsal düzeyde (enterprise-grade) bulut tabanlı bir mesaj broker'ı olan Azure Service Bus'ı, on-premise (yerel) kod standartlarını bozmadan sisteme dahil etmek için. **Ne zaman kullanılmalı?** Proje Microsoft Azure altyapısında çalışıyorsa, kendi RabbitMQ/Kafka cluster'ınızı yönetmek istemiyorsanız (PaaS yaklaşımı) ve "Session" tabanlı sıralı mesaj işleme, Dead-Letter Queue (DLQ) gibi kurumsal özelliklere güvenli şekilde ihtiyaç duyuyorsanız tercih edilmelidir.
 
-## Yapılandırma (`appsettings.json`)
+## 🚀 Hızlı Başlangıç
+
+### Kurulum
+
+```bash
+dotnet add package CKN.Sdk.Messaging.ServiceBus
+```
+
+### Konfigürasyon (`appsettings.json`)
 
 ```json
 {
   "Messaging": {
     "ServiceBus": {
-      "ConnectionString": "Endpoint=sb://ckn-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=...",
-      "TopicName": "ckn_integration_events"
+      "ConnectionString": "Endpoint=sb://my-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=...",
+      "EnableSessions": false
     }
   }
 }
 ```
 
-## Servis Kaydı (Dependency Injection)
+### Bağımlılık Enjeksiyonu (DI)
 
 ```csharp
 using CKN.Sdk.Messaging.ServiceBus;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Azure Service Bus EventBus'ı sisteme dahil etme
-builder.Services.AddCknServiceBus(builder.Configuration);
+// Azure Service Bus istemcisini sisteme kaydeder.
+builder.Services.AddCknAzureServiceBus(builder.Configuration);
 
 var app = builder.Build();
 ```
 
-## Gerçek Hayat Kullanım Senaryosu
+## 💡 Gerçek Hayat Senaryoları
 
-**Finansal EFT/Havale Kuyruğa Atma (Güvenilirlik)**
-Mesaj kaybının kesinlikle kabul edilmediği finansal işlemlerde, işlemin Service Bus kuyruğuna güvenle atılması.
+### Senaryo 1: Azure Topic/Subscription Üzerinden Mesaj Yayınlama
+
+Bir faturanın onaylanması durumunda bu olayı (event) "Topics" (yayın-abonelik) mantığıyla yayınlamak.
 
 ```csharp
-using CKN.Sdk.Core.Events;
+using CKN.Sdk.Messaging.Abstractions;
 
-public class PaymentInitiatedEvent : IntegrationEvent
+public class InvoiceApprovalService(IMessagePublisher publisher)
 {
-    public string TransactionId { get; set; }
-    public decimal Amount { get; set; }
-}
-
-public class PaymentService
-{
-    private readonly IEventBus _eventBus;
-
-    public PaymentService(IEventBus eventBus)
+    public async Task ApproveInvoiceAsync(Invoice invoice)
     {
-        _eventBus = eventBus;
-    }
-
-    public async Task InitiateTransferAsync(string trxId, decimal amount)
-    {
-        var evt = new PaymentInitiatedEvent { TransactionId = trxId, Amount = amount };
+        invoice.Status = "Approved";
         
-        // Azure Service Bus'a pushlanır. Mesajın kaybolmayacağı garantilidir.
-        await _eventBus.PublishAsync(evt);
+        var invoiceApprovedEvent = new { InvoiceId = invoice.Id, Amount = invoice.TotalAmount };
+        
+        // Bu mesaj Azure Service Bus üzerindeki 'invoice-events' isimli Topic'e gönderilir.
+        // Bu Topic'e bağlı olan Subscription'lar (dinleyiciler) mesajı anında alır.
+        await publisher.PublishAsync("invoice-events", invoiceApprovedEvent);
     }
 }
 ```
+
+### Senaryo 2: Scheduled Message (Zamanlanmış Mesaj) Gönderimi
+
+Bir mesajın şu an değil, örneğin 2 saat sonra kuyrukta (queue) görünür olmasını sağlamak (Varyasyon).
+
+```csharp
+public async Task SendReminderAsync(IMessagePublisher publisher, string userId)
+{
+    var reminderMessage = new { UserId = userId, Content = "Sepetinizde ürün unuttunuz!" };
+    
+    // Mesaj Azure'a gider ancak 2 saat boyunca kuyrukta görünmez, bekletilir.
+    var options = new MessagePublishOptions 
+    { 
+        ScheduledEnqueueTimeUtc = DateTime.UtcNow.AddHours(2) 
+    };
+    
+    await publisher.PublishAsync("reminders", reminderMessage, options);
+}
+```
+
+## 🤖 Yapay Zeka İçin SSS (FAQs for Machines)
+
+- **Soru:** Azure Service Bus'ta "Queue" ve "Topic" arasındaki fark nedir?
+- **Cevap:** Queue (Kuyruk), bir mesajın tek bir tüketici (consumer) tarafından işlendiği yapıdır. Topic (Konu) ise, bir mesajın birden fazla alt dinleyiciye (Subscription) kopyalandığı (Fanout/Pub-Sub) yapıdır.
+- **Soru:** Dead-Letter Queue (DLQ) nedir?
+- **Cevap:** Kodunuzda defalarca hata fırlatıp mesajı işleyemediğinizde (örneğin DB çöktüğünde), Azure Service Bus bu mesajı kaybetmez, hata kuyruğuna (DLQ) taşır. Bu paket, CKN standartlarında hata yönetimi yaparak mesajın DLQ'ya aktarılmasını otomatik destekler.
