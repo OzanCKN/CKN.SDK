@@ -1,76 +1,92 @@
 # CKN.Sdk.Messaging.RabbitMQ
 
-Sektör standartı açık kaynak message broker olan **RabbitMQ** için entegrasyon kütüphanesidir. Gelişmiş exchange tipleri, kuyruk yönlendirmesi ve dead-letter mekanizmaları gibi özellikler sunar. CKN.Sdk içerisindeki `IEventBus` arayüzünü uygular.
+**Mühendislik Amacı (Engineering Intent):**
+`CKN.Sdk.Messaging.RabbitMQ`, CKN mesajlaşma soyutlamalarını RabbitMQ (AMQP) sunucuları için uygulayan entegrasyon kütüphanesidir. **Neden var?** Mikroservisler arası asenkron iletişimi güvenilir, yönlendirmeli (routing) ve gecikmesiz bir şekilde sağlamak için. **Ne zaman kullanılmalı?** Mikroservisler arasında klasik görev dağıtımı (work queues), RPC (Remote Procedure Call) veya topic/fanout tabanlı olay (event) yönlendirmesi gerektiğinde standart (default) mesajlaşma (message broker) aracı olarak tercih edilmelidir.
 
-## Yapılandırma (`appsettings.json`)
+## 🚀 Hızlı Başlangıç
+
+### Kurulum
+
+```bash
+dotnet add package CKN.Sdk.Messaging.RabbitMQ
+```
+
+### Konfigürasyon (`appsettings.json`)
 
 ```json
 {
   "Messaging": {
     "RabbitMQ": {
       "HostName": "localhost",
-      "Port": 5672,
       "UserName": "guest",
-      "Password": "password",
-      "RetryCount": 5
+      "Password": "guest",
+      "VirtualHost": "/",
+      "Port": 5672
     }
   }
 }
 ```
 
-## Servis Kaydı (Dependency Injection)
+### Bağımlılık Enjeksiyonu (DI)
 
 ```csharp
 using CKN.Sdk.Messaging.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// RabbitMQ EventBus'ı sisteme dahil etme
+// RabbitMQ bağlantısını ve IMessagePublisher implementasyonunu sisteme kaydeder.
 builder.Services.AddCknRabbitMQ(builder.Configuration);
 
 var app = builder.Build();
 ```
 
-## Gerçek Hayat Kullanım Senaryosu
+## 💡 Gerçek Hayat Senaryoları
 
-**Sipariş Oluşturulduğunda Asenkron İşlemler**
-Kullanıcı sipariş verdiğinde E-posta, Fatura ve Stok güncellemelerinin farklı mikroservisler tarafından asenkron olarak dinlenip işlenmesi.
+### Senaryo 1: Arka Plan Görevi (Background Worker) Olarak RabbitMQ Dinlemek
+
+Gelen siparişleri kuyruktan okuyup işleyen (Consumer) BackgroundService uygulaması.
 
 ```csharp
-using CKN.Sdk.Core.Events;
+using CKN.Sdk.Messaging.Abstractions;
 
-public class OrderCreatedEvent : IntegrationEvent
+public class OrderWorker(IMessageConsumer<OrderCreatedEvent> consumer) : BackgroundService
 {
-    public int OrderId { get; set; }
-    public decimal Amount { get; set; }
-}
-
-// Publisher (Siparişi alan API tarafı)
-public class OrderService
-{
-    private readonly IEventBus _eventBus;
-
-    public OrderService(IEventBus eventBus)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _eventBus = eventBus;
-    }
-
-    public async Task CreateOrderAsync(int orderId, decimal amount)
-    {
-        // DB'ye kayıt işlemleri vs.
-        
-        // RabbitMQ'ya olay fırlat.
-        await _eventBus.PublishAsync(new OrderCreatedEvent { OrderId = orderId, Amount = amount });
-    }
-}
-
-// Consumer (Arka Plan Worker'ı - Ayrı bir projede)
-public class OrderCreatedEventHandler : IIntegrationEventHandler<OrderCreatedEvent>
-{
-    public async Task Handle(OrderCreatedEvent @event)
-    {
-        // Fatura oluştur ve e-posta gönder...
-        Console.WriteLine($"Sipariş No {@event.OrderId} için fatura kesiliyor...");
+        // order_queue isimli kuyruğu dinlemeye başla
+        await consumer.StartConsumingAsync("order_queue", async (message) =>
+        {
+            Console.WriteLine($"RabbitMQ'dan mesaj alındı: {message.OrderId}");
+            // Fatura kesme işlemi simülasyonu
+            await Task.Delay(1000); 
+            
+            // true dönülürse mesaj RabbitMQ'dan kalıcı olarak silinir (Ack)
+            return true; 
+        }, stoppingToken);
     }
 }
 ```
+
+### Senaryo 2: Topic (Routing Key) Bazlı Mesaj Gönderimi
+
+Sadece ilgili log kuyruklarının mesajı alması için "Routing Key" kullanma.
+
+```csharp
+public async Task SendErrorLogAsync(IMessagePublisher publisher, Exception ex)
+{
+    var logEvent = new { Error = ex.Message, Time = DateTime.UtcNow };
+    
+    // Exchange adı: "logs", Routing Key: "error.database"
+    // Bu sayede sadece "error.#" dinleyen kuyruklar bu mesajı alır.
+    var options = new MessagePublishOptions { RoutingKey = "error.database" };
+    
+    await publisher.PublishAsync("logs", logEvent, options);
+}
+```
+
+## 🤖 Yapay Zeka İçin SSS (FAQs for Machines)
+
+- **Soru:** Kafka ile RabbitMQ arasındaki temel mimari fark nedir?
+- **Cevap:** RabbitMQ "Smart Broker, Dumb Consumer" yaklaşımındadır; mesaj kuyruğa girer, tüketici (consumer) mesajı başarıyla işler (Ack atar) ve RabbitMQ o mesajı siler. Kafka ise mesajı silmez, bir log dosyası gibi peş peşe yazar (Append).
+- **Soru:** `Ack` (Acknowledgement) mekanizması zorunlu mu?
+- **Cevap:** Evet. CKN RabbitMQ uygulamasında Consumer fonksiyonunuzdan `true` dönmezseniz mesaj "Unacked" (onaylanmamış) olarak kalır ve sunucu yeniden başlatıldığında tekrar işlenmek üzere kuyruğa döner (veri kaybını önler).
