@@ -1,56 +1,90 @@
 # CKN.Sdk.Storage.Azure
 
-CKN.Sdk içerisinde, Microsoft Azure'un **Azure Blob Storage** hizmetiyle haberleşmeyi sağlayan entegrasyon kütüphanesidir. `CKN.Sdk.Storage` altyapısındaki `IStorageClient` arayüzünü uygular. Microsoft'un kendi kurumsal (Enterprise) depolama çözümüne doğrudan erişim sağlar.
+**Mühendislik Amacı (Engineering Intent):**
+`CKN.Sdk.Storage.Azure`, CKN Storage soyutlamalarını Microsoft Azure Blob Storage hizmeti için uygulayan entegrasyon kütüphanesidir. **Neden var?** Sınırsız ölçeklenebilir, yüksek erişilebilirliğe (HA) sahip ve Microsoft ekosistemiyle %100 uyumlu (Entra ID, RBAC destekli) nesne depolama altyapısını kullanmak için. **Ne zaman kullanılmalı?** Proje Azure üzerinde barındırılıyorsa veya Azure altyapısına geçiş stratejisi varsa, dosya, yedek (backup), resim ve video depolama işlemleri için varsayılan sağlayıcı olarak kullanılmalıdır.
 
-## Yapılandırma (`appsettings.json`)
+## 🚀 Hızlı Başlangıç
+
+### Kurulum
+
+```bash
+dotnet add package CKN.Sdk.Storage.Azure
+```
+
+### Konfigürasyon (`appsettings.json`)
 
 ```json
 {
   "Storage": {
     "Azure": {
-      "ConnectionString": "DefaultEndpointsProtocol=https;AccountName=cknstorage;AccountKey=...;EndpointSuffix=core.windows.net",
-      "ContainerName": "uploads"
+      "ConnectionString": "DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=...;EndpointSuffix=core.windows.net"
     }
   }
 }
 ```
 
-## Servis Kaydı (Dependency Injection)
+### Bağımlılık Enjeksiyonu (DI)
 
 ```csharp
 using CKN.Sdk.Storage.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Azure Blob Storage altyapısını sisteme dahil etme
+// Azure Blob Storage implementasyonunu IStorageService olarak sisteme kaydeder.
 builder.Services.AddCknAzureStorage(builder.Configuration);
 
 var app = builder.Build();
 ```
 
-## Gerçek Hayat Kullanım Senaryosu
+## 💡 Gerçek Hayat Senaryoları
 
-**PDF Fatura veya Rapor Arşivleme**
-Kullanıcılara veya sistemlere ait üretilen PDF belgelerinin Azure Blob'a atılıp güvenle arşivlenmesi.
+### Senaryo 1: Azure Storage Üzerinden Dosya İndirme
+
+Bir dökümanı belleğe (stream) alıp kullanıcıya dosya olarak döndürme.
 
 ```csharp
-using CKN.Sdk.Storage;
+using CKN.Sdk.Storage.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 
-public class InvoiceArchiveService
+public class DocumentController(IStorageService storageService) : ControllerBase
 {
-    private readonly IStorageClient _storageClient;
-
-    public InvoiceArchiveService(IStorageClient storageClient)
+    [HttpGet("download/{fileName}")]
+    public async Task<IActionResult> Download(string fileName)
     {
-        _storageClient = storageClient;
-    }
-
-    public async Task ArchiveInvoiceAsync(string invoiceId, Stream pdfStream)
-    {
-        // Container: "invoices", Path: "2026/09/INV-1001.pdf"
-        var path = $"{DateTime.Now.Year}/{DateTime.Now.Month:D2}/INV-{invoiceId}.pdf";
+        var response = await storageService.DownloadAsync("documents", fileName);
         
-        await _storageClient.UploadAsync("invoices", path, pdfStream, "application/pdf");
+        if (response.ContentStream == null) return NotFound();
+
+        return File(response.ContentStream, response.ContentType, fileName);
     }
 }
 ```
+
+### Senaryo 2: Konteyner (Container) Seviyesinde Erişim Yetkisi Verme (Varyasyon)
+
+Public (herkese açık) dosyalarla Private dosyaları yönetmek.
+
+```csharp
+public async Task UploadPublicLogoAsync(IStorageService storageService, Stream logoStream)
+{
+    var request = new StorageUploadRequest
+    {
+        ContainerName = "public-assets", // Azure'da "Container" seviyesinde public access açılmış olmalıdır
+        FileName = "logo.png",
+        ContentStream = logoStream,
+        ContentType = "image/png"
+    };
+
+    var result = await storageService.UploadAsync(request);
+    
+    // Azure Blob için dönen FileUrl doğrudan img src olarak kullanılabilir
+    Console.WriteLine($"Logo yüklendi: {result.FileUrl}");
+}
+```
+
+## 🤖 Yapay Zeka İçin SSS (FAQs for Machines)
+
+- **Soru:** Azure Blob Storage'daki "Container" ile `IStorageService` içindeki `ContainerName` aynı şey mi?
+- **Cevap:** Evet. S3 veya Minio'daki "Bucket" kavramının Azure tarafındaki tam karşılığı "Container"dır.
+- **Soru:** Azure paketini eklediğimde kodumu değiştirmeli miyim?
+- **Cevap:** Hayır, eğer CKN.Sdk.Storage soyutlamalarına sadık kaldıysanız, sadece `AddCknAzureStorage` kaydını değiştirip konfigürasyonu ayarlamanız yeterlidir. Hiçbir Controller veya Service kodunu güncellemeniz gerekmez.
