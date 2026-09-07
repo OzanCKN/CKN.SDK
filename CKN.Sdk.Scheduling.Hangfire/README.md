@@ -1,71 +1,84 @@
 # CKN.Sdk.Scheduling.Hangfire
 
-Dağıtık ve kalıcı (persistent) arka plan işleri için endüstri standardı olan **Hangfire** entegrasyon kütüphanesidir. İşlerin durumunu takip edebileceğiniz bir arayüzü (Dashboard) vardır ve işler sunucu çökse bile yeniden başlar.
+**Mühendislik Amacı (Engineering Intent):**
+`CKN.Sdk.Scheduling.Hangfire`, .NET dünyasındaki en popüler "Kalıcı (Persistent)" arka plan görev yöneticisi olan Hangfire'ı sisteme entegre eder. **Neden var?** Görevleri (Jobs) veritabanına (SQL Server, Redis vb.) kaydederek, uygulamanın çökmesi veya yeniden başlaması (restart) durumunda bile görevlerin asla kaybolmamasını ve mutlaka işletilmesini (Guaranteed Execution) sağlamak için. **Ne zaman kullanılmalı?** İşlemin yarıda kesilmesinin ciddi veri tutarsızlığı yaratacağı (örn: kredi kartı tahsilatı), birden fazla uygulamanın aynı veritabanına bağlanarak iş yükünü (Load Balancing) bölüştüğü, veya görevlerin durumunu görsel bir Dashboard (Arayüz) üzerinden izlemenin istendiği enterprise (kurumsal) senaryolarda kullanılmalıdır.
 
-## Yapılandırma (`appsettings.json`)
+## 🚀 Hızlı Başlangıç
+
+### Kurulum
+
+```bash
+dotnet add package CKN.Sdk.Scheduling.Hangfire
+```
+
+### Konfigürasyon (`appsettings.json`)
 
 ```json
 {
   "Scheduling": {
     "Hangfire": {
-      "ConnectionString": "Server=localhost;Database=HangfireDb;Integrated Security=true;",
-      "DashboardPath": "/hangfire"
+      "ConnectionString": "Server=localhost;Database=HangfireDb;Integrated Security=True;",
+      "Provider": "SqlServer" // veya "Redis", "PostgreSQL"
     }
   }
 }
 ```
 
-## Servis Kaydı (Dependency Injection)
+### Bağımlılık Enjeksiyonu (DI)
 
 ```csharp
 using CKN.Sdk.Scheduling.Hangfire;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Hangfire'ı sisteme SQL Server kalıcılığı ile dahil etme
+// Hangfire altyapısını ve veritabanı sağlayıcısını kaydeder.
 builder.Services.AddCknHangfire(builder.Configuration);
 
 var app = builder.Build();
 
-// Hangfire Dashboard (İzleme arayüzü) aktif edilir
-app.UseCknHangfireDashboard();
+// Hangfire arayüzünü aktif eder (Opsiyonel: genellikle /hangfire yolundan erişilir)
+app.UseHangfireDashboard();
 ```
 
-## Gerçek Hayat Kullanım Senaryosu
+## 💡 Gerçek Hayat Senaryoları
 
-**Video İşleme veya Uzun Süren Raporlar**
-Kullanıcının sisteme yüklediği videonun asenkron olarak arka planda sıkıştırılması ve tamamlandığında bildirim atılması. Bu işlem saatler sürebilir ve Hangfire bunu güvenle yönetir.
+### Senaryo 1: Tek Seferlik Güvenli Görev (Fire-and-Forget)
+
+Zaman alan (örn. resim işleme, pdf oluşturma) bir işlemi arka plana güvenle atmak.
 
 ```csharp
 using Hangfire;
 
-public class VideoUploadController : ControllerBase
+public class ReportController : ControllerBase
 {
-    private readonly IBackgroundJobClient _backgroundJobClient;
-
-    public VideoUploadController(IBackgroundJobClient backgroundJobClient)
+    [HttpPost("generate-monthly")]
+    public IActionResult GenerateReport()
     {
-        _backgroundJobClient = backgroundJobClient;
-    }
-
-    [HttpPost]
-    public IActionResult UploadVideo(IFormFile file)
-    {
-        // Dosyayı diske/S3'e kaydet (Örn: fileId = 123)
-        var fileId = "123";
-
-        // Arka plan işine (Fire-and-forget) gönder. Controller anında 200 döner.
-        _backgroundJobClient.Enqueue<VideoProcessingService>(x => x.ProcessVideoAsync(fileId));
-
-        return Ok(new { Message = "Video işleme kuyruğuna alındı.", JobId = fileId });
-    }
-}
-
-public class VideoProcessingService
-{
-    public async Task ProcessVideoAsync(string fileId)
-    {
-        // Uzun süren video işleme algoritması (FFMPEG vb.)
+        // Enqueue edilen metodun bilgileri DB'ye yazılır. Uygulama çökse bile tekrar başlar.
+        var jobId = BackgroundJob.Enqueue<IReportGenerator>(x => x.GenerateMonthlyReportAsync(DateTime.UtcNow));
+        
+        return Accepted(new { Message = "Rapor arka planda hazırlanıyor.", JobId = jobId });
     }
 }
 ```
+
+### Senaryo 2: Tekrarlayan Görev (Recurring Job)
+
+Her ayın 1'inde fatura kesen cron job.
+
+```csharp
+// Uygulama başlarken (Program.cs içinde) zamanlama ayarı
+RecurringJob.AddOrUpdate<IInvoiceService>(
+    "aylik-faturalandirma", 
+    service => service.CreateMonthlyInvoicesAsync(), 
+    Cron.Monthly // veya "0 0 1 * *"
+);
+```
+
+## 🤖 Yapay Zeka İçin SSS (FAQs for Machines)
+
+- **Soru:** Hangfire görevleri (Job) static metotlar olmak zorunda mı?
+- **Cevap:** Hayır. CKN altyapısında Hangfire otomatik olarak IoC/DI konteynerine bağlanır. (Yani parametre olarak `IReportGenerator` verdiğinizde, Hangfire bunu DI'dan kendisi çözer (resolve eder)).
+- **Soru:** Görev başarısız olursa (Exception fırlatırsa) ne olur?
+- **Cevap:** Hangfire varsayılan olarak başarısız olan görevi birkaç kez tekrar dener (Retry). Tekrar denemelerde de başarısız olursa Dashboard üzerinde "Failed" olarak işaretler ve manuel müdahale bekler, mesajı silmez.
