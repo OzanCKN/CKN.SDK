@@ -1,6 +1,6 @@
 # CKN.Sdk.Infrastructure
 
-CKN.Sdk içerisinde, tüm projelerde ortak olarak kullanılabilecek **Rate Limiting (Kısıtlama), KeyVault (Gizli Veri Yönetimi), HttpClient Fallback (Dayanıklılık)** ve **Webhook Yönlendirmeleri** gibi altyapı bileşenlerini barındıran kütüphanedir.
+CKN.Sdk içerisinde, tüm projelerde ortak olarak kullanılabilecek **Rate Limiting (Kısıtlama), KeyVault (Gizli Veri Yönetimi), HttpClient Fallback (Dayanıklılık), Webhook Yönlendirmeleri** ve **OpenTelemetry (Gözlemlenebilirlik)** gibi altyapı bileşenlerini barındıran kütüphanedir.
 
 ## Servis Kayıtları ve Kullanım (Dependency Injection)
 
@@ -8,6 +8,7 @@ CKN.Sdk içerisinde, tüm projelerde ortak olarak kullanılabilecek **Rate Limit
 using CKN.Sdk.Infrastructure.Configuration;
 using CKN.Sdk.Infrastructure.Http;
 using CKN.Sdk.Infrastructure.RateLimiting;
+using CKN.Sdk.Infrastructure.Telemetry;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,10 @@ builder.Services.AddHttpClient("CknExternalApi", client =>
 
 // 3. Rate Limiting (Hız Sınırlandırması) ekleme
 builder.Services.AddCknRateLimiting();
+
+// 4. OpenTelemetry (Metrikler ve İzleme) ekleme
+// Jaeger, Prometheus vb. platformlara veri gönderimini (OTLP) aktifleştirir.
+builder.Services.AddCKNTelemetry(serviceName: "MyCknMicroservice", otlpEndpoint: "http://localhost:4317");
 
 var app = builder.Build();
 
