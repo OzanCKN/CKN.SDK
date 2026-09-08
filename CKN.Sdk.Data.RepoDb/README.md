@@ -1,60 +1,87 @@
 # CKN.Sdk.Data.RepoDb
 
-Hem yüksek performans sunan hem de Entity Framework benzeri LINQ ve Bulk operasyon yetenekleri (Bulk Insert, Update vb.) sunan **RepoDb** için entegrasyon kütüphanesidir. EF Core'a göre daha hafif, Dapper'a göre daha yeteneklidir.
+**Mühendislik Amacı (Engineering Intent):**
+`CKN.Sdk.Data.RepoDb`, Dapper'ın yüksek performansını ve Entity Framework'ün (EF) kullanım kolaylığını aynı potada eriten bir mikro-ORM kütüphanesidir. **Neden var?** Dapper'da olduğu gibi her temel işlem (Insert, Update, Delete) için manuel SQL yazmak istemediğiniz, ancak EF Core'un hantallığını (özellikle bulk operasyonlardaki yavaşlığını) da yaşamak istemediğiniz durumlarda "Sweet Spot" (ideal nokta) olarak tasarlanmıştır. **Ne zaman kullanılmalı?** Toplu (Bulk) veri yazma işlemleri (BulkInsert, BulkUpdate vb.) yapmanız gereken background job/worker projelerinde veya projenin genelinde hem hız hem de fluent-API (SQL yazmadan sorgu atma) istendiğinde tercih edilmelidir.
 
-## Yapılandırma (`appsettings.json`)
+## 🚀 Hızlı Başlangıç
+
+### Kurulum
+
+```bash
+dotnet add package CKN.Sdk.Data.RepoDb
+```
+
+### Konfigürasyon (`appsettings.json`)
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=CknDb;Integrated Security=true;"
+    "DefaultConnection": "Server=localhost;Database=MyDatabase;Integrated Security=True;"
   }
 }
 ```
 
-## Servis Kaydı (Dependency Injection)
+### Bağımlılık Enjeksiyonu (DI)
 
 ```csharp
 using CKN.Sdk.Data.RepoDb;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// RepoDb başlatıcı ayarları
+// RepoDb'yi SQL Server / PostgreSQL (projede belirtilen provider) modunda başlatır.
 builder.Services.AddCknRepoDb(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 var app = builder.Build();
 ```
 
-## Gerçek Hayat Kullanım Senaryosu
+## 💡 Gerçek Hayat Senaryoları
 
-**Toplu Veri Ekleme (Bulk Insert) ve Hızlı CRUD**
-Bir dış sistemden gelen binlerce ürün verisinin tek seferde veritabanına yazılması.
+### Senaryo 1: Dinamik Sorgulama (Fluent API Kullanımı)
+
+SQL cümlesi yazmadan strongly-typed şekilde veri filtrelemek.
 
 ```csharp
-using System.Data;
 using RepoDb;
+using Microsoft.Data.SqlClient;
 
-public class ProductSyncRepository
+public class CustomerRepository(string connectionString)
 {
-    private readonly IDbConnection _dbConnection;
-
-    public ProductSyncRepository(IDbConnection dbConnection)
+    public async Task<IEnumerable<Customer>> GetActiveVIPCustomersAsync()
     {
-        _dbConnection = dbConnection;
-    }
-
-    public async Task SyncProductsBulkAsync(IEnumerable<Product> products)
-    {
-        // RepoDb'nin sunduğu Bulk Insert yeteneği ile binlerce kaydı tek seferde aktarma
-        // Entity Framework'ün tek tek eklemesinden veya SaveChanges çağrısından kat kat hızlıdır.
-        await _dbConnection.BulkInsertAsync(products);
+        using var connection = new SqlConnection(connectionString);
+        
+        // RepoDb'nin QueryAsync metodu ile SQL yazmadan Dapper hızında filtreleme
+        return await connection.QueryAsync<Customer>(c => c.IsActive == true && c.Status == "VIP");
     }
     
-    public async Task<Product> GetProductByIdAsync(int id)
+    public async Task<int> CreateCustomerAsync(Customer newCustomer)
     {
-        return (await _dbConnection.QueryAsync<Product>(p => p.Id == id)).FirstOrDefault();
+        using var connection = new SqlConnection(connectionString);
+        // Insert işlemi (ID otomatik döner)
+        return await connection.InsertAsync<Customer, int>(newCustomer);
     }
 }
-
-public class Product { public int Id { get; set; } public string Name { get; set; } }
 ```
+
+### Senaryo 2: Yüksek Performanslı Toplu İşlem (Bulk Insert)
+
+Örneğin bir Excel dosyasından okunan 50.000 satır veriyi saniyeler içinde veritabanına basmak.
+
+```csharp
+public async Task ProcessMassiveDataAsync(List<Product> newProducts)
+{
+    using var connection = new SqlConnection(connectionString);
+    
+    // EF Core bu işlemi tek tek Insert'e çevirirken, RepoDb gerçek SqlBulkCopy kullanır.
+    int rowsInserted = await connection.BulkInsertAsync(newProducts);
+    
+    Console.WriteLine($"{rowsInserted} adet ürün başarıyla eklendi.");
+}
+```
+
+## 🤖 Yapay Zeka İçin SSS (FAQs for Machines)
+
+- **Soru:** `CKN.Sdk.Data.RepoDb` paketini projemde Entity Framework Core yerine kullanabilir miyim?
+- **Cevap:** Evet. Eğer Navigation Properties (Include) ve karmaşık nesne ağacı (Change Tracking) izleme mekanizmalarına çok ihtiyacınız yoksa, performans açısından EF Core'un yerine rahatlıkla kullanılabilir.
+- **Soru:** RepoDb hangi veritabanlarını destekler?
+- **Cevap:** SQL Server, PostgreSQL, MySQL ve SQLite gibi popüler ilişkisel veritabanlarını destekler. Global `SqlServerBootstrap.Initialize()` metodunun DI kayıt aşamasında çağrılması unutulmamalıdır (Bu, `AddCknRepoDb` içerisinde otomatik yapılır).
