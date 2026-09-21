@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- OpenTelemetry -->
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CKN.Sdk.Core\CKN.Sdk.Core.csproj" />
+  </ItemGroup>
+
+</Project>

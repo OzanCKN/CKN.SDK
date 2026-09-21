@@ -4,6 +4,7 @@
   <Project Path="CKN.Sdk.AI.OpenAI/CKN.Sdk.AI.OpenAI.csproj" />
   <Project Path="CKN.Sdk.AI.SemanticKernel/CKN.Sdk.AI.SemanticKernel.csproj" />
   <Project Path="CKN.Sdk.AI/CKN.Sdk.AI.csproj" />
+  <Project Path="CKN.Sdk.AspNetCore/CKN.Sdk.AspNetCore.csproj" />
   <Project Path="CKN.Sdk.Caching.Garnet/CKN.Sdk.Caching.Garnet.csproj" />
   <Project Path="CKN.Sdk.Caching.Memcached/CKN.Sdk.Caching.Memcached.csproj" />
   <Project Path="CKN.Sdk.Caching.Redis/CKN.Sdk.Caching.Redis.csproj" />
@@ -30,5 +31,6 @@
   <Project Path="CKN.Sdk.Storage.Minio/CKN.Sdk.Storage.Minio.csproj" />
   <Project Path="CKN.Sdk.Storage.S3/CKN.Sdk.Storage.S3.csproj" />
   <Project Path="CKN.Sdk.Storage/CKN.Sdk.Storage.csproj" />
+  <Project Path="CKN.Sdk.Telemetry/CKN.Sdk.Telemetry.csproj" />
   <Project Path="CKN.Sdk.Tests/CKN.Sdk.Tests.csproj" />
 </Solution>

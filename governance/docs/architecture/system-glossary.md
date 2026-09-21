@@ -12,7 +12,12 @@ Tüm sistemin kalbidir. Hiçbir 3. parti kütüphaneye bağımlılığı yoktur 
 - **Events:** Uygulama çapında ve modüller arası mesajlaşma (EventBus) için temel arayüzler (`IEventBus`, `IIntegrationEvent`, `IEventHandler<T>`).
 - **DependencyInjection:** Core bağımlılıkların IoC container'a kolayca eklenebilmesi için genişletmeler.
 
-### 2. `CKN.Sdk.EntityFramework`
+### 2. `CKN.Sdk.AspNetCore`
+`CKN.Sdk.Core` için ASP.NET Core web katmanı entegrasyonlarını sağlar.
+- **İçerik:** `GlobalExceptionHandler` (ProblemDetails formatında hata yönetimi), Extension metodlar.
+- **Kullanım:** Web veya API projelerinde `builder.Services.AddCknAspNetCore()` şeklinde kullanılır.
+
+### 3. `CKN.Sdk.EntityFramework`
 `CKN.Sdk.Core` içindeki `IRepository` ve `IUnitOfWork` arayüzlerinin Microsoft Entity Framework Core implementasyonudur.
 - **İçerik:** `ApplicationDbContext`, `DomainEventInterceptor` vb.
 - **Kullanım:** Sadece veritabanı ile konuşacak mikroservisler bu paketi kurar.

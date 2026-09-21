@@ -4,6 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NuGetAudit>false</NuGetAudit>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)ckn.snk</AssemblyOriginatorKeyFile>
     <Authors>CKN Teknoloji</Authors>
