@@ -26,6 +26,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CKN.Sdk.Core\CKN.Sdk.Core.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.AspNetCore\CKN.Sdk.AspNetCore.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.EntityFramework\CKN.Sdk.EntityFramework.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Infrastructure\CKN.Sdk.Infrastructure.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Messaging\CKN.Sdk.Messaging.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Messaging.RabbitMQ\CKN.Sdk.Messaging.RabbitMQ.csproj" />
