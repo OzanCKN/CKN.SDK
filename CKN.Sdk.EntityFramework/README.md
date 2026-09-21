@@ -26,3 +26,6 @@ public class MyService(IRepository<MyEntity> repository)
     }
 }
 ```
+
+## 🔌 Interceptor Kullanımı
+`DomainEventDispatcherInterceptor` sayesinde, veritabanına kayıt atılmadan hemen önce veya atıldığı anda AggregateRoot'larınızdaki `IDomainEvent` nesneleri otomatik olarak `IDomainEventDispatcher` üzerinden fırlatılır. Bunun için DI container'a bir dispatcher kaydetmeniz yeterlidir.

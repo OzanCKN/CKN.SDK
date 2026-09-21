@@ -16,7 +16,8 @@ builder.Services.AddCknCore();
 ```
 
 ## İçerik
-- **Domain Modelleri:** `Entity`, `Tenant`, `IDomainEvent`
+- **Domain Modelleri:** `Entity`, `AggregateRoot`, `Tenant`, `IDomainEvent`, `IDomainEventDispatcher`
 - **CQRS Arayüzleri:** `ICommand`, `IQuery`, `ICommandHandler`
 - **Veri Arayüzleri:** `IRepository`, `IUnitOfWork`
-- **Hata Yönetimi:** Özel İstisna Sınıfları (`CustomException`, `NotFoundException`)
+- **Sonuç Patternleri (Result Pattern):** `Result`, `Result<T>`, `PagedResult<T>`
+- **Hata Yönetimi:** Özel İstisna Sınıfları (`CustomException`, `ValidationException`, `NotFoundException`)
