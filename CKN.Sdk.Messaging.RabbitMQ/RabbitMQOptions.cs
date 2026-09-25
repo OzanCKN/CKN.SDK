@@ -24,6 +24,8 @@ public class RabbitMQOptions
     /// Gets or sets the password. Default is "guest".
     /// </summary>
     public string Password { get; set; } = "guest";
+
+    public string VirtualHost { get; set; } = "/";
     
     /// <summary>
     /// Gets or sets the queue name for this application to consume messages from.

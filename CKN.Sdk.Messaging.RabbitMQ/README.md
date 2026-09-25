@@ -34,8 +34,17 @@ using CKN.Sdk.Messaging.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// RabbitMQ bağlantısını ve IMessagePublisher implementasyonunu sisteme kaydeder.
-builder.Services.AddCknRabbitMQ(builder.Configuration);
+// RabbitMQ bağlantısını ve ICknMessagePublisher implementasyonunu sisteme kaydeder.
+builder.Services.AddCknRabbitMqMessaging(options => 
+{
+    options.HostName = builder.Configuration["Messaging:RabbitMQ:HostName"];
+    options.UserName = builder.Configuration["Messaging:RabbitMQ:UserName"];
+    options.Password = builder.Configuration["Messaging:RabbitMQ:Password"];
+    options.VirtualHost = builder.Configuration["Messaging:RabbitMQ:VirtualHost"];
+});
+
+// Consumer tanımlama
+builder.Services.AddCknRabbitMqConsumer<MyOrderHandler, OrderMessage>("order-queue");
 
 var app = builder.Build();
 ```

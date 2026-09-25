@@ -708,11 +708,6 @@
           "Microsoft.Extensions.Configuration.Abstractions": "10.0.0"
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions": {
-        "type": "Transitive",
-        "resolved": "10.0.0",
-        "contentHash": "L3AdmZ1WOK4XXT5YFPEwyt0ep6l8lGIPs7F5OOBZc77Zqeo01Of7XXICy47628sdVl0v/owxYJTe86DTgFwKCA=="
-      },
       "Microsoft.Extensions.DependencyInjection.AutoActivation": {
         "type": "Transitive",
         "resolved": "10.9.0",
@@ -1095,6 +1090,12 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0"
         }
       },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[10.0.12, )",
+        "resolved": "10.0.0",
+        "contentHash": "L3AdmZ1WOK4XXT5YFPEwyt0ep6l8lGIPs7F5OOBZc77Zqeo01Of7XXICy47628sdVl0v/owxYJTe86DTgFwKCA=="
+      },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "CentralTransitive",
         "requested": "[8.0.0, )",
@@ -1340,11 +1341,6 @@
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "10.0.0"
         }
-      },
-      "Microsoft.Extensions.DependencyInjection.Abstractions": {
-        "type": "Transitive",
-        "resolved": "10.0.0",
-        "contentHash": "L3AdmZ1WOK4XXT5YFPEwyt0ep6l8lGIPs7F5OOBZc77Zqeo01Of7XXICy47628sdVl0v/owxYJTe86DTgFwKCA=="
       },
       "Microsoft.Extensions.DependencyInjection.AutoActivation": {
         "type": "Transitive",
@@ -1721,6 +1717,12 @@
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0"
         }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[10.0.12, )",
+        "resolved": "10.0.0",
+        "contentHash": "L3AdmZ1WOK4XXT5YFPEwyt0ep6l8lGIPs7F5OOBZc77Zqeo01Of7XXICy47628sdVl0v/owxYJTe86DTgFwKCA=="
       },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "CentralTransitive",

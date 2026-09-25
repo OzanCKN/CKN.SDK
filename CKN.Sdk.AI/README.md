@@ -19,7 +19,10 @@ Bu paket genellikle doğrudan kaydedilmez, spesifik bir sağlayıcı (örn. `Add
 using CKN.Sdk.AI;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddCknAICore();
+builder.Services.AddCknAi(options => {
+    options.Provider = AiProviderType.OpenAi;
+    options.ApiKey = "API_KEY_HERE";
+});
 var app = builder.Build();
 ```
 
@@ -32,15 +35,15 @@ Gerçek hayatta, maliyet veya gizlilik nedenleriyle GPT-4'ten yerel Ollama model
 ```csharp
 using CKN.Sdk.AI.Abstractions;
 
-public class CustomerSupportService(IAIChatClient chatClient)
+public class CustomerSupportService(ICknAiChatService chatClient)
 {
     public async Task<string> GenerateReplyAsync(string userMessage)
     {
-        // chatClient, DI üzerinden OpenAI veya Ollama olarak gelebilir. 
+        // chatClient, DI üzerinden OpenAI veya Claude/Gemini olarak gelebilir. 
         // Servisin bundan haberi yoktur.
-        var prompt = $"Sen bir müşteri temsilcisisin. Müşteri: {userMessage}";
-        var response = await chatClient.CompleteAsync(prompt);
-        return response.Text;
+        var request = new CknAiRequest { UserMessage = userMessage, SystemPrompt = "You are a helpful assistant." };
+        var response = await chatClient.AskAsync(request);
+        return response.Content;
     }
 }
 ```
