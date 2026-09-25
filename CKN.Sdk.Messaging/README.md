@@ -1,7 +1,7 @@
 # CKN.Sdk.Messaging
 
 **Mühendislik Amacı (Engineering Intent):**
-`CKN.Sdk.Messaging`, asenkron mesajlaşma altyapılarının (RabbitMQ, Kafka, Azure Service Bus vb.) CKN.SDK içindeki temel soyutlamalarını (abstractions) barındırır. **Neden var?** Tıpkı CKN.Sdk.AI paketinde olduğu gibi, mesaj üreten (Publisher) ve tüketen (Consumer) servislerinizi belirli bir mesajlaşma platformuna "tightly-coupled" (sıkı sıkıya bağlı) yapmaktan kurtarmak için. **Ne zaman kullanılmalı?** Projede Event-Driven Architecture (Olay Güdümlü Mimari) benimsenecekse, doğrudan RabbitMQ veya Kafka SDK'larını çağırmak yerine, mesaj gönderme işlemlerini bu paketin sağladığı `IMessagePublisher` üzerinden gerçekleştirmelisiniz.
+`CKN.Sdk.Messaging`, asenkron mesajlaşma altyapılarının (RabbitMQ, Kafka, Azure Service Bus vb.) CKN.SDK içindeki temel soyutlamalarını (abstractions) barındırır. **Neden var?** Tıpkı CKN.Sdk.AI paketinde olduğu gibi, mesaj üreten (Publisher) ve tüketen (Consumer) servislerinizi belirli bir mesajlaşma platformuna "tightly-coupled" (sıkı sıkıya bağlı) yapmaktan kurtarmak için. **Ne zaman kullanılmalı?** Projede Event-Driven Architecture (Olay Güdümlü Mimari) benimsenecekse, doğrudan RabbitMQ veya Kafka SDK'larını çağırmak yerine, mesaj gönderme işlemlerini bu paketin sağladığı `ICknMessagePublisher` üzerinden gerçekleştirmelisiniz.
 
 ## 🚀 Hızlı Başlangıç
 
@@ -24,7 +24,7 @@ Sipariş oluşturulduğunda diğer servislere (Fatura, Stok) haber vermek için 
 ```csharp
 using CKN.Sdk.Messaging.Abstractions;
 
-public class OrderService(IMessagePublisher publisher)
+public class OrderService(ICknMessagePublisher publisher)
 {
     public async Task CreateOrderAsync(Order order)
     {
@@ -37,7 +37,7 @@ public class OrderService(IMessagePublisher publisher)
         };
         
         // Bu mesajın RabbitMQ'ya mı Kafka'ya mı gideceğini bu sınıf bilmez.
-        await publisher.PublishAsync("order.events", orderCreatedEvent);
+        await publisher.PublishAsync("order-exchange", "order.created", orderCreatedEvent);
     }
 }
 ```
