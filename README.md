@@ -174,6 +174,32 @@ Bu projenin nasıl tasarlandığını, "Zero-Warning Policy" gibi standartları 
 
 ---
 
+## 📊 Paket Durum Tablosu
+
+| Modül | Sağlayıcılar | Durum |
+| :--- | :--- | :--- |
+| **`CKN.Sdk.Core`** | Sıfır bağımlılık — tüm arayüzler, CQRS, Result | 🟢 Hazır |
+| **`CKN.Sdk.AspNetCore`** | GlobalExceptionHandler, ProblemDetails | 🟢 Hazır |
+| **`CKN.Sdk.Infrastructure`** | Hybrid Cache, MediatR behaviors, HTTP resilience | 🟢 Hazır |
+| **`CKN.Sdk.Security`** | JWT kimlik doğrulama | 🟢 Hazır |
+| **`CKN.Sdk.Telemetry`** | OpenTelemetry (Traces, Metrics) | 🟢 Hazır |
+| **`CKN.Sdk.Messaging`** | RabbitMQ · Kafka · Azure Service Bus | 🟢 Hazır |
+| **`CKN.Sdk.Caching`** | Redis · Garnet · Memcached | 🟢 Hazır |
+| **`CKN.Sdk.Data`** | EF Core · Dapper · RepoDb | 🟢 Hazır |
+| **`CKN.Sdk.AI`** | OpenAI · Anthropic · Ollama · Semantic Kernel | 🟢 Hazır |
+| **`CKN.Sdk.Network`** | HttpClient (Faz 1) | 🟢 Hazır |
+| **`CKN.Sdk.Notification`** | SMTP · SendGrid · Twilio · Firebase | 🟢 Hazır |
+| **`CKN.Sdk.Storage`** | Minio · AWS S3 · Azure Blob | 🟢 Hazır |
+| **`CKN.Sdk.Scheduling`** | Hangfire · Quartz · Coravel | 🟢 Hazır |
+| **`CKN.Sdk.Search`** | Elasticsearch · Meilisearch · NRedisStack | 🟢 Hazır |
+| **`CKN.Sdk.SourceGenerators`** | Roslyn AOT source generator | 🟡 Geliştiriliyor |
+| **`CKN.Sdk.Financial`** | Market takvimi, OHLC, portföy matematiği | 🟡 Sprint 6 |
+| **`CKN.Sdk.Network.Flurl`** | Flurl.Http provider | 🔵 Planlanıyor |
+| **`CKN.Sdk.Network.RestSharp`** | RestSharp provider | 🔵 Planlanıyor |
+| **`CKN.Sdk.Network.Refit`** | Refit (interface-based) provider | 🔵 Planlanıyor |
+
+---
+
 ## 🧪 Test ve Güvenilirlik
 
 - **%100 TDD zorunluluğu** — her provider xUnit, Moq ve FluentAssertions ile test edilir.
