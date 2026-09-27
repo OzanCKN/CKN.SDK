@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🚀 CKN.SDK (Enterprise Agentic Orchestra)</h1>
+  <h1>🚀 CKN.SDK (AI FRIENDLY SDK)</h1>
   <p><b>2026 Standartlarında, Sıfır Bağımlılık (Zero-Dependency) Hedefli, Plugin Tabanlı Enterprise .NET Framework'ü</b></p>
   
   [![Build Status](https://github.com/OzanCKN/CKN.SDK/actions/workflows/ci.yml/badge.svg)](https://github.com/OzanCKN/CKN.SDK/actions)
