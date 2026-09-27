@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    
+    <PackageId>CKN.Sdk.AI.OpenAI</PackageId>
+    <Description>OpenAI (ChatGPT) provider for CKN.Sdk.AI. Registers IChatClient via Microsoft.Extensions.AI.OpenAI.</Description>
+    <PackageTags>ckn;sdk;ai;openai;chatgpt;llm</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>

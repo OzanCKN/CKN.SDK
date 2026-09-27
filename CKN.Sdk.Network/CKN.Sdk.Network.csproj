@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>CKN.Sdk.Network</PackageId>
+    <Description>Provider-agnostic HTTP client abstraction for CKN SDK. Defines ICknHttpClient, authentication strategies, and resilience options. Pair with a provider package such as CKN.Sdk.Network.Http.</Description>
+    <PackageTags>ckn;sdk;http;httpclient;network;rest;resilience</PackageTags>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CKN.Sdk.Core\CKN.Sdk.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+</Project>
