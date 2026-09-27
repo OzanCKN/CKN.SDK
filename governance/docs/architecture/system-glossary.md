@@ -128,4 +128,12 @@ Uygulamaların altyapısal gereksinimlerini karşılayan, tak-çalıştır mimar
 (Geliştirme Aşamasında)
 AOT (Ahead of Time) derleme uyumluluğu sağlamak için C# kod üreten (Roslyn tabanlı) Roslyn Analyzer projesidir. Dependency Injection (DI) kodlarını derleme zamanında yazarak Reflection kullanımını engeller.
 
+### 21. `CKN.Sdk.Network`
+HTTP istemci altyapısı için provider-agnostic soyutlama katmanı. `ICknHttpClient`, `CknHttpClientOptions`, auth stratejileri ve resilience options tanımlar.
+- **Kullanım:** Tek başına kullanılmaz; provider paketi ile birlikte kullanılır.
+
+### 22. `CKN.Sdk.Network.Http`
+`CKN.Sdk.Network`'ün `System.Net.Http.HttpClient` tabanlı provider implementasyonu. Retry, circuit breaker (Microsoft.Extensions.Http.Resilience), client-side rate limiting (TokenBucketRateLimiter), auth handler'ları ve hassas parametre maskeleme sağlar.
+- **Kullanım:** `services.AddCknNetwork(net => net.AddCknHttpClient<TClient>(opt => { ... }))` ile typed client kaydı yapılır.
+
 *(Not: Yeni klasörler veya modüller eklendiğinde bu dokümanı GÜNCELLEMEYİ UNUTMAYIN)*

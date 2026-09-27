@@ -52,6 +52,8 @@
     <ProjectReference Include="..\CKN.Sdk.Search.Meilisearch\CKN.Sdk.Search.Meilisearch.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Search.NRedisStack\CKN.Sdk.Search.NRedisStack.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Scheduling.Coravel\CKN.Sdk.Scheduling.Coravel.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Network\CKN.Sdk.Network.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Network.Http\CKN.Sdk.Network.Http.csproj" />
   </ItemGroup>
 
 </Project>

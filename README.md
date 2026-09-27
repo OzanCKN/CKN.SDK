@@ -62,6 +62,12 @@ Projelerinizin ihtiyaçlarına göre sadece ilgili paketi indirerek kullanabilir
 | `CKN.Sdk.AI.Ollama` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.AI.Ollama.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.AI.Ollama/) | Yerel (Local) ve KVKK uyumlu LLM çalıştırmak için Ollama. |
 | `CKN.Sdk.AI.SemanticKernel` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.AI.SemanticKernel.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.AI.SemanticKernel/) | Microsoft Semantic Kernel kullanarak AI ajanları ve fonksiyon çağırma (Tool Calling) orkestrasyonu. |
 
+### 🌐 HTTP İstemci (Network)
+| Paket Adı | Sürüm | Açıklama |
+| :--- | :--- | :--- |
+| `CKN.Sdk.Network` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Network.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Network/) | Provider-agnostic HTTP istemci arayüzü (`ICknHttpClient`), auth stratejileri ve resilience options. |
+| `CKN.Sdk.Network.Http` | [![NuGet](https://img.shields.io/nuget/v/CKN.Sdk.Network.Http.svg?style=flat-square&label=)](https://www.nuget.org/packages/CKN.Sdk.Network.Http/) | HttpClient provider: retry, circuit breaker, client-side rate limiting ve hassas parametre maskeleme. |
+
 ### ☁️ Depolama (Storage)
 | Paket Adı | Sürüm | Açıklama |
 | :--- | :--- | :--- |

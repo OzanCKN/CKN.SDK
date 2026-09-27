@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>CKN.Sdk.Network.Http</PackageId>
+    <Description>HttpClient-based provider for CKN.Sdk.Network. Provides resilience (retry, circuit breaker), client-side rate limiting, authentication strategies, and sensitive-parameter masking via Microsoft.Extensions.Http.Resilience.</Description>
+    <PackageTags>ckn;sdk;http;httpclient;network;resilience;polly;ratelimit</PackageTags>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>CKN.Sdk.Tests, PublicKey=002400000480000094000000060200000024000052534131000400000100010045d1a8b1df65d50a79f3539be5769b40d5dbc271f0e57f26574d53f400d3fa421da82244c7d9d709966f284d71783c1c83e5c3e4c8f888058b24d95769177239193f5c0773bebb866e02c14a4e819795456180a0c2a0d78dbaf16a14a698eb6e4f93a1d8653e956ff8b651c900f57de6ebf95b68861483e53e8ac04b7dd2a4d2</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CKN.Sdk.Core\CKN.Sdk.Core.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Network\CKN.Sdk.Network.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+  </ItemGroup>
+
+</Project>

@@ -63,6 +63,16 @@ Bu belge, proje yaşam döngüsü boyunca alınan kritik mimari ve altyapı kara
 - **Karar:** `Directory.Build.props` üzerinden `net8.0;net9.0;net10.0` hedeflemesi açıldı. Azure KeyVault entegrasyonu sağlandı. DLL'ler `ckn.snk` ile imzalandı (Strong Naming).
 - **Sonuçlar:** Tüm SDK modülleri farklı .NET sürümlerinde uyumlu hale getirildi ve derleme uyarıları (NU1605, NU1510) merkezi olarak yönetilip `NoWarn` ile güvenli şekilde izole edildi. Mimari CQRS kuralları `NetArchTest.Rules` ile güvence altına alındı.
 
+### 2026-09-27 - Provider-Agnostic HTTP İstemci Altyapısı (CKN.Sdk.Network)
+- **Durum:** CKN.Finance'te üç fiyat sağlayıcısı ham `HttpClient` ile yazılmış; merkezi rate limiting, retry ve log maskeleme yoktu. SDK sarmalayıcısı kuralı çiğnendi (Finance Decision 13).
+- **Karar:** `CKN.Sdk.Network` (abstraction) + `CKN.Sdk.Network.Http` (HttpClient provider) ikili paketi oluşturuldu. Faz 2'de Flurl/RestSharp/Refit provider'ları eklenecek. `Microsoft.Extensions.Http.Resilience` zaten `Directory.Packages.props`'ta bulunduğundan sıfır yeni 3rd-party bağımlılık eklenmedi. `System.Threading.RateLimiting` .NET 7+ built-in.
+- **Sonuçlar:** Finance'teki `AddHttpClient<T>` + `Task.Delay` çağrıları `AddCknHttpClient<T>` ile değiştirilebilir. Tüm API key'ler `SensitiveQueryMaskingHandler` sayesinde loglardan otomatik maskelenir.
+
+### 2026-09-27 - Microsoft.Extensions.AI.OpenAI Sürüm Yükseltmesi (NU1608 Çözümü)
+- **Durum:** `Microsoft.Extensions.AI.OpenAI 10.9.0` `OpenAI >= 2.12.0 && < 2.13.0` istiyordu, Finance 2.14.0 resolve ediyordu. NU1608 uyarısı oluşuyordu.
+- **Karar:** `Microsoft.Extensions.AI.OpenAI 10.10.0`'a yükseltildi (NuGet'teki en yüksek sürüm). Bu sürüm `OpenAI >= 2.14.0` kabul ediyor. `OpenAI 2.14.0` explicit olarak `Directory.Packages.props`'a pinlendi.
+- **Sonuçlar:** NU1608 uyarısı kalktı. `IChatClient` API'si değişmediğinden breaking change yok.
+
 ### 2026-09-20 - Web Bağımlılıklarının (AspNetCore) İzolasyonu ve DDD Temelleri
 - **Durum:** Core kütüphanesinde `Result<T>` deseni ile CQRS handler'larının Validation Exception fırlatması gerekiyordu, ancak bu Exception'ların Web (API) tarafında ProblemDetails standardında dönülmesi lazımdı. Aynı zamanda `CKN.Sdk.Core` "Zero-Dependency" prensibine sahipti, yani `Microsoft.AspNetCore` kütüphaneleri eklenemezdi.
 - **Karar:** Web API ve middleware sorumlulukları için yeni `CKN.Sdk.AspNetCore` projesi oluşturuldu. `GlobalExceptionHandler` bu projeye eklendi. Ayrıca Domain Driven Design (DDD) için `AggregateRoot` ve `Result<T>` yapıları dış bağımlılıksız olarak Core projeye eklendi.
