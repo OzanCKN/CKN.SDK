@@ -192,8 +192,8 @@ Bu projenin nasıl tasarlandığını, "Zero-Warning Policy" gibi standartları 
 | **`CKN.Sdk.Storage`** | Minio · AWS S3 · Azure Blob | 🟢 Hazır |
 | **`CKN.Sdk.Scheduling`** | Hangfire · Quartz · Coravel | 🟢 Hazır |
 | **`CKN.Sdk.Search`** | Elasticsearch · Meilisearch · NRedisStack | 🟢 Hazır |
-| **`CKN.Sdk.SourceGenerators`** | Roslyn AOT source generator | 🟡 Geliştiriliyor |
-| **`CKN.Sdk.Financial`** | Market takvimi, OHLC, portföy matematiği | 🟡 Sprint 6 |
+| **`CKN.Sdk.SourceGenerators`** | Roslyn AOT source generator — `IRequestHandler` otomatik DI kaydı | 🟢 Hazır |
+| **`CKN.Sdk.Financial`** | Market takvimi, OHLC, portföy matematiği | 🔴 Henüz yok |
 | **`CKN.Sdk.Network.Flurl`** | Flurl.Http provider | 🔵 Planlanıyor |
 | **`CKN.Sdk.Network.RestSharp`** | RestSharp provider | 🔵 Planlanıyor |
 | **`CKN.Sdk.Network.Refit`** | Refit (interface-based) provider | 🔵 Planlanıyor |
