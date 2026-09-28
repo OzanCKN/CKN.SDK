@@ -36,4 +36,5 @@
   <Project Path="CKN.Sdk.Storage/CKN.Sdk.Storage.csproj" />
   <Project Path="CKN.Sdk.Telemetry/CKN.Sdk.Telemetry.csproj" />
   <Project Path="CKN.Sdk.Tests/CKN.Sdk.Tests.csproj" />
+  <Project Path="CKN.Sdk.Financial/CKN.Sdk.Financial.csproj" />
 </Solution>

@@ -54,6 +54,7 @@
     <ProjectReference Include="..\CKN.Sdk.Scheduling.Coravel\CKN.Sdk.Scheduling.Coravel.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Network\CKN.Sdk.Network.csproj" />
     <ProjectReference Include="..\CKN.Sdk.Network.Http\CKN.Sdk.Network.Http.csproj" />
+    <ProjectReference Include="..\CKN.Sdk.Financial\CKN.Sdk.Financial.csproj" />
   </ItemGroup>
 
 </Project>

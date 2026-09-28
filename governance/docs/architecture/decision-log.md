@@ -68,6 +68,11 @@ Bu belge, proje yaşam döngüsü boyunca alınan kritik mimari ve altyapı kara
 - **Karar:** `CKN.Sdk.Network` (abstraction) + `CKN.Sdk.Network.Http` (HttpClient provider) ikili paketi oluşturuldu. Faz 2'de Flurl/RestSharp/Refit provider'ları eklenecek. `Microsoft.Extensions.Http.Resilience` zaten `Directory.Packages.props`'ta bulunduğundan sıfır yeni 3rd-party bağımlılık eklenmedi. `System.Threading.RateLimiting` .NET 7+ built-in.
 - **Sonuçlar:** Finance'teki `AddHttpClient<T>` + `Task.Delay` çağrıları `AddCknHttpClient<T>` ile değiştirilebilir. Tüm API key'ler `SensitiveQueryMaskingHandler` sayesinde loglardan otomatik maskelenir.
 
+### 2026-09-27 - CKN.Sdk.Financial — Sıfır Bağımlılıklı Finansal Araç Kutusu
+- **Durum:** CKN.Finance projesinde piyasa takvimi ve portföy matematiği iş mantığı, birden fazla handler sınıfına dağılmış durumdaydı. SDK sarmalayıcısı kuralı (Decision 13) çiğneniyordu. Ayrıca BIST seans takibi için TZ yönetimi hatalıydı.
+- **Karar:** `CKN.Sdk.Financial` paketi oluşturuldu. Sıfır 3. parti bağımlılık; yalnızca .NET 6+ built-in IANA timezone (`TimeZoneInfo.FindSystemTimeZoneById`), `IOptions<T>` ve `IServiceCollection`. NYSE tatilleri (Easter dahil) tamamıyla algoritmik — hardcoded tablo yok. `OhlcAggregator` IAsyncEnumerable desteğiyle O(1) memory kullanımında streaming agregasyon sağlıyor. Portföy matematiği SPK uyumlu WAC metodunu kullanıyor.
+- **Sonuçlar:** Finance projesindeki tüm takvim ve portföy kodu tek bir bağımlılıkla değiştirilebilir. `IHolidayProvider` ve `FinancialOptions` ile tatil verisi override edilebilir — 2030 sonrası İslami tatil tarihleri güncellenebilir.
+
 ### 2026-09-27 - Microsoft.Extensions.AI.OpenAI Sürüm Yükseltmesi (NU1608 Çözümü)
 - **Durum:** `Microsoft.Extensions.AI.OpenAI 10.9.0` `OpenAI >= 2.12.0 && < 2.13.0` istiyordu, Finance 2.14.0 resolve ediyordu. NU1608 uyarısı oluşuyordu.
 - **Karar:** `Microsoft.Extensions.AI.OpenAI 10.10.0`'a yükseltildi (NuGet'teki en yüksek sürüm). Bu sürüm `OpenAI >= 2.14.0` kabul ediyor. `OpenAI 2.14.0` explicit olarak `Directory.Packages.props`'a pinlendi.

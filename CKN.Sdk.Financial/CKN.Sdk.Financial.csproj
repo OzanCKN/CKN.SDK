@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>CKN.Sdk.Financial</AssemblyName>
+    <RootNamespace>CKN.Sdk.Financial</RootNamespace>
+    <PackageId>CKN.Sdk.Financial</PackageId>
+    <Title>CKN SDK — Financial</Title>
+    <Description>Provider-agnostic financial utilities for .NET: market calendars (BIST, NYSE, NASDAQ, Crypto), OHLC bar aggregation, and portfolio math (WAC, PnL, ROI). Zero third-party dependencies.</Description>
+    <PackageTags>finance;market-calendar;ohlc;portfolio;bist;nyse;nasdaq;crypto;sdk</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>CKN.Sdk.Tests, PublicKey=002400000480000094000000060200000024000052534131000400000100010045d1a8b1df65d50a79f3539be5769b40d5dbc271f0e57f26574d53f400d3fa421da82244c7d9d709966f284d71783c1c83e5c3e4c8f888058b24d95769177239193f5c0773bebb866e02c14a4e819795456180a0c2a0d78dbaf16a14a698eb6e4f93a1d8653e956ff8b651c900f57de6ebf95b68861483e53e8ac04b7dd2a4d2</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CKN.Sdk.Core\CKN.Sdk.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+  </ItemGroup>
+
+</Project>
