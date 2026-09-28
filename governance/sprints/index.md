@@ -1,4 +1,4 @@
-﻿# Sprints (Sprintler) Ä°ndeksi
+# Sprints (Sprintler) Ä°ndeksi
 
 ## ðŸ“Œ AmaÃ§
 Bu dizin, projenin tÃ¼m Ã§evik geliÅŸtirme (agile) dÃ¶ngÃ¼lerinin, geÃ§miÅŸ ve aktif sprint sÃ¼reÃ§lerinin ana yÃ¶netim (tracking) belgesi olarak oluÅŸturulmuÅŸtur.
