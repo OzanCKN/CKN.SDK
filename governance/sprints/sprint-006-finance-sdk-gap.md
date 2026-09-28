@@ -1,4 +1,4 @@
-﻿# Sprint 6: Finance SDK Gap Closure
+# Sprint 6: Finance SDK Gap Closure
 
 > **AI AGENT Ä°Ã‡Ä°N ZORUNLU BÄ°LDÄ°RÄ°M:** Bu sprint planÄ±nÄ± incelerken **KESÄ°NLÄ°KLE `.agents/rules.md`** dosyasÄ±ndaki kurallarÄ± gÃ¶zetmek zorundasÄ±n. Mimari deÄŸiÅŸiklikler `decision-log.md`'ye, yeni modÃ¼ller `system-glossary.md`'ye kaydedilmeli.
 

@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
   <h1>ðŸš€ CKN.SDK (AI FRIENDLY SDK)</h1>
   <p><b>2026 StandartlarÄ±nda, SÄ±fÄ±r BaÄŸÄ±mlÄ±lÄ±k (Zero-Dependency) Hedefli, Plugin TabanlÄ± Enterprise .NET Framework'Ã¼</b></p>
 
