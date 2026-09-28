@@ -136,4 +136,11 @@ HTTP istemci altyapısı için provider-agnostic soyutlama katmanı. `ICknHttpCl
 `CKN.Sdk.Network`'ün `System.Net.Http.HttpClient` tabanlı provider implementasyonu. Retry, circuit breaker (Microsoft.Extensions.Http.Resilience), client-side rate limiting (TokenBucketRateLimiter), auth handler'ları ve hassas parametre maskeleme sağlar.
 - **Kullanım:** `services.AddCknNetwork(net => net.AddCknHttpClient<TClient>(opt => { ... }))` ile typed client kaydı yapılır.
 
+### 23. `CKN.Sdk.Financial`
+Finansal analitik için sıfır 3. parti bağımlılıklı araç kutusu. Üç ana alan:
+- **Market Takvimi:** `IMarketCalendar` + `IHolidayProvider` — BIST, NYSE, NASDAQ, Crypto borsaları için seans takibi. IANA timezone desteği (Europe/Istanbul, America/New_York). BIST için Türk millî/dini bayramları, NYSE için algoritmik hesaplama (Easter dahil). Özel tatil desteği `FinancialOptions` üzerinden.
+- **OHLC Aggregation:** `OhlcAggregator` — `IEnumerable<OhlcBar>` ve `IAsyncEnumerable<OhlcBar>` kaynaklardan Minute1/Hour1/Day1/Week1/Month1 timeframe'lerine streaming agregasyon. O(1) bellek kullanımı.
+- **Portföy Matematiği:** `PortfolioMath` (statik, saf fonksiyonlar) — Ağırlıklı Ortalama Maliyet (WAC/AOM), PnL hesabı (realized + unrealized), ROI yüzdesi. SPK uyumlu WAC metodu.
+- **Kullanım:** `services.AddCknFinancial(opt => { ... })` ile `IMarketCalendar` singleton olarak kaydedilir.
+
 *(Not: Yeni klasörler veya modüller eklendiğinde bu dokümanı GÜNCELLEMEYİ UNUTMAYIN)*
